@@ -1,0 +1,10 @@
+{
+  "integration": "数据集成",
+  "integration_icon": "sap-icon://synchronize",
+  "integration_func_integrationjob": "集成任务",
+  "integration_app_integrationjob_list": "集成任务列表",
+  "integration_app_integrationjob_choose": "集成任务选择",
+  "integration_app_integrationjob_view": "集成任务查看",
+  "integration_app_integrationjob_edit": "集成任务编辑",
+  "integration_closing_delimiter": "----结束----"
+}

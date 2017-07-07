@@ -1,0 +1,9 @@
+[
+  {
+    "Id": "568e7e6d-a67a-46a8-93b9-7bc896b1c2b7",
+    "Name": "Integration",
+    "Category": "",
+    "Address": ".../",
+    "Repository": "http://localhost:8080/integration/services/rest/data"
+  }
+]
