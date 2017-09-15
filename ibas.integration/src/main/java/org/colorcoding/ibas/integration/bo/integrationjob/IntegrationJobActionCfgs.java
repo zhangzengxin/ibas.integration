@@ -10,12 +10,12 @@ import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.ISort;
 import org.colorcoding.ibas.bobas.common.SortType;
-import org.colorcoding.ibas.integration.MyConsts;
+import org.colorcoding.ibas.integration.MyConfiguration;
 
 /**
  * 集成任务-动作-配置 集合
  */
-@XmlType(name = IntegrationJobActionCfgs.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
+@XmlType(name = IntegrationJobActionCfgs.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlSeeAlso({ IntegrationJobActionCfg.class })
 public class IntegrationJobActionCfgs extends BusinessObjects<IIntegrationJobActionCfg, IIntegrationJobAction>
 		implements IIntegrationJobActionCfgs {

@@ -6,7 +6,7 @@ import org.colorcoding.ibas.bobas.core.*;
 import org.colorcoding.ibas.bobas.mapping.*;
 import org.colorcoding.ibas.bobas.bo.*;
 import org.colorcoding.ibas.bobas.data.*;
-import org.colorcoding.ibas.integration.MyConsts;
+import org.colorcoding.ibas.integration.MyConfiguration;
 import org.colorcoding.ibas.integration.data.*;
 
 /**
@@ -14,7 +14,7 @@ import org.colorcoding.ibas.integration.data.*;
 * 
 */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = IntegrationJobAction.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
+@XmlType(name = IntegrationJobAction.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 public class IntegrationJobAction extends BusinessObject<IntegrationJobAction> implements IIntegrationJobAction {
 
     /**

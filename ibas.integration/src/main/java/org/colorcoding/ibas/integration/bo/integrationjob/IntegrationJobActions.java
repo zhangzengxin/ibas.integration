@@ -4,12 +4,12 @@ import java.beans.PropertyChangeEvent;
 import javax.xml.bind.annotation.*;
 import org.colorcoding.ibas.bobas.common.*;
 import org.colorcoding.ibas.bobas.bo.*;
-import org.colorcoding.ibas.integration.MyConsts;
+import org.colorcoding.ibas.integration.MyConfiguration;
 
 /**
 * 集成任务-动作 集合
 */
-@XmlType(name = IntegrationJobActions.BUSINESS_OBJECT_NAME, namespace = MyConsts.NAMESPACE_BO)
+@XmlType(name = IntegrationJobActions.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlSeeAlso({ IntegrationJobAction.class })
 public class IntegrationJobActions extends BusinessObjects<IIntegrationJobAction, IIntegrationJob> implements IIntegrationJobActions {
 
