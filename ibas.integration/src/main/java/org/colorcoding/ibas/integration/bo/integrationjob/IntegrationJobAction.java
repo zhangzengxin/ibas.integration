@@ -566,7 +566,7 @@ public class IntegrationJobAction extends BusinessObject<IntegrationJobAction> i
 	protected void initialize() {
 		super.initialize();// 基类初始化，不可去除
 		this.setIntegrationJobActionCfgs(new IntegrationJobActionCfgs(this));
-		this.setObjectCode(BUSINESS_OBJECT_CODE);
+		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
 
 	}
 
