@@ -83,7 +83,7 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
                 return;
             }
         }
-        super.run();
+        super.run.apply(this, args);
     }
     /** 待编辑的数据 */
     protected editData: bo.IntegrationJob;
