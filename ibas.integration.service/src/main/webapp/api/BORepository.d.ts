@@ -38,6 +38,11 @@ export interface IBORepositoryIntegration {
      * @param saver 保存者
      */
     saveIntegrationJob(saver: SaveCaller<bo.IIntegrationJob>);
+    /**
+     * 查询 集成动作
+     * @param fetcher 查询者
+     */
+    fetchIntegrationAction(fetcher: FetchCaller<bo.IIntegrationAction>);
 
 
 }

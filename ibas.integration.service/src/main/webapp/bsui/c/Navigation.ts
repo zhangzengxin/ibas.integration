@@ -9,6 +9,8 @@
 import * as ibas from "ibas/index";
 import * as integrationjobApps from "../../bsapp/integrationjob/index";
 import * as integrationjobViews from "./integrationjob/index";
+import * as integrationactionApps from "../../bsapp/integration/index";
+import * as integrationactionViews from "./integration/index";
 
 /**
  * 视图导航
@@ -33,6 +35,9 @@ export default class Navigation extends ibas.ViewNavigation {
                 break;
             case integrationjobApps.IntegrationJobEditApp.APPLICATION_ID:
                 view = new integrationjobViews.IntegrationJobEditView();
+                break;
+            case integrationactionApps.IntegrationActionChooseApp.APPLICATION_ID:
+                view = new integrationactionViews.IntegrationActionChooseView();
                 break;
             default:
                 break;

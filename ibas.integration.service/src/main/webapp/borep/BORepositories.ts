@@ -57,6 +57,13 @@ export class BORepositoryIntegration extends ibas.BORepositoryApplication implem
     saveIntegrationJob(saver: ibas.SaveCaller<bo.IntegrationJob>): void {
         super.save(bo.IntegrationJob.name, saver);
     }
+    /**
+     * 查询 集成动作
+     * @param fetcher 查询者
+     */
+    fetchIntegrationAction(fetcher: ibas.FetchCaller<bo.IntegrationAction>): void {
+        super.fetch(bo.IntegrationAction.name, fetcher);
+    }
 
 }
 // 注册业务对象仓库到工厂

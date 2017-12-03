@@ -8,8 +8,11 @@
 
 // 模块索引文件，此文件集中导出类
 export * from "./IntegrationJob";
+export * from "./IntegrationAction";
 
 // 注册业务对象到工厂
 import * as ibas from "ibas/index";
 import { IntegrationJob } from "./IntegrationJob";
 ibas.boFactory.register(IntegrationJob.BUSINESS_OBJECT_CODE, IntegrationJob);
+import { IntegrationAction } from "./IntegrationAction";
+ibas.boFactory.register(IntegrationAction.BUSINESS_OBJECT_CODE, IntegrationAction);

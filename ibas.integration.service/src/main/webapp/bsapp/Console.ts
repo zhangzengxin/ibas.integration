@@ -9,6 +9,7 @@
 import * as ibas from "ibas/index";
 import { CONSOLE_ID, CONSOLE_NAME, CONSOLE_VERSION } from "../api/index";
 import { IntegrationJobFunc, IntegrationJobChooseServiceMapping, IntegrationJobLinkServiceMapping } from "./integrationjob/index";
+import { IntegrationActionChooseServiceMapping } from "./integration/index";
 
 /** 模块控制台 */
 export class Console extends ibas.ModuleConsole {
@@ -32,6 +33,7 @@ export class Console extends ibas.ModuleConsole {
         // 注册服务应用
         this.register(new IntegrationJobChooseServiceMapping());
         this.register(new IntegrationJobLinkServiceMapping());
+        this.register(new IntegrationActionChooseServiceMapping());
         // 注册常驻应用
 
     }
@@ -41,6 +43,7 @@ export class Console extends ibas.ModuleConsole {
         ibas.i18n.load(this.rootUrl + "resources/languages/integration.json");
         ibas.i18n.load(this.rootUrl + "resources/languages/enums.json");
         ibas.i18n.load(this.rootUrl + "resources/languages/bo/integrationjob.json");
+        ibas.i18n.load(this.rootUrl + "resources/languages/bo/integrationaction.json");
         // 设置资源属性
         this.description = ibas.i18n.prop(this.name.toLowerCase());
         this.icon = ibas.i18n.prop(this.name.toLowerCase() + "_icon");

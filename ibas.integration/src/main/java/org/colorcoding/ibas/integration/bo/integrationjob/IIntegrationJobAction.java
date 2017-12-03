@@ -225,7 +225,7 @@ public interface IIntegrationJobAction extends IBOSimpleLine {
 	 * 
 	 * @return 值
 	 */
-	String getActionID();
+	String getActionId();
 
 	/**
 	 * 设置-任务项标识
@@ -233,7 +233,7 @@ public interface IIntegrationJobAction extends IBOSimpleLine {
 	 * @param value
 	 *            值
 	 */
-	void setActionID(String value);
+	void setActionId(String value);
 
 	/**
 	 * 获取-任务项名称

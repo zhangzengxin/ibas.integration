@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObjects;
+import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.ISort;
@@ -75,9 +76,12 @@ public class IntegrationJobActionCfgs extends BusinessObjects<IIntegrationJobAct
 
 	@Override
 	public ICriteria getElementCriteria() {
-		ICriteria criteria = super.getElementCriteria();
+		ICriteria criteria = new Criteria();
 		ICondition condition = criteria.getConditions().create();
-		condition.setAlias(IntegrationJobActionCfg.PROPERTY_LINEID.getName());
+		condition.setAlias(IntegrationJobActionCfg.PROPERTY_OBJECTKEY.getName());
+		condition.setValue(this.getParent().getObjectKey());
+		condition = criteria.getConditions().create();
+		condition.setAlias(IntegrationJobActionCfg.PROPERTY_ACTIONLINEID.getName());
 		condition.setValue(this.getParent().getLineId());
 		ISort sort = criteria.getSorts().create();
 		sort.setAlias(IntegrationJobActionCfg.PROPERTY_OBJECTKEY.getName());

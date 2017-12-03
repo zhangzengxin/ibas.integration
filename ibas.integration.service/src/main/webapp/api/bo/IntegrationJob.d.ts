@@ -153,7 +153,7 @@ export interface IIntegrationJobAction extends IBOSimpleLine {
     relationship: emActionRelationship;
 
     /** 任务项标识 */
-    actionID: string;
+    actionId: string;
 
     /** 任务项名称 */
     actionName: string;

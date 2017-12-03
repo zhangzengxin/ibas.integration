@@ -498,12 +498,12 @@ public class IntegrationJobAction extends BusinessObject<IntegrationJobAction> i
 	/**
 	 * 属性名称-任务项标识
 	 */
-	private static final String PROPERTY_ACTIONID_NAME = "ActionID";
+	private static final String PROPERTY_ACTIONID_NAME = "ActionId";
 
 	/**
 	 * 任务项标识 属性
 	 */
-	@DbField(name = "ActionID", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "ActionId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
 	public static final IPropertyInfo<String> PROPERTY_ACTIONID = registerProperty(PROPERTY_ACTIONID_NAME, String.class,
 			MY_CLASS);
 
@@ -513,7 +513,7 @@ public class IntegrationJobAction extends BusinessObject<IntegrationJobAction> i
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_ACTIONID_NAME)
-	public final String getActionID() {
+	public final String getActionId() {
 		return this.getProperty(PROPERTY_ACTIONID);
 	}
 
@@ -523,7 +523,7 @@ public class IntegrationJobAction extends BusinessObject<IntegrationJobAction> i
 	 * @param value
 	 *            值
 	 */
-	public final void setActionID(String value) {
+	public final void setActionId(String value) {
 		this.setProperty(PROPERTY_ACTIONID, value);
 	}
 

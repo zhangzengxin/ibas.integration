@@ -8,6 +8,7 @@
 
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
+import * as ia from "../../3rdparty/initialfantasy/index";
 import { BORepositoryIntegration } from "../../borep/BORepositories";
 
 /** 编辑应用-集成任务 */
@@ -249,39 +250,27 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
     /** 选择业务对象 */
     chooseBusinessObject(): void {
         let that: this = this;
-        ibas.servicesManager.runChooseService<any>({
-            boCode: "BO_CODE_USER",
-            criteria: [
-                new ibas.Condition("activated", ibas.emConditionOperation.EQUAL, "Y")
-            ],
-            onCompleted(selecteds: ibas.List<any>): void {
+        ibas.servicesManager.runChooseService<ia.IBOInformation>({
+            boCode: ia.BO_CODE_BOINFORMATION,
+            criteria: [],
+            onCompleted(selecteds: ibas.List<ia.IBOInformation>): void {
                 // 获取触发的对象
+                that.editData.boCode = selecteds.firstOrDefault().code;
             }
         });
     }
     /** 选择应用*/
     chooseApplication(): void {
-        let that: this = this;
-        ibas.servicesManager.runChooseService<any>({
-            boCode: "BO_CODE_USER",
-            criteria: [
-                new ibas.Condition("activated", ibas.emConditionOperation.EQUAL, "Y")
-            ],
-            onCompleted(selecteds: ibas.List<any>): void {
-                // 获取触发的对象
-            }
-        });
+        // 不能提供
     }
     /** 选择任务动作 */
     chooseJobAction(caller: bo.IntegrationJobAction): void {
         let that: this = this;
-        ibas.servicesManager.runChooseService<bo.IntegrationJobAction>({
+        ibas.servicesManager.runChooseService<bo.IntegrationAction>({
             caller: caller,
-            boCode: "BO_CODE_USER",
-            criteria: [
-                new ibas.Condition("activated", ibas.emConditionOperation.EQUAL, "Y")
-            ],
-            onCompleted(selecteds: ibas.List<any>): void {
+            boCode: bo.IntegrationAction.BUSINESS_OBJECT_CODE,
+            criteria: [],
+            onCompleted(selecteds: ibas.List<bo.IntegrationAction>): void {
                 // 获取触发的对象
                 let index: number = that.editData.integrationJobActions.indexOf(caller);
                 let item: bo.IntegrationJobAction = that.editData.integrationJobActions[index];
@@ -292,6 +281,8 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
                         item = that.editData.integrationJobActions.create();
                         created = true;
                     }
+                    item.actionId = selected.actionId;
+                    item.actionName = selected.actionName;
                     item = null;
                 }
                 if (created) {
@@ -305,11 +296,10 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
     chooseJobActionCfgConfigItem(caller: bo.IntegrationJobActionCfg): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.IntegrationJobActionCfg>({
-            caller: caller, boCode: "BO_CODE_USER",
-            criteria: [
-                new ibas.Condition("activated", ibas.emConditionOperation.EQUAL, "Y")
-            ],
-            onCompleted(selecteds: ibas.List<any>): void {
+            caller: caller,
+            boCode: ia.BO_CODE_SYSTEM_CONFIG,
+            criteria: [],
+            onCompleted(selecteds: ibas.List<ibas.KeyValue>): void {
                 // 获取触发的对象
                 let index: number = that.editIntegrationJobAction.integrationJobActionCfgs.indexOf(caller);
                 let item: bo.IntegrationJobActionCfg = that.editIntegrationJobAction.integrationJobActionCfgs[index];
@@ -320,6 +310,8 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
                         item = that.editIntegrationJobAction.integrationJobActionCfgs.create();
                         created = true;
                     }
+                    item.key = selected.key;
+                    item.value = "${" + selected.key + "}";
                     item = null;
                 }
                 if (created) {

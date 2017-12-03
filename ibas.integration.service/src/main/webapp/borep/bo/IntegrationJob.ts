@@ -475,13 +475,13 @@ export class IntegrationJobAction extends BOSimpleLine<IntegrationJobAction> imp
     }
 
     /** 映射的属性名称-任务项标识 */
-    static PROPERTY_ACTIONID_NAME: string = "ActionID";
+    static PROPERTY_ACTIONID_NAME: string = "ActionId";
     /** 获取-任务项标识 */
-    get actionID(): string {
+    get actionId(): string {
         return this.getProperty<string>(IntegrationJobAction.PROPERTY_ACTIONID_NAME);
     }
     /** 设置-任务项标识 */
-    set actionID(value: string) {
+    set actionId(value: string) {
         this.setProperty(IntegrationJobAction.PROPERTY_ACTIONID_NAME, value);
     }
 
