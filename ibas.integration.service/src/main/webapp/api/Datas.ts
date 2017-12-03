@@ -22,3 +22,17 @@ export const CONSOLE_VERSION: string = "0.1.0";
 export const BO_REPOSITORY_INTEGRATION: string = strings.format(MODULE_REPOSITORY_NAME_TEMPLATE, CONSOLE_NAME);
 /** 业务对象编码-集成任务 */
 export const BO_CODE_INTEGRATIONJOB: string = "${Company}_IG_INTERGRATIONJOB";
+
+/**
+ * 动作关系
+ */
+export enum emActionRelationship {
+	/**
+	 * 与(&&)
+	 */
+    AND,
+	/**
+	 * 或(||)
+	 */
+    OR,
+}

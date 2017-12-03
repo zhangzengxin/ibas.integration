@@ -28,6 +28,7 @@ import {
     IIntegrationJobActionCfgs,
     IIntegrationJobActionCfg,
     BO_CODE_INTEGRATIONJOB,
+    emActionRelationship,
 } from "../../api/index";
 
 /** 集成任务 */
@@ -61,13 +62,13 @@ export class IntegrationJob extends BOSimple<IntegrationJob> implements IIntegra
         this.setProperty(IntegrationJob.PROPERTY_ACTIVATED_NAME, value);
     }
 
-    /** 映射的属性名称-频率 */
+    /** 映射的属性名称-频率（秒） */
     static PROPERTY_FREQUENCY_NAME: string = "Frequency";
-    /** 获取-频率 */
+    /** 获取-频率（秒） */
     get frequency(): number {
         return this.getProperty<number>(IntegrationJob.PROPERTY_FREQUENCY_NAME);
     }
-    /** 设置-频率 */
+    /** 设置-频率（秒） */
     set frequency(value: number) {
         this.setProperty(IntegrationJob.PROPERTY_FREQUENCY_NAME, value);
     }
@@ -460,6 +461,17 @@ export class IntegrationJobAction extends BOSimpleLine<IntegrationJobAction> imp
     /** 设置-更新动作标识 */
     set updateActionId(value: string) {
         this.setProperty(IntegrationJobAction.PROPERTY_UPDATEACTIONID_NAME, value);
+    }
+
+    /** 映射的属性名称-与上一个动作的关系 */
+    static PROPERTY_RELATIONSHIP_NAME: string = "Relationship";
+    /** 获取-与上一个动作的关系 */
+    get relationship(): emActionRelationship {
+        return this.getProperty<emActionRelationship>(IntegrationJobAction.PROPERTY_RELATIONSHIP_NAME);
+    }
+    /** 设置-与上一个动作的关系 */
+    set relationship(value: emActionRelationship) {
+        this.setProperty(IntegrationJobAction.PROPERTY_RELATIONSHIP_NAME, value);
     }
 
     /** 映射的属性名称-任务项标识 */

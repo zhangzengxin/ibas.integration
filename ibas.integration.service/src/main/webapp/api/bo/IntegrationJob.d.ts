@@ -21,7 +21,7 @@ import {
     IBOSimpleLine
 } from "ibas/index";
 import {
-
+    emActionRelationship,
 } from "../Datas";
 
 /** 集成任务 */
@@ -33,7 +33,7 @@ export interface IIntegrationJob extends IBOSimple {
     /** 是否激活 */
     activated: emYesNo;
 
-    /** 频率 */
+    /** 频率（秒） */
     frequency: number;
 
     /** 关联的业务对象 */
@@ -148,6 +148,9 @@ export interface IIntegrationJobAction extends IBOSimpleLine {
 
     /** 更新动作标识 */
     updateActionId: string;
+
+    /** 与上一个动作的关系 */
+    relationship: emActionRelationship;
 
     /** 任务项标识 */
     actionID: string;

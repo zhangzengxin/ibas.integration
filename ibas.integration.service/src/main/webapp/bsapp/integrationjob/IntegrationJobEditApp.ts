@@ -35,6 +35,11 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
         this.view.createDataEvent = this.createData;
         this.view.addIntegrationJobActionEvent = this.addIntegrationJobAction;
         this.view.removeIntegrationJobActionEvent = this.removeIntegrationJobAction;
+        this.view.editJobActionEvent = this.editJobActionEvent;
+        this.view.addIntegrationJobActionCfgEvent = this.addIntegrationJobActionCfg;
+        this.view.removeIntegrationJobActionCfgEvent = this.removeIntegrationJobActionCfg;
+        this.view.chooseJobActionEvent = this.chooseJobAction;
+        this.view.chooseJobActionCfgConfigItemEvent = this.chooseJobActionCfgConfigItem;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -87,6 +92,8 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
     }
     /** 待编辑的数据 */
     protected editData: bo.IntegrationJob;
+    /** 待编辑的数据 */
+    protected editIntegrationJobAction: bo.IntegrationJobAction;
     /** 保存数据 */
     protected saveData(): void {
         let that: this = this;
@@ -198,6 +205,130 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
         // 仅显示没有标记删除的
         this.view.showIntegrationJobActions(this.editData.integrationJobActions.filterDeleted());
     }
+    /** 编辑审集成任务-动作事件 */
+    editJobActionEvent(item: bo.IntegrationJobAction): void {
+        this.editIntegrationJobAction = item;
+        if (ibas.objects.isNull(this.editIntegrationJobAction)) {
+            // 无编辑对象
+            this.view.showIntegrationJobActions(this.editData.integrationJobActions.filterDeleted());
+        } else {
+            // 存在编辑对象
+            this.view.showIntegrationJobActionCfgs(this.editIntegrationJobAction.integrationJobActionCfgs.filterDeleted());
+        }
+    }
+    /** 添加集成任务-动作事件 */
+    addIntegrationJobActionCfg(): void {
+        this.editIntegrationJobAction.integrationJobActionCfgs.create();
+        // 仅显示没有标记删除的
+        this.view.showIntegrationJobActionCfgs(this.editIntegrationJobAction.integrationJobActionCfgs.filterDeleted());
+    }
+    /** 删除集成任务-动作事件 */
+    removeIntegrationJobActionCfg(items: bo.IntegrationJobActionCfg[]): void {
+        // 非数组，转为数组
+        if (!(items instanceof Array)) {
+            items = [items];
+        }
+        if (items.length === 0) {
+            return;
+        }
+        // 移除项目
+        for (let item of items) {
+            if (this.editIntegrationJobAction.integrationJobActionCfgs.indexOf(item) >= 0) {
+                if (item.isNew) {
+                    // 新建的移除集合
+                    this.editIntegrationJobAction.integrationJobActionCfgs.remove(item);
+                } else {
+                    // 非新建标记删除
+                    item.delete();
+                }
+            }
+        }
+        // 仅显示没有标记删除的
+        this.view.showIntegrationJobActionCfgs(this.editIntegrationJobAction.integrationJobActionCfgs.filterDeleted());
+    }
+    /** 选择业务对象 */
+    chooseBusinessObject(): void {
+        let that: this = this;
+        ibas.servicesManager.runChooseService<any>({
+            boCode: "BO_CODE_USER",
+            criteria: [
+                new ibas.Condition("activated", ibas.emConditionOperation.EQUAL, "Y")
+            ],
+            onCompleted(selecteds: ibas.List<any>): void {
+                // 获取触发的对象
+            }
+        });
+    }
+    /** 选择应用*/
+    chooseApplication(): void {
+        let that: this = this;
+        ibas.servicesManager.runChooseService<any>({
+            boCode: "BO_CODE_USER",
+            criteria: [
+                new ibas.Condition("activated", ibas.emConditionOperation.EQUAL, "Y")
+            ],
+            onCompleted(selecteds: ibas.List<any>): void {
+                // 获取触发的对象
+            }
+        });
+    }
+    /** 选择任务动作 */
+    chooseJobAction(caller: bo.IntegrationJobAction): void {
+        let that: this = this;
+        ibas.servicesManager.runChooseService<bo.IntegrationJobAction>({
+            caller: caller,
+            boCode: "BO_CODE_USER",
+            criteria: [
+                new ibas.Condition("activated", ibas.emConditionOperation.EQUAL, "Y")
+            ],
+            onCompleted(selecteds: ibas.List<any>): void {
+                // 获取触发的对象
+                let index: number = that.editData.integrationJobActions.indexOf(caller);
+                let item: bo.IntegrationJobAction = that.editData.integrationJobActions[index];
+                // 选择返回数量多余触发数量时,自动创建新的项目
+                let created: boolean = false;
+                for (let selected of selecteds) {
+                    if (ibas.objects.isNull(item)) {
+                        item = that.editData.integrationJobActions.create();
+                        created = true;
+                    }
+                    item = null;
+                }
+                if (created) {
+                    // 创建了新的行项目
+                    that.view.showIntegrationJobActions(that.editData.integrationJobActions.filterDeleted());
+                }
+            }
+        });
+    }
+    /** 选择任务动作配置-配置项目 */
+    chooseJobActionCfgConfigItem(caller: bo.IntegrationJobActionCfg): void {
+        let that: this = this;
+        ibas.servicesManager.runChooseService<bo.IntegrationJobActionCfg>({
+            caller: caller, boCode: "BO_CODE_USER",
+            criteria: [
+                new ibas.Condition("activated", ibas.emConditionOperation.EQUAL, "Y")
+            ],
+            onCompleted(selecteds: ibas.List<any>): void {
+                // 获取触发的对象
+                let index: number = that.editIntegrationJobAction.integrationJobActionCfgs.indexOf(caller);
+                let item: bo.IntegrationJobActionCfg = that.editIntegrationJobAction.integrationJobActionCfgs[index];
+                // 选择返回数量多余触发数量时,自动创建新的项目
+                let created: boolean = false;
+                for (let selected of selecteds) {
+                    if (ibas.objects.isNull(item)) {
+                        item = that.editIntegrationJobAction.integrationJobActionCfgs.create();
+                        created = true;
+                    }
+                    item = null;
+                }
+                if (created) {
+                    // 创建了新的行项目
+                    that.view.showIntegrationJobActionCfgs(that.editIntegrationJobAction.integrationJobActionCfgs.filterDeleted());
+                }
+            }
+        });
+    }
 
 }
 /** 视图-集成任务 */
@@ -208,10 +339,26 @@ export interface IIntegrationJobEditView extends ibas.IBOEditView {
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */
     createDataEvent: Function;
+    /** 选择业务对象 */
+    chooseBusinessObjectEvent: Function;
+    /** 选择应用 */
+    chooseApplicationEvent: Function;
     /** 添加集成任务-动作事件 */
     addIntegrationJobActionEvent: Function;
     /** 删除集成任务-动作事件 */
     removeIntegrationJobActionEvent: Function;
+    /** 编辑任务动作 */
+    editJobActionEvent: Function;
     /** 显示数据 */
     showIntegrationJobActions(datas: bo.IntegrationJobAction[]): void;
+    /** 选择任务动作 */
+    chooseJobActionEvent: Function;
+    /** 添加集成任务-动作事件 */
+    addIntegrationJobActionCfgEvent: Function;
+    /** 删除集成任务-动作事件 */
+    removeIntegrationJobActionCfgEvent: Function;
+    /** 显示数据 */
+    showIntegrationJobActionCfgs(datas: bo.IntegrationJobActionCfg[]): void;
+    /** 选择任务动作配置-配置项目 */
+    chooseJobActionCfgConfigItemEvent: Function;
 }

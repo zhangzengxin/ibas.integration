@@ -59,7 +59,7 @@ public class IntegrationJob extends BusinessObject<IntegrationJob> implements II
 	/**
 	 * 服务的名称 属性
 	 */
-	@DbField(name = "JobName", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "JobName", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
 	public static final IPropertyInfo<String> PROPERTY_JOBNAME = registerProperty(PROPERTY_JOBNAME_NAME, String.class,
 			MY_CLASS);
 
@@ -116,19 +116,19 @@ public class IntegrationJob extends BusinessObject<IntegrationJob> implements II
 	}
 
 	/**
-	 * 属性名称-频率
+	 * 属性名称-频率（秒）
 	 */
 	private static final String PROPERTY_FREQUENCY_NAME = "Frequency";
 
 	/**
-	 * 频率 属性
+	 * 频率（秒） 属性
 	 */
 	@DbField(name = "Frequency", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
 	public static final IPropertyInfo<Integer> PROPERTY_FREQUENCY = registerProperty(PROPERTY_FREQUENCY_NAME,
 			Integer.class, MY_CLASS);
 
 	/**
-	 * 获取-频率
+	 * 获取-频率（秒）
 	 * 
 	 * @return 值
 	 */
@@ -138,7 +138,7 @@ public class IntegrationJob extends BusinessObject<IntegrationJob> implements II
 	}
 
 	/**
-	 * 设置-频率
+	 * 设置-频率（秒）
 	 * 
 	 * @param value
 	 *            值

@@ -41,14 +41,14 @@ public interface IIntegrationJob extends IBOSimple {
 	void setActivated(emYesNo value);
 
 	/**
-	 * 获取-频率
+	 * 获取-频率（秒）
 	 * 
 	 * @return 值
 	 */
 	Integer getFrequency();
 
 	/**
-	 * 设置-频率
+	 * 设置-频率（秒）
 	 * 
 	 * @param value
 	 *            值

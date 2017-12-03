@@ -2,6 +2,7 @@ package org.colorcoding.ibas.integration.bo.integrationjob;
 
 import org.colorcoding.ibas.bobas.bo.IBOSimpleLine;
 import org.colorcoding.ibas.bobas.data.DateTime;
+import org.colorcoding.ibas.integration.data.emActionRelationship;
 
 /**
  * 集成任务-动作 接口
@@ -203,6 +204,21 @@ public interface IIntegrationJobAction extends IBOSimpleLine {
 	 *            值
 	 */
 	void setUpdateActionId(String value);
+
+	/**
+	 * 获取-与上一个动作的关系
+	 * 
+	 * @return 值
+	 */
+	emActionRelationship getRelationship();
+
+	/**
+	 * 设置-与上一个动作的关系
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setRelationship(emActionRelationship value);
 
 	/**
 	 * 获取-任务项标识

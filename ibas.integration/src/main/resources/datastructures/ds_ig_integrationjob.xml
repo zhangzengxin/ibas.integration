@@ -2,9 +2,9 @@
 <!DOCTYPE Domain>
 <Domain Name="Integration" ShortName="IG">
   <Model Name="IntegrationJob" Description="集成任务" ModelType="Simple" Mapped="${Company}_IG_OJOB">
-    <Property Name="JobName" Description="服务的名称" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="JobName"/>
+    <Property Name="JobName" Description="服务的名称" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="JobName" UniqueKey="Yes"/>
     <Property Name="Activated" Description="是否激活" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Activated"/>
-    <Property Name="Frequency" Description="频率" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Frequency"/>
+    <Property Name="Frequency" Description="频率（秒）" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Frequency"/>
     <Property Name="BOCode" Description="关联的业务对象" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="BOCode"/>
     <Property Name="ApplicationId" Description="关联的应用" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="AppId"/>
     <Property Name="Remarks" Description="备注" DataType="Memo" DataSubType="Default" EditSize="8" Mapped="Remarks"/>
@@ -39,6 +39,7 @@
     <Property Name="UpdateUserSign" Description="更新用户" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Updator"/>
     <Property Name="CreateActionId" Description="创建动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="CreateActId"/>
     <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
+    <Property Name="Relationship" Description="与上一个动作的关系" DataType="Alphanumeric" DataSubType="Default" EditSize="3" DeclaredType="emActionRelationship" Mapped="Relationship"/>
     <Property Name="ActionID" Description="任务项标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="ActionID"/>
     <Property Name="ActionName" Description="任务项名称" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="ActionName"/>
   </Model>
@@ -57,8 +58,8 @@
     <Property Name="CreateActionId" Description="创建动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="CreateActId"/>
     <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
     <Property Name="ActionLineId" Description="动作行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ActionLine"/>
-    <Property Name="Key" Description="配置项健" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="CfgKey"/>
-    <Property Name="Value" Description="配置项值" DataType="Alphanumeric" DataSubType="Default" EditSize="600" Mapped="CfgValue"/>
+    <Property Name="Key" Description="配置项健" DataType="Alphanumeric" DataSubType="Default" EditSize="60" Mapped="CfgKey"/>
+    <Property Name="Value" Description="配置项值" DataType="Alphanumeric" DataSubType="Default" EditSize="250" Mapped="CfgValue"/>
   </Model>
   <BusinessObject MappedModel="IntegrationJob" ShortName="${Company}_IG_INTERGRATIONJOB">
     <RelatedBO Relation="OneToMany" MappedModel="IntegrationJobAction">

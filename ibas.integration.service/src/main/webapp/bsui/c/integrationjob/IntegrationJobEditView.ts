@@ -9,6 +9,7 @@
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
+import { emActionRelationship } from "../../../api/index";
 import { IIntegrationJobEditView } from "../../../bsapp/integrationjob/index";
 
 /**
@@ -19,19 +20,81 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */
     createDataEvent: Function;
+    /** 选择业务对象 */
+    chooseBusinessObjectEvent: Function;
+    /** 选择应用 */
+    chooseApplicationEvent: Function;
     /** 添加集成任务-动作事件 */
     addIntegrationJobActionEvent: Function;
     /** 删除集成任务-动作事件 */
     removeIntegrationJobActionEvent: Function;
+    /** 编辑任务动作 */
+    editJobActionEvent: Function;
+    /** 选择任务动作 */
+    chooseJobActionEvent: Function;
+    /** 添加集成任务-动作事件 */
+    addIntegrationJobActionCfgEvent: Function;
+    /** 删除集成任务-动作事件 */
+    removeIntegrationJobActionCfgEvent: Function;
+    /** 选择任务动作配置-配置项目 */
+    chooseJobActionCfgConfigItemEvent: Function;
 
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
             content: [
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("integration_basis_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_jobname") }),
+                new sap.m.Input("", {
+                    type: sap.m.InputType.Text
+                }).bindProperty("value", {
+                    path: "/jobName",
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_activated") }),
+                new sap.m.Select("", {
+                    items: openui5.utils.createComboBoxItems(ibas.emYesNo)
+                }).bindProperty("selectedKey", {
+                    path: "/activated",
+                    type: "sap.ui.model.type.Integer"
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_bocode") }),
+                new sap.m.Input("", {
+                    showValueHelp: true,
+                    valueHelpRequest: function (): void {
+                        that.fireViewEvents(that.chooseBusinessObjectEvent);
+                    }
+                }).bindProperty("value", {
+                    path: "/boCode",
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_applicationid") }),
+                new sap.m.Input("", {
+                    showValueHelp: true,
+                    valueHelpRequest: function (): void {
+                        that.fireViewEvents(that.chooseBusinessObjectEvent);
+                    }
+                }).bindProperty("value", {
+                    path: "/applicationId",
+                }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("integration_other_information") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_objectkey") }),
+                new sap.m.Input("", {
+                    enable: false,
+                    type: sap.m.InputType.Text
+                }).bindProperty("value", {
+                    path: "/objectKey",
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_objectcode") }),
+                new sap.m.Input("", {
+                    enabled: false,
+                    type: sap.m.InputType.Text
+                }).bindProperty("value", {
+                    path: "/objectCode",
+                }),
             ]
         });
-        this.form.addContent(new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_integrationjobaction") }));
+        this.tableTitle = new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_integrationjobaction") });
+        this.form.addContent(this.tableTitle);
         this.tableIntegrationJobAction = new sap.ui.table.Table("", {
             extension: new sap.m.Toolbar("", {
                 content: [
@@ -59,10 +122,124 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
             enableSelectAll: false,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 10),
             rows: "{/rows}",
+            rowActionCount: 1,
+            rowActionTemplate: new sap.ui.table.RowAction({
+                items: [
+                    new sap.ui.table.RowActionItem({
+                        icon: "sap-icon://slim-arrow-right",
+                        press: function (oEvent: any): void {
+                            that.fireViewEvents(that.editJobActionEvent
+                                , this.getBindingContext().getObject()
+                            );
+                        },
+                    }),
+                ]
+            }),
             columns: [
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_integrationjobaction_relationship"),
+                    template: new sap.m.Select("", {
+                        width: "100%",
+                        items: openui5.utils.createComboBoxItems(emActionRelationship)
+                    }).bindProperty("selectedKey", {
+                        path: "relationship",
+                        type: "sap.ui.model.type.Integer"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_integrationjobaction_actionid"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        showValueHelp: true,
+                        valueHelpRequest: function (): void {
+                            that.fireViewEvents(that.chooseJobActionEvent,
+                                // 获取当前对象
+                                this.getBindingContext().getObject()
+                            );
+                        }
+                    }).bindProperty("value", {
+                        path: "actionId"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_integrationjobaction_actionname"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                    }).bindProperty("value", {
+                        path: "actionName"
+                    })
+                }),
             ]
         });
-        this.form.addContent(this.tableIntegrationJobAction);
+        this.tableIntegrationJobActionCfg = new sap.ui.table.Table("", {
+            extension: new sap.m.Toolbar("", {
+                content: [
+                    new sap.m.Button("", {
+                        text: ibas.i18n.prop("shell_back"),
+                        type: sap.m.ButtonType.Transparent,
+                        icon: "sap-icon://nav-back",
+                        press: function (): void {
+                            that.fireViewEvents(that.editJobActionEvent);
+                        }
+                    }),
+                    new sap.m.Button("", {
+                        text: ibas.i18n.prop("shell_data_add"),
+                        type: sap.m.ButtonType.Transparent,
+                        icon: "sap-icon://add",
+                        press: function (): void {
+                            that.fireViewEvents(that.addIntegrationJobActionCfgEvent);
+                        }
+                    }),
+                    new sap.m.Button("", {
+                        text: ibas.i18n.prop("shell_data_remove"),
+                        type: sap.m.ButtonType.Transparent,
+                        icon: "sap-icon://less",
+                        press: function (): void {
+                            that.fireViewEvents(that.removeIntegrationJobActionCfgEvent,
+                                // 获取表格选中的对象
+                                openui5.utils.getTableSelecteds<bo.IntegrationJobActionCfg>(that.tableIntegrationJobActionCfg)
+                            );
+                        }
+                    })
+                ]
+            }),
+            enableSelectAll: false,
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 10),
+            rows: "{/rows}",
+            columns: [
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_integrationjobactioncfg_key"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                        showValueHelp: true,
+                        valueHelpRequest: function (): void {
+                            that.fireViewEvents(that.chooseJobActionCfgConfigItemEvent,
+                                // 获取当前对象
+                                this.getBindingContext().getObject()
+                            );
+                        }
+                    }).bindProperty("value", {
+                        path: "key"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_integrationjobactioncfg_value"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                    }).bindProperty("value", {
+                        path: "value"
+                    })
+                }),
+            ]
+        });
+        this.splitContainer = new sap.m.SplitContainer("", {
+            mode: sap.m.SplitAppMode.HideMode,
+            detailPages: [
+                this.tableIntegrationJobAction,
+                this.tableIntegrationJobActionCfg
+            ]
+        });
+        this.form.addContent(this.splitContainer);
         this.page = new sap.m.Page("", {
             showHeader: false,
             subHeader: new sap.m.Toolbar("", {
@@ -126,6 +303,8 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
         return this.page;
     }
     private page: sap.m.Page;
+    private tableTitle: sap.ui.core.Title;
+    private splitContainer: sap.m.SplitContainer;
     private form: sap.ui.layout.form.SimpleForm;
     /** 改变视图状态 */
     private changeViewStatus(data: bo.IntegrationJob): void {
@@ -141,6 +320,7 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
         // 不可编辑：已批准，
     }
     private tableIntegrationJobAction: sap.ui.table.Table;
+    private tableIntegrationJobActionCfg: sap.ui.table.Table;
 
     /** 显示数据 */
     showIntegrationJob(data: bo.IntegrationJob): void {
@@ -152,8 +332,18 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
     }
     /** 显示数据 */
     showIntegrationJobActions(datas: bo.IntegrationJobAction[]): void {
-        this.tableIntegrationJobAction.setModel(new sap.ui.model.json.JSONModel({rows: datas}));
+        this.tableTitle.setText(ibas.i18n.prop("bo_approvaltemplatestep"));
+        this.splitContainer.backToTopDetail(null, null);
+        this.tableIntegrationJobAction.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         // 监听属性改变，并更新控件
         openui5.utils.refreshModelChanged(this.tableIntegrationJobAction, datas);
+    }
+    /** 显示数据 */
+    showIntegrationJobActionCfgs(datas: bo.IntegrationJobActionCfg[]): void {
+        this.tableTitle.setText(ibas.i18n.prop("bo_approvaltemplatestepcondition"));
+        this.splitContainer.toDetail(this.tableIntegrationJobActionCfg.getId(), null, null, null);
+        this.tableIntegrationJobActionCfg.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+        // 监听属性改变，并更新控件
+        openui5.utils.refreshModelChanged(this.tableIntegrationJobActionCfg, datas);
     }
 }

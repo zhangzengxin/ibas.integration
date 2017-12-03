@@ -12,6 +12,7 @@ import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.integration.MyConfiguration;
+import org.colorcoding.ibas.integration.data.emActionRelationship;
 
 /**
  * 获取-集成任务-动作
@@ -460,6 +461,38 @@ public class IntegrationJobAction extends BusinessObject<IntegrationJobAction> i
 	 */
 	public final void setUpdateActionId(String value) {
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);
+	}
+
+	/**
+	 * 属性名称-与上一个动作的关系
+	 */
+	private static final String PROPERTY_RELATIONSHIP_NAME = "Relationship";
+
+	/**
+	 * 与上一个动作的关系 属性
+	 */
+	@DbField(name = "Relationship", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<emActionRelationship> PROPERTY_RELATIONSHIP = registerProperty(
+			PROPERTY_RELATIONSHIP_NAME, emActionRelationship.class, MY_CLASS);
+
+	/**
+	 * 获取-与上一个动作的关系
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_RELATIONSHIP_NAME)
+	public final emActionRelationship getRelationship() {
+		return this.getProperty(PROPERTY_RELATIONSHIP);
+	}
+
+	/**
+	 * 设置-与上一个动作的关系
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setRelationship(emActionRelationship value) {
+		this.setProperty(PROPERTY_RELATIONSHIP, value);
 	}
 
 	/**
