@@ -71,7 +71,7 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
                 new sap.m.Input("", {
                     showValueHelp: true,
                     valueHelpRequest: function (): void {
-                        that.fireViewEvents(that.chooseBusinessObjectEvent);
+                        that.fireViewEvents(that.chooseApplicationEvent);
                     }
                 }).bindProperty("value", {
                     path: "/applicationId",

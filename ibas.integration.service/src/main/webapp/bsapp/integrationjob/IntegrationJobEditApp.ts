@@ -34,6 +34,8 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
         // 其他事件
         this.view.deleteDataEvent = this.deleteData;
         this.view.createDataEvent = this.createData;
+        this.view.chooseApplicationEvent = this.chooseApplication;
+        this.view.chooseBusinessObjectEvent = this.chooseBusinessObject;
         this.view.addIntegrationJobActionEvent = this.addIntegrationJobAction;
         this.view.removeIntegrationJobActionEvent = this.removeIntegrationJobAction;
         this.view.editJobActionEvent = this.editJobActionEvent;
@@ -259,7 +261,7 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
             }
         });
     }
-    /** 选择应用*/
+    /** 选择应用 */
     chooseApplication(): void {
         // 不能提供
     }
