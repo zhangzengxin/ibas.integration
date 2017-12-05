@@ -2,9 +2,8 @@ package org.colorcoding.ibas.integration.bo.integration;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+
+import org.colorcoding.ibas.bobas.data.ArrayList;
 
 /**
  * 集成动作
@@ -12,31 +11,56 @@ import javax.xml.bind.annotation.XmlType;
  * @author Niuren.Zhu
  *
  */
-@XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = "IntegrationAction")
-@XmlRootElement(name = "IntegrationAction")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class IntegrationAction {
 
-	private String actionId;
+	private String id;
 
-	@XmlElement(name = "ActionId")
-	public String getActionId() {
-		return actionId;
+	public String getId() {
+		return id;
 	}
 
-	public void setActionId(String actionId) {
-		this.actionId = actionId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	private String actionName;
+	private String name;
 
-	@XmlElement(name = "ActionName")
-	public String getActionName() {
-		return actionName;
+	public String getName() {
+		return name;
 	}
 
-	public void setActionName(String actionName) {
-		this.actionName = actionName;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	private String path;
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	private boolean activated;
+
+	public boolean isActivated() {
+		return activated;
+	}
+
+	public void setActivated(boolean activated) {
+		this.activated = activated;
+	}
+
+	private ArrayList<IntegrationActionConfig> configs;
+
+	public ArrayList<IntegrationActionConfig> getConfigs() {
+		if (this.configs == null) {
+			this.configs = new ArrayList<>();
+		}
+		return configs;
 	}
 
 }

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "f4196286-3ba3-4799-bbb0-676357819726",
+    "name": "Hello World",
+    "activated": true,
+    "path": "HelloWorld.ts",
+    "configs": [
+      {
+        "key": "REP_URL",
+        "value": "${repositoryAddress|BORepositoryShell}"
+      },
+      {
+        "key": "REP_TOKEN",
+        "value": "${userToken}"
+      }
+    ]
+  },
+  {
+    "id": "9c085d3a-afef-4c40-be6a-aa078b667b3c",
+    "name": "Hello World Two",
+    "activated": true,
+    "path": "HelloWorld.ts",
+    "configs": [
+      {
+        "key": "REP_URL",
+        "value": "${repositoryAddress|BORepositoryInitialFantasy}"
+      },
+      {
+        "key": "REP_TOKEN",
+        "value": "${userToken}"
+      }
+    ]
+  }
+]

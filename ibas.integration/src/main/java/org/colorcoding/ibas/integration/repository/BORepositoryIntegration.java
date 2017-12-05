@@ -31,12 +31,12 @@ public class BORepositoryIntegration extends BORepositoryServiceApplication
 			this.setUserToken(token);
 			OperationResult<IntegrationAction> operationResult = new OperationResult<>();
 			IntegrationAction action = new IntegrationAction();
-			action.setActionId(UUID.randomUUID().toString());
-			action.setActionName("test a");
+			action.setId(UUID.randomUUID().toString());
+			action.setName("test a");
 			operationResult.addResultObjects(action);
 			action = new IntegrationAction();
-			action.setActionId(UUID.randomUUID().toString());
-			action.setActionName("test b");
+			action.setId(UUID.randomUUID().toString());
+			action.setName("test b");
 			operationResult.addResultObjects(action);
 			return operationResult;
 		} catch (Exception e) {
