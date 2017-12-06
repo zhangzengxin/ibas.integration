@@ -23,8 +23,10 @@ export class DataConverter4ig extends ibas.DataConverter4j {
             newData.path = data.path;
             if (!ibas.objects.isNull(data.configs)) {
                 for (let item of data.configs) {
-                    item.type = bo.IntegrationActionConfig.name;
-                    newData.configs.add(this.parsing(item, sign));
+                    let newItem: bo.IntegrationActionConfig = new bo.IntegrationActionConfig;
+                    newItem.key = item.key;
+                    newItem.value = item.value;
+                    newData.configs.add(newItem);
                 }
             }
             return newData;

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -124,6 +125,7 @@ class FileRepositoryAction extends FileRepository {
 			}
 			return operationResult;
 		} catch (Exception e) {
+			Logger.log(e);
 			return new OperationResult<>(e);
 		}
 	}
@@ -135,6 +137,26 @@ class FileRepositoryAction extends FileRepository {
 		}
 		ISerializer<?> serializer = SerializerFactory.create().createManager().create(TYPE_JSON_NO_ROOT);
 		Object values = serializer.deserialize(new FileInputStream(file), IntegrationAction.class);
+		if (values != null) {
+			if (values instanceof IntegrationAction) {
+				actions.add((IntegrationAction) values);
+			} else if (values instanceof Iterable) {
+				for (Object value : (Iterable<?>) values) {
+					if (value instanceof IntegrationAction) {
+						actions.add((IntegrationAction) value);
+					}
+				}
+			} else if (values.getClass().isArray()) {
+				for (int i = 0; i < Array.getLength(values); i++) {
+					Object value = Array.get(values, i);
+					if (value instanceof IntegrationAction) {
+						actions.add((IntegrationAction) value);
+					}
+				}
+			}
+		}
+		// 检查动作
+
 		Logger.log(MessageLevel.DEBUG, "the file [%s] has [%s] actions.", file.getName(), actions.size());
 		return actions;
 	}
@@ -143,6 +165,7 @@ class FileRepositoryAction extends FileRepository {
 		try {
 			return new OperationMessage();
 		} catch (Exception e) {
+			Logger.log(e);
 			return new OperationMessage(e);
 		}
 	}
