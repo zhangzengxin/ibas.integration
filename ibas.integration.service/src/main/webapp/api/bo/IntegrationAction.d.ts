@@ -7,16 +7,30 @@
  */
 
 import {
+    List
 } from "ibas/index";
 import {
 } from "../Datas";
 
 
-
 /** 集成-动作 */
 export interface IIntegrationAction {
-    /** 任务项标识 */
-    actionId: string;
-    /** 任务项名称 */
-    actionName: string;
+    /** 标识 */
+    id: string;
+    /** 名称 */
+    name: string;
+    /** 路径 */
+    path: string;
+    /** 激活的 */
+    activated: boolean;
+    /** 配置 */
+    configs: List<IIntegrationActionConfig>;
+}
+
+/** 集成-动作 */
+export interface IIntegrationActionConfig {
+    /** 键 */
+    key: string;
+    /** 值 */
+    value: any;
 }

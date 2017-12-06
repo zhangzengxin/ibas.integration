@@ -2,6 +2,9 @@ package org.colorcoding.ibas.integration.bo.integration;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
+import org.colorcoding.ibas.integration.MyConfiguration;
 
 /**
  * 集成动作-配置
@@ -9,8 +12,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
  * @author Niuren.Zhu
  *
  */
+@XmlType(name = IntegrationActionConfig.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class IntegrationActionConfig {
+
+	public static final String BUSINESS_OBJECT_NAME = "IntegrationActionConfig";
 
 	public IntegrationActionConfig() {
 
@@ -42,4 +48,8 @@ public class IntegrationActionConfig {
 		this.value = value;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("{action config: %s %s}", this.getKey(), this.getValue());
+	}
 }

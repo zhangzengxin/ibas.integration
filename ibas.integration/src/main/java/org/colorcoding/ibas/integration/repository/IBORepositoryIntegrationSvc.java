@@ -1,6 +1,9 @@
 package org.colorcoding.ibas.integration.repository;
 
+import java.io.File;
+
 import org.colorcoding.ibas.bobas.common.ICriteria;
+import org.colorcoding.ibas.bobas.common.OperationMessage;
 import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.repository.IBORepositorySmartService;
 import org.colorcoding.ibas.integration.bo.integration.IntegrationAction;
@@ -19,7 +22,25 @@ public interface IBORepositoryIntegrationSvc extends IBORepositorySmartService {
 	 *            查询
 	 * @return 操作结果
 	 */
-	OperationResult<IntegrationAction> fetchIntegrationAction(ICriteria criteria);
+	OperationResult<IntegrationAction> fetchIntegrationAction(ICriteria criteria, String token);
+
+	/**
+	 * 注册-集成动作
+	 * 
+	 * @param file
+	 *            程序包
+	 * @return
+	 */
+	OperationResult<IntegrationAction> registerIntegrationAction(File file, String token);
+
+	/**
+	 * 删除-集成动作
+	 * 
+	 * @param id
+	 *            动作标记
+	 * @return
+	 */
+	OperationMessage deleteIntegrationAction(String id, String token);
 
 	// --------------------------------------------------------------------------------------------//
 	/**

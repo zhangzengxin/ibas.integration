@@ -14,6 +14,24 @@ import {
 /** 数据转换者 */
 export class DataConverter4ig extends ibas.DataConverter4j {
 
+    parsing(data: any, sign: string): any {
+        if (data.type === bo.IntegrationAction.name) {
+            let newData: bo.IntegrationAction = new bo.IntegrationAction();
+            newData.id = data.id;
+            newData.name = data.name;
+            newData.activated = data.activated;
+            newData.path = data.path;
+            if (!ibas.objects.isNull(data.configs)) {
+                for (let item of data.configs) {
+                    item.type = bo.IntegrationActionConfig.name;
+                    newData.configs.add(this.parsing(item, sign));
+                }
+            }
+            return newData;
+        } else {
+            return super.parsing(data, sign);
+        }
+    }
     /** 创建业务对象转换者 */
     protected createConverter(): ibas.BOConverter {
         return new BOConverter4ig;

@@ -53,19 +53,19 @@ export class IntegrationActionChooseView extends ibas.BOChooseView implements II
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_integrationaction_actionid"),
+                    label: ibas.i18n.prop("bo_integrationaction_id"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
-                        path: "actionId"
+                        path: "id"
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_integrationaction_actionname"),
+                    label: ibas.i18n.prop("bo_integrationaction_name"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
-                        path: "actionName"
+                        path: "name"
                     })
                 }),
             ]
@@ -115,7 +115,7 @@ export class IntegrationActionChooseView extends ibas.BOChooseView implements II
         }
         if (!done) {
             // 没有显示数据
-            this.table.setModel(new sap.ui.model.json.JSONModel({rows: datas}));
+            this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         }
         this.table.setBusy(false);
     }

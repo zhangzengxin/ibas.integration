@@ -7,12 +7,14 @@
  */
 
 import {
+    MethodCaller,
     FetchCaller,
     SaveCaller,
     UploadFileCaller,
     DownloadFileCaller,
     FileData,
-    IBORepositoryApplication
+    IBORepositoryApplication,
+    IOperationMessage,
 } from "ibas/index";
 import * as bo from "./bo/index"
 
@@ -45,5 +47,11 @@ export interface IBORepositoryIntegration extends IBORepositoryApplication {
      */
     fetchIntegrationAction(fetcher: FetchCaller<bo.IIntegrationAction>);
 
-
+}
+/** 动作删除者 */
+export interface ActionDeleter extends MethodCaller {
+    /** 被删除 */
+    beDeleted: string;
+    /** 完成事件 */
+    onCompleted(opRslt: IOperationMessage);
 }

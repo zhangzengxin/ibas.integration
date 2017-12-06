@@ -15,4 +15,4 @@ import * as ibas from "ibas/index";
 import { IntegrationJob } from "./IntegrationJob";
 ibas.boFactory.register(IntegrationJob.BUSINESS_OBJECT_CODE, IntegrationJob);
 import { IntegrationAction } from "./IntegrationAction";
-ibas.boFactory.register(IntegrationAction.BUSINESS_OBJECT_CODE, IntegrationAction);
+ibas.boFactory.register(IntegrationAction);

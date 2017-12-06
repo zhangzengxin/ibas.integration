@@ -33,5 +33,9 @@ public class MyConfiguration extends org.colorcoding.ibas.bobas.MyConfiguration 
 	 * 配置项目-文件文件夹
 	 */
 	public final static String CONFIG_ITEM_INTEGRATION_FILE_FOLDER = "IGFileFolder";
+	/**
+	 * 配置项目-动作文件文件夹
+	 */
+	public final static String CONFIG_ITEM_INTEGRATION_ACTION_FOLDER = "IGActionFolder";
 
 }

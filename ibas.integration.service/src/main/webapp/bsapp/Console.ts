@@ -9,7 +9,7 @@
 import * as ibas from "ibas/index";
 import { CONSOLE_ID, CONSOLE_NAME, CONSOLE_VERSION } from "../api/index";
 import { IntegrationJobFunc, IntegrationJobChooseServiceMapping, IntegrationJobLinkServiceMapping } from "./integrationjob/index";
-import { IntegrationActionChooseServiceMapping } from "./integration/index";
+import { IntegrationActionChooseServiceMapping, IntegrationActionFunc } from "./integration/index";
 
 /** 模块控制台 */
 export class Console extends ibas.ModuleConsole {
@@ -30,6 +30,10 @@ export class Console extends ibas.ModuleConsole {
     protected registers(): void {
         // 注册功能
         this.register(new IntegrationJobFunc());
+        if (ibas.variablesManager.getValue(ibas.VARIABLE_NAME_USER_SUPER) === true) {
+            // 仅管理员加载
+            this.register(new IntegrationActionFunc());
+        }
         // 注册服务应用
         this.register(new IntegrationJobChooseServiceMapping());
         this.register(new IntegrationJobLinkServiceMapping());

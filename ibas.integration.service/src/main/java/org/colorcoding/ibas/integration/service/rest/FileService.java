@@ -23,9 +23,12 @@ import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.data.FileData;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.message.Logger;
+import org.colorcoding.ibas.bobas.repository.FileRepository;
 import org.colorcoding.ibas.bobas.repository.FileRepositoryReadonly;
 import org.colorcoding.ibas.bobas.repository.jersey.FileRepositoryService;
 import org.colorcoding.ibas.integration.MyConfiguration;
+import org.colorcoding.ibas.integration.bo.integration.IntegrationAction;
+import org.colorcoding.ibas.integration.repository.BORepositoryIntegration;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
@@ -107,5 +110,33 @@ public class FileService extends FileRepositoryService {
 		condition.setAlias(FileRepositoryReadonly.CRITERIA_CONDITION_ALIAS_FILE_NAME);
 		condition.setValue(file);
 		return this.download(criteria, token, response);
+	}
+
+	@POST
+	@Path("uploadPackage")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	public OperationResult<IntegrationAction> uploadPackage(@FormDataParam("file") InputStream fileStream,
+			@FormDataParam("file") FormDataContentDisposition fileDisposition, @QueryParam("token") String token) {
+		try {
+			FileData fileData = new FileData();
+			fileData.setOriginalName(fileDisposition.getFileName());
+			fileData.setStream(fileStream);
+			FileRepository fileRepository = new FileRepository();
+			fileRepository.setRepositoryFolder(MyConfiguration.getTempFolder());
+			IOperationResult<FileData> opRsltFile = fileRepository.save(fileData);
+			if (opRsltFile.getError() != null) {
+				throw opRsltFile.getError();
+			}
+			fileData = opRsltFile.getResultObjects().firstOrDefault();
+			if (fileData == null) {
+				throw new Exception(I18N.prop("msg_ig_package_parsing_failure"));
+			}
+			File file = new File(fileData.getLocation());
+			BORepositoryIntegration boRepository = new BORepositoryIntegration();
+			return boRepository.registerIntegrationAction(file, token);
+		} catch (Exception e) {
+			return new OperationResult<>(e);
+		}
 	}
 }

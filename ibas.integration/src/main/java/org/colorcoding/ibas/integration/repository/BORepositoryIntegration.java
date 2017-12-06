@@ -1,9 +1,10 @@
 package org.colorcoding.ibas.integration.repository;
 
-import java.util.UUID;
+import java.io.File;
 
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
+import org.colorcoding.ibas.bobas.common.OperationMessage;
 import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.repository.BORepositoryServiceApplication;
 import org.colorcoding.ibas.integration.bo.integration.IntegrationAction;
@@ -17,6 +18,7 @@ public class BORepositoryIntegration extends BORepositoryServiceApplication
 		implements IBORepositoryIntegrationSvc, IBORepositoryIntegrationApp {
 
 	// --------------------------------------------------------------------------------------------//
+
 	/**
 	 * 查询-集成动作
 	 * 
@@ -29,16 +31,7 @@ public class BORepositoryIntegration extends BORepositoryServiceApplication
 	public OperationResult<IntegrationAction> fetchIntegrationAction(ICriteria criteria, String token) {
 		try {
 			this.setUserToken(token);
-			OperationResult<IntegrationAction> operationResult = new OperationResult<>();
-			IntegrationAction action = new IntegrationAction();
-			action.setId(UUID.randomUUID().toString());
-			action.setName("test a");
-			operationResult.addResultObjects(action);
-			action = new IntegrationAction();
-			action.setId(UUID.randomUUID().toString());
-			action.setName("test b");
-			operationResult.addResultObjects(action);
-			return operationResult;
+			return new FileRepositoryAction().fetchAction(criteria);
 		} catch (Exception e) {
 			return new OperationResult<>(e);
 		}
@@ -53,6 +46,32 @@ public class BORepositoryIntegration extends BORepositoryServiceApplication
 	 */
 	public OperationResult<IntegrationAction> fetchIntegrationAction(ICriteria criteria) {
 		return this.fetchIntegrationAction(criteria, this.getUserToken());
+	}
+
+	public IOperationResult<IntegrationAction> registerIntegrationAction(File file) {
+		return this.registerIntegrationAction(file, this.getUserToken());
+	}
+
+	public OperationResult<IntegrationAction> registerIntegrationAction(File file, String token) {
+		try {
+			this.setUserToken(token);
+			return new FileRepositoryAction().registerAction(file);
+		} catch (Exception e) {
+			return new OperationResult<>(e);
+		}
+	}
+
+	public OperationMessage deleteIntegrationAction(String id) {
+		return this.deleteIntegrationAction(id, this.getUserToken());
+	}
+
+	public OperationMessage deleteIntegrationAction(String id, String token) {
+		try {
+			this.setUserToken(token);
+			return new FileRepositoryAction().deleteAction(id);
+		} catch (Exception e) {
+			return new OperationMessage(e);
+		}
 	}
 
 	// --------------------------------------------------------------------------------------------//
