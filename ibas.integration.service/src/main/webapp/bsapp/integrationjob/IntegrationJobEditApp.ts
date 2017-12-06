@@ -270,7 +270,7 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.IntegrationAction>({
             caller: caller,
-            boCode: bo.IntegrationAction.BUSINESS_OBJECT_CODE,
+            boCode: bo.IntegrationAction.name,
             criteria: [],
             onCompleted(selecteds: ibas.List<bo.IntegrationAction>): void {
                 // 获取触发的对象
@@ -283,8 +283,8 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
                         item = that.editData.integrationJobActions.create();
                         created = true;
                     }
-                    item.actionId = selected.actionId;
-                    item.actionName = selected.actionName;
+                    item.actionId = selected.id;
+                    item.actionName = selected.name;
                     item = null;
                 }
                 if (created) {
