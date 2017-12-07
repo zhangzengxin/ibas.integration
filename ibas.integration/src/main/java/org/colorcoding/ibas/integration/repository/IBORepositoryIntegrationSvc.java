@@ -20,6 +20,8 @@ public interface IBORepositoryIntegrationSvc extends IBORepositorySmartService {
 	 * 
 	 * @param criteria
 	 *            查询
+	 * @param token
+	 *            口令
 	 * @return 操作结果
 	 */
 	OperationResult<IntegrationAction> fetchIntegrationAction(ICriteria criteria, String token);
@@ -29,18 +31,22 @@ public interface IBORepositoryIntegrationSvc extends IBORepositorySmartService {
 	 * 
 	 * @param file
 	 *            程序包
+	 * @param token
+	 *            口令
 	 * @return
 	 */
 	OperationResult<IntegrationAction> registerIntegrationAction(File file, String token);
 
 	/**
-	 * 删除-集成动作
+	 * 删除-集成动作包
 	 * 
-	 * @param id
-	 *            动作标记
+	 * @param group
+	 *            包名称
+	 * @param token
+	 *            口令
 	 * @return
 	 */
-	OperationMessage deleteIntegrationAction(String id, String token);
+	OperationMessage deleteIntegrationAction(String group, String token);
 
 	// --------------------------------------------------------------------------------------------//
 	/**

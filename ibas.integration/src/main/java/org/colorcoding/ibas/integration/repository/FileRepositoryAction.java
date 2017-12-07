@@ -102,6 +102,11 @@ class FileRepositoryAction extends FileRepository {
 			OperationResult<IntegrationAction> operationResult = this.fetchAction(criteria);
 			if (operationResult.getError() != null) {
 				// 发生错误，清理已释放文件
+				Logger.log(operationResult.getError());
+				this.deleteFiles(folder);
+			}
+			if (operationResult.getResultObjects().isEmpty()) {
+				// 未找到动作，清理已释放文件
 				this.deleteFiles(folder);
 			}
 			return operationResult;
@@ -188,6 +193,8 @@ class FileRepositoryAction extends FileRepository {
 			if (!action.isActivated()) {
 				continue;
 			}
+			// 设置包名
+			action.setGroup(group);
 			// 检查id
 			if (action.getId() == null || action.getId().isEmpty()) {
 				action.setId(EncryptMD5.md5(group, action.getName()));
@@ -198,11 +205,11 @@ class FileRepositoryAction extends FileRepository {
 				Logger.log(MessageLevel.DEBUG, "action [%s] no path.", action.getName());
 				action.setActivated(false);
 			}
-			path = path.toLowerCase().replace(".ts", ".js");
-			path = path.replace("/", File.separator);
+			path = path.replace(".ts", ".js");
 			if (path.startsWith("./")) {
 				path = path.substring(2);
 			}
+			path = path.replace("/", File.separator);
 			File pathFile = new File(file.getParentFile().getPath() + File.separator + path);
 			if (!pathFile.isFile() || !pathFile.exists()) {
 				Logger.log(MessageLevel.DEBUG, "action [%s] path file not exists.", action.getName());
@@ -215,8 +222,11 @@ class FileRepositoryAction extends FileRepository {
 		return actions;
 	}
 
-	public OperationMessage deleteAction(String id) {
+	public OperationMessage deletePackage(String name) {
 		try {
+			File folder = new File(this.getRepositoryFolder() + File.separator + name);
+			this.deleteFiles(folder);
+			Logger.log(MessageLevel.DEBUG, "the action group [%s] was deleted.", name);
 			return new OperationMessage();
 		} catch (Exception e) {
 			Logger.log(e);

@@ -73,7 +73,7 @@ export class BORepositoryIntegration extends ibas.BORepositoryApplication implem
         boRepository.address = this.address;
         boRepository.token = this.token;
         boRepository.converter = this.createConverter();
-        let method: string = ibas.strings.format("deleteIntegrationAction?id={0}&token={1}", deleter.beDeleted, this.token);
+        let method: string = ibas.strings.format("deleteIntegrationAction?group={0}&token={1}", deleter.beDeleted, this.token);
         boRepository.callRemoteMethod(method, undefined, deleter);
     }
     /**

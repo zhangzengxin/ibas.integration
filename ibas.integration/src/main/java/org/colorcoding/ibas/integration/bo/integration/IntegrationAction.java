@@ -33,6 +33,16 @@ public class IntegrationAction extends Serializable {
 		this.id = id;
 	}
 
+	private String group;
+
+	public String getGroup() {
+		return group;
+	}
+
+	public void setGroup(String group) {
+		this.group = group;
+	}
+
 	private String name;
 
 	public String getName() {

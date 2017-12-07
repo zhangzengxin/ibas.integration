@@ -1,5 +1,6 @@
 {
   "bo_integrationaction_id": "标识",
+  "bo_integrationaction_group": "包",
   "bo_integrationaction_name": "名称",
   "bo_integrationaction_path": "路径",
   "bo_integrationaction_activated": "激活",

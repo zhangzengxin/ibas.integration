@@ -50,6 +50,14 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
                     })
                 }),
                 new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_integrationaction_group"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "group"
+                    })
+                }),
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_integrationaction_path"),
                     template: new sap.m.Text("", {
                         wrapping: false

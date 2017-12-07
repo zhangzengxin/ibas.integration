@@ -99,7 +99,7 @@ export class IntegrationJobListApp extends ibas.BOListApplication<IIntegrationJo
         app.run(data);
     }
     /** 删除数据，参数：目标数据集合 */
-    protected deleteData(data: bo.IntegrationJob): void {
+    protected deleteData(data: bo.IntegrationJob | bo.IntegrationJob[]): void {
         // 检查目标数据
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -107,14 +107,15 @@ export class IntegrationJobListApp extends ibas.BOListApplication<IIntegrationJo
             ));
             return;
         }
-        let beDeleteds:ibas.ArrayList<bo.IntegrationJob> = new ibas.ArrayList<bo.IntegrationJob>();
-        if (data instanceof Array ) {
+        let beDeleteds: ibas.ArrayList<bo.IntegrationJob> = new ibas.ArrayList<bo.IntegrationJob>();
+        if (data instanceof Array) {
             for (let item of data) {
-                if (ibas.objects.instanceOf(item, bo.IntegrationJob)) {
-                    item.delete();
-                    beDeleteds.add(item);
-                }
+                item.delete();
+                beDeleteds.add(item);
             }
+        } else {
+            data.delete();
+            beDeleteds.add(data);
         }
         // 没有选择删除的对象
         if (beDeleteds.length === 0) {
@@ -130,7 +131,7 @@ export class IntegrationJobListApp extends ibas.BOListApplication<IIntegrationJo
                 if (action === ibas.emMessageAction.YES) {
                     try {
                         let boRepository: BORepositoryIntegration = new BORepositoryIntegration();
-                        let saveMethod: Function = function(beSaved: bo.IntegrationJob):void {
+                        let saveMethod: Function = function (beSaved: bo.IntegrationJob): void {
                             boRepository.saveIntegrationJob({
                                 beSaved: beSaved,
                                 onCompleted(opRslt: ibas.IOperationResult<bo.IntegrationJob>): void {
@@ -146,7 +147,7 @@ export class IntegrationJobListApp extends ibas.BOListApplication<IIntegrationJo
                                             // 处理完成
                                             that.busy(false);
                                             that.messages(ibas.emMessageType.SUCCESS,
-                                            ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
+                                                ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
                                         }
                                     } catch (error) {
                                         that.messages(ibas.emMessageType.ERROR,

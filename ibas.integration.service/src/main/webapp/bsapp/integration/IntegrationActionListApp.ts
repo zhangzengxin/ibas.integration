@@ -80,7 +80,7 @@ export class IntegrationActionListApp extends ibas.Application<IIntegrationActio
         this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_uploading_file"));
     }
     /** 删除数据，参数：目标数据集合 */
-    protected deleteData(data: bo.IntegrationAction): void {
+    protected deleteData(data: bo.IntegrationAction[] | bo.IntegrationAction): void {
         // 检查目标数据
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -88,12 +88,16 @@ export class IntegrationActionListApp extends ibas.Application<IIntegrationActio
             ));
             return;
         }
-        let beDeleteds: ibas.ArrayList<bo.IntegrationAction> = new ibas.ArrayList<bo.IntegrationAction>();
+        let beDeleteds: ibas.ArrayList<string> = new ibas.ArrayList<string>();
         if (data instanceof Array) {
             for (let item of data) {
-                if (ibas.objects.instanceOf(item, bo.IntegrationAction)) {
-                    beDeleteds.add(item);
+                if (!beDeleteds.contain(item.group)) {
+                    beDeleteds.add(item.group);
                 }
+            }
+        } else {
+            if (!beDeleteds.contain(data.group)) {
+                beDeleteds.add(data.group);
             }
         }
         // 没有选择删除的对象
@@ -104,22 +108,22 @@ export class IntegrationActionListApp extends ibas.Application<IIntegrationActio
         this.messages({
             type: ibas.emMessageType.QUESTION,
             title: ibas.i18n.prop(this.name),
-            message: ibas.i18n.prop("shell_whether_to_delete", beDeleteds.length),
+            message: ibas.i18n.prop("integration_confirm_delete_package", ibas.strings.toString(beDeleteds)),
             actions: [ibas.emMessageAction.YES, ibas.emMessageAction.NO],
             onCompleted(action: ibas.emMessageAction): void {
                 if (action === ibas.emMessageAction.YES) {
                     try {
                         let boRepository: BORepositoryIntegration = new BORepositoryIntegration();
-                        let saveMethod: Function = function (beSaved: bo.IntegrationAction): void {
+                        let saveMethod: Function = function (beDeleted: string): void {
                             boRepository.deleteIntegrationAction({
-                                beDeleted: beSaved.id,
+                                beDeleted: beDeleted,
                                 onCompleted(opRslt: ibas.OperationMessage): void {
                                     try {
                                         if (opRslt.resultCode !== 0) {
                                             throw new Error(opRslt.message);
                                         }
                                         // 保存下一个数据
-                                        let index: number = beDeleteds.indexOf(beSaved) + 1;
+                                        let index: number = beDeleteds.indexOf(beDeleted) + 1;
                                         if (index > 0 && index < beDeleteds.length) {
                                             saveMethod(beDeleteds[index]);
                                         } else {
@@ -130,11 +134,11 @@ export class IntegrationActionListApp extends ibas.Application<IIntegrationActio
                                         }
                                     } catch (error) {
                                         that.messages(ibas.emMessageType.ERROR,
-                                            ibas.i18n.prop("shell_data_delete_error", beSaved, error.message));
+                                            ibas.i18n.prop("shell_data_delete_error", beDeleted, error.message));
                                     }
                                 }
                             });
-                            that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_deleting", beSaved));
+                            that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_deleting", beDeleted));
                         };
                         that.busy(true);
                         // 开始保存

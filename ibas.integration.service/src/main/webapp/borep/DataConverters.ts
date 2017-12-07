@@ -18,6 +18,7 @@ export class DataConverter4ig extends ibas.DataConverter4j {
         if (data.type === bo.IntegrationAction.name) {
             let newData: bo.IntegrationAction = new bo.IntegrationAction();
             newData.id = data.id;
+            newData.group = data.group;
             newData.name = data.name;
             newData.activated = data.activated;
             newData.path = data.path;

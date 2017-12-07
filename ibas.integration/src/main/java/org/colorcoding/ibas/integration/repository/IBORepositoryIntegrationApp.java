@@ -34,13 +34,13 @@ public interface IBORepositoryIntegrationApp extends IBORepositoryApplication {
 	IOperationResult<IntegrationAction> registerIntegrationAction(File file);
 
 	/**
-	 * 删除-集成动作
+	 * 删除-集成动作包
 	 * 
-	 * @param id
-	 *            动作标记
+	 * @param group
+	 *            包名称
 	 * @return
 	 */
-	OperationMessage deleteIntegrationAction(String id);
+	OperationMessage deleteIntegrationAction(String group);
 
 	// --------------------------------------------------------------------------------------------//
 	/**

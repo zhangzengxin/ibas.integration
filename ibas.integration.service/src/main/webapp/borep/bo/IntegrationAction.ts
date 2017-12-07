@@ -23,6 +23,8 @@ export class IntegrationAction implements IIntegrationAction {
     }
     /** 标识 */
     id: string;
+    /** 包组 */
+    group: string;
     /** 名称 */
     name: string;
     /** 路径 */
