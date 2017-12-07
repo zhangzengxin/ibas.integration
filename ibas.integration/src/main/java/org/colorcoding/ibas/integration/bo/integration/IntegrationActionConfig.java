@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.colorcoding.ibas.bobas.serialization.Serializable;
 import org.colorcoding.ibas.integration.MyConfiguration;
 
 /**
@@ -14,7 +15,9 @@ import org.colorcoding.ibas.integration.MyConfiguration;
  */
 @XmlType(name = IntegrationActionConfig.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class IntegrationActionConfig {
+public class IntegrationActionConfig extends Serializable {
+
+	private static final long serialVersionUID = -3637453402246087554L;
 
 	public static final String BUSINESS_OBJECT_NAME = "IntegrationActionConfig";
 

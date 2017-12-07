@@ -332,7 +332,7 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
     }
     /** 显示数据 */
     showIntegrationJobActions(datas: bo.IntegrationJobAction[]): void {
-        this.tableTitle.setText(ibas.i18n.prop("bo_approvaltemplatestep"));
+        this.tableTitle.setText(ibas.i18n.prop("bo_integrationjob_integrationjobactions"));
         this.splitContainer.backToTopDetail(null, null);
         this.tableIntegrationJobAction.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         // 监听属性改变，并更新控件
@@ -340,7 +340,7 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
     }
     /** 显示数据 */
     showIntegrationJobActionCfgs(datas: bo.IntegrationJobActionCfg[]): void {
-        this.tableTitle.setText(ibas.i18n.prop("bo_approvaltemplatestepcondition"));
+        this.tableTitle.setText(ibas.i18n.prop("bo_integrationjobaction_integrationjobactioncfgs"));
         this.splitContainer.toDetail(this.tableIntegrationJobActionCfg.getId(), null, null, null);
         this.tableIntegrationJobActionCfg.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         // 监听属性改变，并更新控件

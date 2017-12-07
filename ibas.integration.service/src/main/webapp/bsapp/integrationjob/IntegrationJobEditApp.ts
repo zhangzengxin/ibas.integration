@@ -285,6 +285,15 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
                     }
                     item.actionId = selected.id;
                     item.actionName = selected.name;
+                    for (let cItem of selected.configs) {
+                        // 添加默认配置
+                        if (item.integrationJobActionCfgs.firstOrDefault((c) => { return c.key === cItem.key; }) !== null) {
+                            continue;
+                        }
+                        let jobConfig: bo.IntegrationActionConfig = item.integrationJobActionCfgs.create();
+                        jobConfig.key = cItem.key;
+                        jobConfig.value = cItem.value;
+                    }
                     item = null;
                 }
                 if (created) {

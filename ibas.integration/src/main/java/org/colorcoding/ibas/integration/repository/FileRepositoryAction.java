@@ -45,6 +45,10 @@ class FileRepositoryAction extends FileRepository {
 		if (workFolder == null || workFolder.isEmpty()) {
 			workFolder = MyConfiguration.getWorkFolder() + File.separator + "integration_actions";
 		}
+		File file = new File(workFolder);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
 		this.setRepositoryFolder(workFolder);
 	}
 

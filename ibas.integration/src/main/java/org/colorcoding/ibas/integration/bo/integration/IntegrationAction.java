@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.data.ArrayList;
+import org.colorcoding.ibas.bobas.serialization.Serializable;
 import org.colorcoding.ibas.integration.MyConfiguration;
 
 /**
@@ -17,7 +18,9 @@ import org.colorcoding.ibas.integration.MyConfiguration;
 @XmlType(name = IntegrationAction.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = IntegrationAction.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class IntegrationAction {
+public class IntegrationAction extends Serializable {
+
+	private static final long serialVersionUID = 1233762536408196271L;
 
 	public static final String BUSINESS_OBJECT_NAME = "IntegrationAction";
 	private String id;
