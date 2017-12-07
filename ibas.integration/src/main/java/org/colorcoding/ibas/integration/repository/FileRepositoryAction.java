@@ -72,19 +72,23 @@ class FileRepositoryAction extends FileRepository {
 					jarEntryList.add(jarEntry);
 				}
 			}
-			String folder = EncryptMD5.md5(file.getPath());
+			File folder = new File(this.getRepositoryFolder() + File.separator + EncryptMD5.md5(file.getPath()));
 			// 读取内容
 			for (JarEntry jarEntry : jarEntryList) {
 				InputStream inputStream = jarFile.getInputStream(jarEntry);
 				FileData fileData = new FileData();
 				fileData.setOriginalName(jarEntry.getName());
 				fileData.setStream(inputStream);
-				fileData.setFileName(folder + File.separator
+				fileData.setFileName(folder.getName() + File.separator
 						+ jarEntry.getName()
 								.substring(jarEntry.getName().toLowerCase().indexOf(PACKAGE_INTEGRATION_ACTIONS_FOLDER)
 										+ PACKAGE_INTEGRATION_ACTIONS_FOLDER.length()));
 				IOperationResult<FileData> opRsltFile = this.save(fileData);
+				inputStream.close();
 				if (opRsltFile.getError() != null) {
+					// 发生错误，清理已释放文件
+					this.deleteFiles(folder);
+					jarFile.close();
 					throw opRsltFile.getError();
 				}
 			}
@@ -94,11 +98,30 @@ class FileRepositoryAction extends FileRepository {
 			ICriteria criteria = new Criteria();
 			ICondition condition = criteria.getConditions().create();
 			condition.setAlias(CRITERIA_CONDITION_ALIAS_FOLDER);
-			condition.setValue(folder);
-			return this.fetchAction(criteria);
+			condition.setValue(folder.getName());
+			OperationResult<IntegrationAction> operationResult = this.fetchAction(criteria);
+			if (operationResult.getError() != null) {
+				// 发生错误，清理已释放文件
+				this.deleteFiles(folder);
+			}
+			return operationResult;
 		} catch (Exception e) {
 			Logger.log(e);
 			return new OperationResult<>(e);
+		}
+	}
+
+	private void deleteFiles(File file) {
+		if (!file.exists()) {
+			return;
+		}
+		if (file.isFile()) {
+			file.delete();
+		} else if (file.isDirectory()) {
+			for (File item : file.listFiles()) {
+				this.deleteFiles(item);
+			}
+			file.delete();
 		}
 	}
 
@@ -139,6 +162,7 @@ class FileRepositoryAction extends FileRepository {
 		if (!file.exists() || !file.isFile()) {
 			return actions;
 		}
+		String group = file.getPath().replace(this.getRepositoryFolder(), "");
 		ISerializer<?> serializer = SerializerFactory.create().createManager().create(TYPE_JSON_NO_ROOT);
 		Object values = serializer.deserialize(new FileInputStream(file), IntegrationAction.class);
 		if (values != null) {
@@ -160,7 +184,33 @@ class FileRepositoryAction extends FileRepository {
 			}
 		}
 		// 检查动作
-
+		for (IntegrationAction action : actions) {
+			if (!action.isActivated()) {
+				continue;
+			}
+			// 检查id
+			if (action.getId() == null || action.getId().isEmpty()) {
+				action.setId(EncryptMD5.md5(group, action.getName()));
+			}
+			// 检查路径
+			String path = action.getPath();
+			if (path == null || path.isEmpty()) {
+				Logger.log(MessageLevel.DEBUG, "action [%s] no path.", action.getName());
+				action.setActivated(false);
+			}
+			path = path.toLowerCase().replace(".ts", ".js");
+			path = path.replace("/", File.separator);
+			if (path.startsWith("./")) {
+				path = path.substring(2);
+			}
+			File pathFile = new File(file.getParentFile().getPath() + File.separator + path);
+			if (!pathFile.isFile() || !pathFile.exists()) {
+				Logger.log(MessageLevel.DEBUG, "action [%s] path file not exists.", action.getName());
+				action.setActivated(false);
+			}
+		}
+		// 删除无效的
+		actions.removeIf(c -> !c.isActivated());
 		Logger.log(MessageLevel.DEBUG, "the file [%s] has [%s] actions.", file.getName(), actions.size());
 		return actions;
 	}
