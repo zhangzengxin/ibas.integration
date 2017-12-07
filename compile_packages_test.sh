@@ -14,11 +14,10 @@ echo '**************************************************************************
 WORK_FOLDER=`pwd`
 
 echo --当前工作的目录是[${WORK_FOLDER}]
-if [ -e ${WORK_FOLDER}/release/ ]
+if [ ! -e ${WORK_FOLDER}/release/ ]
 then
-  rm -rf ${WORK_FOLDER}/release/
+  mkdir -p ${WORK_FOLDER}/release/
 fi
-mkdir -p ${WORK_FOLDER}/release/
 if [ -e ${WORK_FOLDER}/ibas.integration.service/pom.test.xml ]
 then
   mvn clean package -Dmaven.test.skip=true -f ${WORK_FOLDER}/ibas.integration.service/pom.test.xml

@@ -15,7 +15,6 @@ REM 设置参数变量
 SET WORK_FOLDER=%~dp0
 
 echo --当前工作的目录是[%WORK_FOLDER%]
-if exist %WORK_FOLDER%release\ rd /s /q %WORK_FOLDER%release\
 if not exist %WORK_FOLDER%release md %WORK_FOLDER%release
 REM 编译测试包
 if exist %WORK_FOLDER%ibas.integration.service\pom.test.xml (
