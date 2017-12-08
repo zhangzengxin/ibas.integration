@@ -108,7 +108,9 @@ export class IntegrationActionListApp extends ibas.Application<IIntegrationActio
         this.messages({
             type: ibas.emMessageType.QUESTION,
             title: ibas.i18n.prop(this.name),
-            message: ibas.i18n.prop("integration_confirm_delete_package", ibas.strings.toString(beDeleteds)),
+            message: ibas.i18n.prop("shell_confirm") +
+                ibas.i18n.prop("integration_delete_package") +
+                ibas.strings.format("[{0}]", ibas.strings.toString(beDeleteds)),
             actions: [ibas.emMessageAction.YES, ibas.emMessageAction.NO],
             onCompleted(action: ibas.emMessageAction): void {
                 if (action === ibas.emMessageAction.YES) {

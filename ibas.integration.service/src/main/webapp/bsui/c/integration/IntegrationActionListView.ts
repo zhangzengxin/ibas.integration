@@ -73,7 +73,7 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
             subHeader: new sap.m.Toolbar("", {
                 content: [
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("shell_data_delete"),
+                        text: ibas.i18n.prop("integration_delete_package"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://delete",
                         press: function (): void {

@@ -43,7 +43,7 @@ class FileRepositoryAction extends FileRepository {
 	public FileRepositoryAction() {
 		String workFolder = MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_INTEGRATION_ACTION_FOLDER);
 		if (workFolder == null || workFolder.isEmpty()) {
-			workFolder = MyConfiguration.getWorkFolder() + File.separator + "integration_actions";
+			workFolder = MyConfiguration.getDataFolder() + File.separator + "integration_actions";
 		}
 		File file = new File(workFolder);
 		if (!file.exists()) {
@@ -167,7 +167,7 @@ class FileRepositoryAction extends FileRepository {
 		if (!file.exists() || !file.isFile()) {
 			return actions;
 		}
-		String group = file.getPath().replace(this.getRepositoryFolder(), "");
+		String group = file.getParentFile().getName();
 		ISerializer<?> serializer = SerializerFactory.create().createManager().create(TYPE_JSON_NO_ROOT);
 		Object values = serializer.deserialize(new FileInputStream(file), IntegrationAction.class);
 		if (values != null) {
