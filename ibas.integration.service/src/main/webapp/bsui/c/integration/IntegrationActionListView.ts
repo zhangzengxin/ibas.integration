@@ -147,32 +147,15 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
     }
     /** 显示代码 */
     showCode(code: Blob): void {
-        jQuery.sap.require("sap.ui.codeeditor.CodeEditor");
-        let codeEditor: sap.ui.codeeditor.CodeEditor = new sap.ui.codeeditor.CodeEditor;
-        let codeView: sap.m.Dialog = new sap.m.Dialog("", {
-            title: ibas.i18n.prop("integration_view_code"),
-            type: sap.m.DialogType.Standard,
-            state: sap.ui.core.ValueState.None,
-            stretchOnPhone: true,
-            horizontalScrolling: true,
-            verticalScrolling: true,
-            content: [codeEditor],
-            endButton: new sap.m.Button("", {
-                text: ibas.i18n.prop("shell_exit"),
-                type: sap.m.ButtonType.Transparent,
-                press: function (): void {
-                    codeView.close();
-                }
-            })
-        });
-        if (!ibas.objects.isNull(code)) {
-            let fileReader: FileReader = new FileReader();
-            fileReader.onload = function (e: ProgressEvent): void {
-                let dataUrl: string = (<any>e.target).result;
-                codeEditor.setValue(dataUrl);
-            };
-            fileReader.readAsDataURL(code);
-        }
-        codeView.open();
+        let that: this = this;
+        let fileReader: FileReader = new FileReader();
+        fileReader.onload = function (e: ProgressEvent): void {
+            that.application.viewShower.messages({
+                title: ibas.i18n.prop("integration_view_code"),
+                type: ibas.emMessageType.INFORMATION,
+                message: (<any>e.target).result,
+            });
+        };
+        fileReader.readAsText(code);
     }
 }
