@@ -13,5 +13,6 @@
   "integration_app_integrationaction_list": "集成动作列表",
   "integration_upload_package": "上传程序包",
   "integration_delete_package": "删除程序包",
+  "integration_view_code": "查看代码",
   "integration_closing_delimiter": "----结束----"
 }

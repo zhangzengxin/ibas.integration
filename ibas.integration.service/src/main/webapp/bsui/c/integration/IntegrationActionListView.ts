@@ -20,9 +20,11 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
         return bo.IntegrationAction;
     }
     /** 上传包 */
-    uploadPackageEvent: Function;
+    uploadActionPackageEvent: Function;
     /** 删除数据事件，参数：删除对象集合 */
     deleteDataEvent: Function;
+    /** 查看代码 */
+    viewCodeEvent: Function;
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
@@ -83,6 +85,17 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
                             );
                         }
                     }),
+                    new sap.m.Button("", {
+                        text: ibas.i18n.prop("integration_view_code"),
+                        type: sap.m.ButtonType.Transparent,
+                        icon: "sap-icon://source-code",
+                        press: function (): void {
+                            that.fireViewEvents(that.viewCodeEvent,
+                                // 获取表格选中的对象
+                                openui5.utils.getTableSelecteds<bo.IntegrationAction>(that.table)
+                            );
+                        }
+                    }),
                     new sap.m.ToolbarSeparator(""),
                     new sap.ui.unified.FileUploader("", {
                         name: "file",
@@ -108,7 +121,7 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
                                 message: ibas.i18n.prop("integration_upload_package"),
                                 onCompleted(action: ibas.emMessageAction): void {
                                     if (action === ibas.emMessageAction.YES) {
-                                        that.fireViewEvents(that.uploadPackageEvent, fileData);
+                                        that.fireViewEvents(that.uploadActionPackageEvent, fileData);
                                     }
                                 }
                             });
@@ -131,5 +144,35 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
     /** 显示数据 */
     showData(datas: bo.IntegrationAction[]): void {
         this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+    }
+    /** 显示代码 */
+    showCode(code: Blob): void {
+        jQuery.sap.require("sap.ui.codeeditor.CodeEditor");
+        let codeEditor: sap.ui.codeeditor.CodeEditor = new sap.ui.codeeditor.CodeEditor;
+        let codeView: sap.m.Dialog = new sap.m.Dialog("", {
+            title: ibas.i18n.prop("integration_view_code"),
+            type: sap.m.DialogType.Standard,
+            state: sap.ui.core.ValueState.None,
+            stretchOnPhone: true,
+            horizontalScrolling: true,
+            verticalScrolling: true,
+            content: [codeEditor],
+            endButton: new sap.m.Button("", {
+                text: ibas.i18n.prop("shell_exit"),
+                type: sap.m.ButtonType.Transparent,
+                press: function (): void {
+                    codeView.close();
+                }
+            })
+        });
+        if (!ibas.objects.isNull(code)) {
+            let fileReader: FileReader = new FileReader();
+            fileReader.onload = function (e: ProgressEvent): void {
+                let dataUrl: string = (<any>e.target).result;
+                codeEditor.setValue(dataUrl);
+            };
+            fileReader.readAsDataURL(code);
+        }
+        codeView.open();
     }
 }

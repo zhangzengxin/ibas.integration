@@ -2,6 +2,7 @@ package org.colorcoding.ibas.integration.bo.integration;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.serialization.Serializable;
@@ -13,8 +14,8 @@ import org.colorcoding.ibas.integration.MyConfiguration;
  * @author Niuren.Zhu
  *
  */
+@XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = IntegrationActionConfig.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@XmlAccessorType(XmlAccessType.FIELD)
 public class IntegrationActionConfig extends Serializable {
 
 	private static final long serialVersionUID = -3637453402246087554L;
@@ -33,6 +34,7 @@ public class IntegrationActionConfig extends Serializable {
 
 	private String key;
 
+	@XmlElement(name = "key")
 	public String getKey() {
 		return key;
 	}
@@ -43,6 +45,7 @@ public class IntegrationActionConfig extends Serializable {
 
 	private Object value;
 
+	@XmlElement(name = "value")
 	public Object getValue() {
 		return value;
 	}

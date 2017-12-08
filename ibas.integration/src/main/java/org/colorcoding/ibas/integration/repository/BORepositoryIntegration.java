@@ -61,11 +61,11 @@ public class BORepositoryIntegration extends BORepositoryServiceApplication
 		}
 	}
 
-	public OperationMessage deleteIntegrationAction(String id) {
-		return this.deleteIntegrationAction(id, this.getUserToken());
+	public OperationMessage deleteActionPackage(String id) {
+		return this.deleteActionPackage(id, this.getUserToken());
 	}
 
-	public OperationMessage deleteIntegrationAction(String group, String token) {
+	public OperationMessage deleteActionPackage(String group, String token) {
 		try {
 			this.setUserToken(token);
 			return new FileRepositoryAction().deletePackage(group);

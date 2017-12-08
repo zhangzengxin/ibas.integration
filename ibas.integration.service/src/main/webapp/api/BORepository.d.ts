@@ -20,7 +20,6 @@ import * as bo from "./bo/index"
 
 /** 业务仓库 */
 export interface IBORepositoryIntegration extends IBORepositoryApplication {
-
     /**
      * 上传文件
      * @param caller 调用者
@@ -47,11 +46,4 @@ export interface IBORepositoryIntegration extends IBORepositoryApplication {
      */
     fetchIntegrationAction(fetcher: FetchCaller<bo.IIntegrationAction>);
 
-}
-/** 动作删除者 */
-export interface ActionDeleter extends MethodCaller {
-    /** 被删除 */
-    beDeleted: string;
-    /** 完成事件 */
-    onCompleted(opRslt: IOperationMessage);
 }

@@ -31,7 +31,8 @@ export class IntegrationActionListApp extends ibas.Application<IIntegrationActio
         // 其他事件
         this.view.fetchDataEvent = this.fetchData;
         this.view.deleteDataEvent = this.deleteData;
-        this.view.uploadPackageEvent = this.uploadPackage;
+        this.view.uploadActionPackageEvent = this.uploadActionPackage;
+        this.view.viewCodeEvent = this.viewCode;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -59,11 +60,11 @@ export class IntegrationActionListApp extends ibas.Application<IIntegrationActio
         this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
     }
     /** 上传程序包 */
-    protected uploadPackage(formData: FormData): void {
+    protected uploadActionPackage(formData: FormData): void {
         this.busy(true);
         let that: this = this;
         let boRepository: BORepositoryIntegration = new BORepositoryIntegration();
-        boRepository.uploadPackage({
+        boRepository.uploadActionPackage({
             fileData: formData,
             onCompleted(opRslt: ibas.IOperationResult<bo.IntegrationAction>): void {
                 try {
@@ -79,8 +80,40 @@ export class IntegrationActionListApp extends ibas.Application<IIntegrationActio
         });
         this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_uploading_file"));
     }
+    protected viewCode(data: bo.IntegrationAction | bo.IntegrationAction[]): void {
+        if (ibas.objects.isNull(data)) {
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                ibas.i18n.prop("shell_data_delete")
+            ));
+            return;
+        }
+        let action: bo.IntegrationAction = undefined;
+        if (data instanceof Array) {
+            action = data[0];
+        } else {
+            action = data;
+        }
+        this.busy(true);
+        let that: this = this;
+        let boRepository: BORepositoryIntegration = new BORepositoryIntegration();
+        boRepository.downloadCode({
+            action: action,
+            onCompleted(opRslt: ibas.IOperationResult<Blob>): void {
+                try {
+                    if (opRslt.resultCode !== 0) {
+                        throw new Error(opRslt.message);
+                    }
+                    that.view.showCode(opRslt.resultObjects.firstOrDefault());
+                    that.busy(false);
+                } catch (error) {
+                    that.messages(error);
+                }
+            }
+        });
+        this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_downloading_file"));
+    }
     /** 删除数据，参数：目标数据集合 */
-    protected deleteData(data: bo.IntegrationAction[] | bo.IntegrationAction): void {
+    protected deleteData(data: bo.IntegrationAction | bo.IntegrationAction[]): void {
         // 检查目标数据
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -117,9 +150,9 @@ export class IntegrationActionListApp extends ibas.Application<IIntegrationActio
                     try {
                         let boRepository: BORepositoryIntegration = new BORepositoryIntegration();
                         let saveMethod: Function = function (beDeleted: string): void {
-                            boRepository.deleteIntegrationAction({
+                            boRepository.deleteActionPackage({
                                 beDeleted: beDeleted,
-                                onCompleted(opRslt: ibas.OperationMessage): void {
+                                onCompleted(opRslt: ibas.IOperationResult<any>): void {
                                     try {
                                         if (opRslt.resultCode !== 0) {
                                             throw new Error(opRslt.message);
@@ -157,9 +190,13 @@ export class IntegrationActionListApp extends ibas.Application<IIntegrationActio
 /** 视图-集成任务 */
 export interface IIntegrationActionListView extends ibas.IBOQueryView {
     /** 上传包 */
-    uploadPackageEvent: Function;
+    uploadActionPackageEvent: Function;
     /** 删除数据事件，参数：删除对象集合 */
     deleteDataEvent: Function;
+    /** 查看代码 */
+    viewCodeEvent: Function;
     /** 显示数据 */
     showData(datas: bo.IntegrationAction[]): void;
+    /** 显示代码 */
+    showCode(code: Blob): void;
 }

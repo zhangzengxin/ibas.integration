@@ -214,6 +214,9 @@ class FileRepositoryAction extends FileRepository {
 			if (!pathFile.isFile() || !pathFile.exists()) {
 				Logger.log(MessageLevel.DEBUG, "action [%s] path file not exists.", action.getName());
 				action.setActivated(false);
+			} else {
+				// 设置绝对路径
+				action.setLocation(pathFile.getAbsolutePath());
 			}
 		}
 		// 删除无效的

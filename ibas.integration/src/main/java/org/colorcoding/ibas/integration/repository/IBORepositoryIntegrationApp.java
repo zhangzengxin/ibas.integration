@@ -40,7 +40,7 @@ public interface IBORepositoryIntegrationApp extends IBORepositoryApplication {
 	 *            包名称
 	 * @return
 	 */
-	OperationMessage deleteIntegrationAction(String group);
+	OperationMessage deleteActionPackage(String group);
 
 	// --------------------------------------------------------------------------------------------//
 	/**

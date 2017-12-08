@@ -46,7 +46,7 @@ public interface IBORepositoryIntegrationSvc extends IBORepositorySmartService {
 	 *            口令
 	 * @return
 	 */
-	OperationMessage deleteIntegrationAction(String group, String token);
+	OperationMessage deleteActionPackage(String group, String token);
 
 	// --------------------------------------------------------------------------------------------//
 	/**

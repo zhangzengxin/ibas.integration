@@ -2,6 +2,8 @@ package org.colorcoding.ibas.integration.bo.integration;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -15,9 +17,9 @@ import org.colorcoding.ibas.integration.MyConfiguration;
  * @author Niuren.Zhu
  *
  */
+@XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = IntegrationAction.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = IntegrationAction.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@XmlAccessorType(XmlAccessType.FIELD)
 public class IntegrationAction extends Serializable {
 
 	private static final long serialVersionUID = 1233762536408196271L;
@@ -25,6 +27,7 @@ public class IntegrationAction extends Serializable {
 	public static final String BUSINESS_OBJECT_NAME = "IntegrationAction";
 	private String id;
 
+	@XmlElement(name = "id")
 	public String getId() {
 		return id;
 	}
@@ -35,6 +38,7 @@ public class IntegrationAction extends Serializable {
 
 	private String group;
 
+	@XmlElement(name = "group")
 	public String getGroup() {
 		return group;
 	}
@@ -45,6 +49,7 @@ public class IntegrationAction extends Serializable {
 
 	private String name;
 
+	@XmlElement(name = "name")
 	public String getName() {
 		return name;
 	}
@@ -55,6 +60,7 @@ public class IntegrationAction extends Serializable {
 
 	private String path;
 
+	@XmlElement(name = "path")
 	public String getPath() {
 		return path;
 	}
@@ -65,6 +71,7 @@ public class IntegrationAction extends Serializable {
 
 	private boolean activated;
 
+	@XmlElement(name = "activated")
 	public boolean isActivated() {
 		return activated;
 	}
@@ -73,6 +80,18 @@ public class IntegrationAction extends Serializable {
 		this.activated = activated;
 	}
 
+	private String location;
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	@XmlElementWrapper(name = "configs")
+	@XmlElement(type = IntegrationActionConfig.class)
 	private ArrayList<IntegrationActionConfig> configs;
 
 	public ArrayList<IntegrationActionConfig> getConfigs() {

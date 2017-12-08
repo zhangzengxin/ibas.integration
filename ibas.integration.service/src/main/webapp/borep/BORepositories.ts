@@ -8,7 +8,7 @@
 
 import * as ibas from "ibas/index";
 import * as bo from "./bo/index";
-import { IBORepositoryIntegration, BO_REPOSITORY_INTEGRATION, ActionDeleter } from "../api/index";
+import { IBORepositoryIntegration, BO_REPOSITORY_INTEGRATION } from "../api/index";
 import { DataConverter4ig } from "./DataConverters";
 
 /** 业务对象仓库 */
@@ -68,25 +68,91 @@ export class BORepositoryIntegration extends ibas.BORepositoryApplication implem
      * 删除 集成动作
      * @param fetcher 查询者
      */
-    deleteIntegrationAction(deleter: ActionDeleter): void {
+    deleteActionPackage(deleter: IPackageDeleter): void {
         let boRepository: ibas.BORepositoryAjax = new ibas.BORepositoryAjax();
         boRepository.address = this.address;
         boRepository.token = this.token;
         boRepository.converter = this.createConverter();
-        let method: string = ibas.strings.format("deleteIntegrationAction?group={0}&token={1}", deleter.beDeleted, this.token);
+        let method: string = ibas.strings.format("deleteActionPackage?group={0}&token={1}", deleter.beDeleted, this.token);
         boRepository.callRemoteMethod(method, undefined, deleter);
     }
     /**
      * 上传程序包
      * @param caller 调用者
      */
-    uploadPackage(caller: ibas.UploadFileCaller<bo.IntegrationAction>): void {
+    uploadActionPackage(caller: ibas.UploadFileCaller<bo.IntegrationAction>): void {
         if (!this.address.endsWith("/")) { this.address += "/"; }
         let fileRepository: ibas.FileRepositoryUploadAjax = new ibas.FileRepositoryUploadAjax();
-        fileRepository.address = this.address.replace("/services/rest/data/", "/services/rest/file/");
+        fileRepository.address = this.address.replace("/services/rest/data/", "/services/rest/action/");
         fileRepository.token = this.token;
         fileRepository.converter = this.createConverter();
-        fileRepository.upload("uploadPackage", caller);
+        fileRepository.upload("uploadActionPackage", caller);
+    }
+    /**
+     * 获取动作地址
+     */
+    toUrl(action: bo.IntegrationAction): string {
+        if (!this.address.endsWith("/")) { this.address += "/"; }
+        let url: string = this.address.replace("/services/rest/data/", "/services/rest/action/");
+        url += ibas.strings.format("{0}?token={1}", action.id, this.token);
+        return encodeURI(url);
+    }
+    /**
+     * 下载代码文件
+     * @param caller 调用者
+     */
+    downloadCode(caller: ICodeDownloader<Blob>): void {
+        if (!this.address.endsWith("/")) { this.address += "/"; }
+        let fileRepository: CodeRepositoryDownloadAjax = new CodeRepositoryDownloadAjax();
+        fileRepository.address = this.toUrl(caller.action);
+        fileRepository.token = this.token;
+        fileRepository.converter = this.createConverter();
+        fileRepository.download("", caller);
+    }
+}
+/** 代码下载者 */
+export interface ICodeDownloader<T> extends ibas.MethodCaller {
+    /** 标识 */
+    action: bo.IntegrationAction;
+}
+/** 包删除者 */
+export interface IPackageDeleter extends ibas.MethodCaller {
+    /** 被删除 */
+    beDeleted: string;
+}
+/** 代码下载仓库 */
+export class CodeRepositoryDownloadAjax extends ibas.RemoteRepositoryXhr {
+    constructor() {
+        super();
+        this.autoParsing = false;
+    }
+    /**
+     * 下载文件
+     * @param method 方法地址
+     * @param caller 调用者
+     */
+    download<T>(method: string, caller: ibas.MethodCaller): void {
+        let methodCaller: ibas.MethodCaller = {
+            onCompleted(data: any): void {
+                let opRslt: ibas.IOperationResult<any> = null;
+                if (data instanceof ibas.OperationResult) {
+                    opRslt = data;
+                } else {
+                    opRslt = new ibas.OperationResult();
+                    opRslt.resultObjects.add(data);
+                }
+                caller.onCompleted.call(ibas.objects.isNull(caller.caller) ? caller : caller.caller, opRslt);
+            }
+        };
+        this.callRemoteMethod(method, undefined, methodCaller);
+    }
+    protected createHttpRequest(method: string, data: any): XMLHttpRequest {
+        let methodUrl: string = this.methodUrl(method);
+        let xhr: XMLHttpRequest = new XMLHttpRequest();
+        xhr.open("GET", methodUrl, true);
+        xhr.responseType = "blob";
+        xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+        return xhr;
     }
 }
 // 注册业务对象仓库到工厂

@@ -50,10 +50,10 @@ public class DataService extends BORepositoryIntegration {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("deleteIntegrationAction")
-	public OperationMessage deleteIntegrationAction(@QueryParam("group") String group,
+	@Path("deleteActionPackage")
+	public OperationMessage deleteActionPackage(@QueryParam("group") String group,
 			@QueryParam("token") String token) {
-		return super.deleteIntegrationAction(group, token);
+		return super.deleteActionPackage(group, token);
 	}
 
 	// --------------------------------------------------------------------------------------------//
