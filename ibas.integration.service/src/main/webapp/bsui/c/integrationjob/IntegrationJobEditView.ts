@@ -136,6 +136,7 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
                 ]
             }),
             columns: [
+                /*
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_integrationjobaction_relationship"),
                     template: new sap.m.Select("", {
@@ -146,6 +147,7 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
                         type: "sap.ui.model.type.Integer"
                     })
                 }),
+                */
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_integrationjobaction_actionid"),
                     template: new sap.m.Input("", {

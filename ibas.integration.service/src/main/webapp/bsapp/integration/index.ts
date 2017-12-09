@@ -9,4 +9,5 @@
 // 模块索引文件，此文件集中导出类
 export * from "./IntegrationActionChooseApp";
 export * from "./IntegrationActionListApp";
+export * from "./IntegrationActionRunnerApp";
 export * from "./IntegrationFunc";

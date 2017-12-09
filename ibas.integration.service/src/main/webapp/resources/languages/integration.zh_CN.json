@@ -11,6 +11,7 @@
   "integration_func_integrationaction": "集成动作",
   "integration_app_integrationaction_choose": "集成动作选择",
   "integration_app_integrationaction_list": "集成动作列表",
+  "integration_app_integrationaction_runner": "集成动作运行",
   "integration_upload_package": "上传程序包",
   "integration_delete_package": "删除程序包",
   "integration_view_code": "查看代码",
@@ -22,5 +23,6 @@
   "integrationdevelopment_actions_url": "地址",
   "integrationdevelopment_please_actions_url": "请输入集成动作地址",
   "integrationdevelopment_run_action_faild": "运行动作[{0}]失败",
+  "integrationdevelopment_run_action_immediately": "直接运行",
   "integrationdevelopment_closing_delimiter": "----结束----"
 }

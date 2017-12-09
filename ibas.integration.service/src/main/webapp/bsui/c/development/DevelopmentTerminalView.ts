@@ -72,6 +72,10 @@ export class DevelopmentTerminalView extends ibas.View implements IDevelopmentTe
                 })
             ]
         });
+        this.checkbox = new sap.m.CheckBox("", {
+            text: ibas.i18n.prop("integrationdevelopment_run_action_immediately"),
+            selected: true,
+        });
         this.tableConfig = new sap.ui.table.Table("", {
             title: ibas.i18n.prop("bo_integrationaction"),
             selectionMode: sap.ui.table.SelectionMode.None,
@@ -80,20 +84,23 @@ export class DevelopmentTerminalView extends ibas.View implements IDevelopmentTe
             rows: "{/rows}",
             toolbar: new sap.m.Bar("", {
                 design: sap.m.BarDesign.SubHeader,
+                contentLeft: [
+                ],
                 contentRight: [
+                    this.checkbox,
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_run"),
                         type: sap.m.ButtonType.Transparent,
-                        icon: "sap-icon://media-play",
+                        icon: "sap-icon://begin",
                         press: function (): void {
-                            that.fireViewEvents(that.runActionEvent);
+                            that.fireViewEvents(that.runActionEvent, that.checkbox.getSelected());
                         }
                     }),
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_back"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://nav-back",
-                        press: function (): void {                          
+                        press: function (): void {
                             that.splitContainer.backToTopDetail(null, null);
                         }
                     }),
@@ -154,6 +161,7 @@ export class DevelopmentTerminalView extends ibas.View implements IDevelopmentTe
     private table: sap.ui.table.Table;
     private tableConfig: sap.ui.table.Table;
     private combobox: sap.m.ComboBox;
+    private checkbox: sap.m.CheckBox;
     private splitContainer: sap.m.SplitContainer;
     /** 显示动作 */
     showActions(datas: bo.IntegrationAction[]): void {

@@ -9,6 +9,7 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryIntegrationDevelopment } from "../../borep/BORepositories";
+import { IntegrationActionRunnerApp } from "../integration/index";
 
 /** 开发终端 */
 export class DevelopmentTerminalApp extends ibas.Application<IDevelopmentTerminalView> {
@@ -83,68 +84,18 @@ export class DevelopmentTerminalApp extends ibas.Application<IDevelopmentTermina
         this.view.showAction(this.usingAction);
         this.view.showActionConfigs(this.usingAction.configs);
     }
-    protected runAction(): void {
+    protected runAction(autoRun: boolean): void {
         if (ibas.objects.isNull(this.usingAction)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
                 ibas.i18n.prop("bo_integrationaction")
             ));
             return;
         }
-        let baseUrl = this.usingAction.group;
-        if (ibas.strings.isEmpty(baseUrl)) {
-            baseUrl = ibas.urls.normalize(ibas.urls.ROOT_URL_SIGN);
-        }
-        if (!baseUrl.toLowerCase().startsWith("http")) {
-            baseUrl = ibas.urls.normalize(ibas.urls.ROOT_URL_SIGN) + baseUrl;
-        }
-        let actionRequire: Function = ibas.requires.create({
-            baseUrl: baseUrl,
-            context: this.usingAction.name.trim(),
-            waitSeconds: ibas.config.get(ibas.requires.CONFIG_ITEM_WAIT_SECONDS, 30)
-        }, []);
-        let path = this.usingAction.path;
-        if (ibas.strings.isEmpty(path)) {
-            path = this.usingAction.name.trim()
-        }
-        if (path.indexOf(".") > 0) {
-            path = path.substring(0, path.lastIndexOf("."));
-        }
-        let that: this = this;
-        actionRequire(
-            [path],
-            function (library: any): void {
-                //库加载成功
-                try {
-                    if (ibas.objects.isNull(library)) {
-                        throw new Error("invalid action library.");
-                    }
-                    if (ibas.objects.isNull(library.default) && !ibas.objects.isAssignableFrom(library.default, ibas.Action)) {
-                        throw new Error("invalid action class.");
-                    }
-                    let action: ibas.Action = new library.default();
-                    if (!(ibas.objects.instanceOf(action, ibas.Action))) {
-                        throw new Error("invalid action instance.");
-                    }
-                    // 输入设置
-                    for (let item of that.usingAction.configs) {
-                        if (ibas.objects.isNull(item.value) || ibas.objects.isNull(item.key)) {
-                            continue;
-                        }
-                        action.addConfig(item.key, ibas.config.applyVariables(item.value));
-                    }
-                    // 运行
-                    action.do();
-                } catch (error) {
-                    that.messages(error);
-                }
-            },
-            function () {
-                // 库加载失败
-                that.messages(
-                    ibas.emMessageType.ERROR,
-                    ibas.i18n.prop("integrationdevelopment_run_action_faild", that.usingAction.name));
-            }
-        );
+        let actionRunner: IntegrationActionRunnerApp = new IntegrationActionRunnerApp();
+        actionRunner.navigation = this.navigation;
+        actionRunner.viewShower = this.viewShower;
+        actionRunner.autoRun = autoRun === true ? true : false;
+        actionRunner.run(this.usingAction);
     }
 }
 /** 视图-开发终端 */

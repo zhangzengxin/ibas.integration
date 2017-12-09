@@ -44,6 +44,9 @@ export default class Navigation extends ibas.ViewNavigation {
             case integrationactionApps.IntegrationActionListApp.APPLICATION_ID:
                 view = new integrationactionViews.IntegrationActionListView();
                 break;
+            case integrationactionApps.IntegrationActionRunnerApp.APPLICATION_ID:
+                view = new integrationactionViews.IntegrationActionRunnerView();
+                break;
             case developmentApps.DevelopmentTerminalApp.APPLICATION_ID:
                 view = new developmentViews.DevelopmentTerminalView();
                 break;
