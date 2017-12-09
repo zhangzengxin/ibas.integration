@@ -157,3 +157,38 @@ export class CodeRepositoryDownloadAjax extends ibas.RemoteRepositoryXhr {
 }
 // 注册业务对象仓库到工厂
 ibas.boFactory.register(BO_REPOSITORY_INTEGRATION, BORepositoryIntegration);
+
+/** 业务对象仓库-集成开发 */
+export class BORepositoryIntegrationDevelopment extends ibas.BORepositoryApplication {
+
+    constructor() {
+        super();
+        // 重置状态
+        this.offline = true;
+        this.address = "";
+        this.token = "";
+    }
+    /** 创建此模块的后端与前端数据的转换者 */
+    protected createConverter(): ibas.IDataConverter {
+        return new DataConverter4ig;
+    }
+    /**
+     * 读取 集成动作
+     * @param fetcher 读取者
+     */
+    loadActions(loader: IActionsLoader): void {
+        let boRepository: ibas.BOFileRepositoryAjax = new ibas.BOFileRepositoryAjax();
+        boRepository.address = this.address;
+        boRepository.token = this.token;
+        boRepository.autoParsing = true;
+        boRepository.converter = this.createConverter();
+        boRepository.load(loader.url, loader);
+    }
+}
+/** 动作读取者 */
+export interface IActionsLoader extends ibas.MethodCaller {
+    /** 地址 */
+    url: string;
+    /** 完成 */
+    onCompleted(opRslt: ibas.IOperationResult<bo.IntegrationAction>);
+}

@@ -11,6 +11,8 @@ import * as integrationjobApps from "../../bsapp/integrationjob/index";
 import * as integrationjobViews from "./integrationjob/index";
 import * as integrationactionApps from "../../bsapp/integration/index";
 import * as integrationactionViews from "./integration/index";
+import * as developmentApps from "../../bsapp/development/index";
+import * as developmentViews from "./development/index";
 
 /**
  * 视图导航
@@ -41,6 +43,9 @@ export default class Navigation extends ibas.ViewNavigation {
                 break;
             case integrationactionApps.IntegrationActionListApp.APPLICATION_ID:
                 view = new integrationactionViews.IntegrationActionListView();
+                break;
+            case developmentApps.DevelopmentTerminalApp.APPLICATION_ID:
+                view = new developmentViews.DevelopmentTerminalView();
                 break;
             default:
                 break;
