@@ -82,11 +82,9 @@ export class DevelopmentTerminalView extends ibas.View implements IDevelopmentTe
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rows: "{/rows}",
-            toolbar: new sap.m.Bar("", {
-                design: sap.m.BarDesign.SubHeader,
-                contentLeft: [
-                ],
-                contentRight: [
+            toolbar: new sap.m.Toolbar("", {
+                content: [
+                    new sap.m.ToolbarSpacer(""),
                     this.checkbox,
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_run"),

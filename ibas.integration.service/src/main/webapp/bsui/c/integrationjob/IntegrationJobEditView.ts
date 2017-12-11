@@ -177,14 +177,6 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
             extension: new sap.m.Toolbar("", {
                 content: [
                     new sap.m.Button("", {
-                        text: ibas.i18n.prop("shell_back"),
-                        type: sap.m.ButtonType.Transparent,
-                        icon: "sap-icon://nav-back",
-                        press: function (): void {
-                            that.fireViewEvents(that.editJobActionEvent);
-                        }
-                    }),
-                    new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_add"),
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://add",
@@ -201,6 +193,15 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
                                 // 获取表格选中的对象
                                 openui5.utils.getTableSelecteds<bo.IntegrationJobActionCfg>(that.tableIntegrationJobActionCfg)
                             );
+                        }
+                    }),
+                    new sap.m.ToolbarSpacer(""),
+                    new sap.m.Button("", {
+                        text: ibas.i18n.prop("shell_back"),
+                        type: sap.m.ButtonType.Transparent,
+                        icon: "sap-icon://nav-back",
+                        press: function (): void {
+                            that.fireViewEvents(that.editJobActionEvent);
                         }
                     })
                 ]
