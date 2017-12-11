@@ -16,7 +16,7 @@ export class IntegrationActionChooseApp extends ibas.BOChooseService<IIntegratio
     /** 应用标识 */
     static APPLICATION_ID: string = "f24546bd-fc0f-4b01-8711-783ddc33fdcd";
     /** 应用名称 */
-    static APPLICATION_NAME: string = "integration_app_integrationaction_choose";
+    static APPLICATION_NAME: string = "integration_app_action_choose";
     /** 业务对象编码 */
     static BUSINESS_OBJECT_CODE: string = bo.Action.name;
     /** 构造函数 */

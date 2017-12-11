@@ -23,6 +23,8 @@ export class IntegrationJobListView extends ibas.BOListView implements IIntegrat
     editDataEvent: Function;
     /** 删除数据事件，参数：删除对象集合 */
     deleteDataEvent: Function;
+    /** 运行 */
+    runDataEvent: Function;
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
@@ -135,6 +137,18 @@ export class IntegrationJobListView extends ibas.BOListView implements IIntegrat
                             );
                         }
                     }),
+                    new sap.m.ToolbarSeparator(""),
+                    new sap.m.Button("", {
+                        text: ibas.i18n.prop("shell_run"),
+                        type: sap.m.ButtonType.Transparent,
+                        icon: "sap-icon://begin",
+                        press: function (): void {
+                            that.fireViewEvents(that.runDataEvent,
+                                // 获取表格选中的对象
+                                openui5.utils.getTableSelecteds<bo.IntegrationJob>(that.table).firstOrDefault()
+                            );
+                        }
+                    }),
                     new sap.m.ToolbarSpacer(""),
                     new sap.m.Button("", {
                         type: sap.m.ButtonType.Transparent,
@@ -213,7 +227,7 @@ export class IntegrationJobListView extends ibas.BOListView implements IIntegrat
         }
         if (!done) {
             // 没有显示数据
-            this.table.setModel(new sap.ui.model.json.JSONModel({rows: datas}));
+            this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         }
         this.table.setBusy(false);
     }

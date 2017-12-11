@@ -40,8 +40,8 @@
     <Property Name="CreateActionId" Description="创建动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="CreateActId"/>
     <Property Name="UpdateActionId" Description="更新动作标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="UpdateActId"/>
     <Property Name="Relationship" Description="与上一个动作的关系" DataType="Alphanumeric" DataSubType="Default" EditSize="3" DeclaredType="emActionRelationship" Mapped="Relationship"/>
-    <Property Name="ActionId" Description="任务项标识" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="ActionId"/>
-    <Property Name="ActionName" Description="任务项名称" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="ActionName"/>
+    <Property Name="ActionId" Description="任务项标识" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="ActionId"/>
+    <Property Name="ActionName" Description="任务项名称" DataType="Alphanumeric" DataSubType="Default" EditSize="60" Mapped="ActionName"/>
   </Model>
   <Model Name="IntegrationJobActionCfg" Description="集成任务-动作-配置" ModelType="SimpleLine" Mapped="${Company}_IG_JOB2">
     <Property Name="ObjectKey" Description="对象编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="ObjectKey" PrimaryKey="Yes"/>

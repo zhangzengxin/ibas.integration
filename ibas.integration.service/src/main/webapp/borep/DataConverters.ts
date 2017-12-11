@@ -74,3 +74,23 @@ class BOConverter4ig extends ibas.BOConverter {
         return super.parsingData(boName, property, value);
     }
 }
+export function toAction(data: bo.IntegrationJob): ibas.List<bo.Action> {
+    if (ibas.objects.isNull(data)) {
+        return null;
+    }
+    let actions: ibas.ArrayList<bo.Action> = new ibas.ArrayList();
+    for (let item of data.integrationJobActions) {
+        let action: bo.Action = new bo.Action();
+        action.id = item.actionId;
+        action.name = item.actionName;
+        action.path = item.actionId;
+        for (let cItem of item.integrationJobActionCfgs) {
+            let config: bo.ActionConfig = new bo.ActionConfig();
+            config.key = cItem.key;
+            config.value = cItem.value;
+            action.configs.add(config);
+        }
+        actions.add(action);
+    }
+    return actions;
+}

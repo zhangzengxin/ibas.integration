@@ -14,7 +14,7 @@ export class IntegrationActionFunc extends ibas.ModuleFunction {
     /** 功能标识 */
     static FUNCTION_ID = "98c8cb6a-bceb-44bd-ab8c-9002216dac3b";
     /** 功能名称 */
-    static FUNCTION_NAME = "integration_func_integrationaction";
+    static FUNCTION_NAME = "integration_func_action";
     /** 构造函数 */
     constructor() {
         super();
