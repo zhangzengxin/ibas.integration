@@ -1,0 +1,12 @@
+{
+  "bo_action": "集成动作",
+  "bo_action_id": "标识",
+  "bo_action_group": "包",
+  "bo_action_name": "名称",
+  "bo_action_path": "路径",
+  "bo_action_activated": "激活",
+  "bo_action_configs": "配置集合",
+  "bo_actionconfig_key": "配置项",
+  "bo_actionconfig_value": "配置值",
+  "bo_action_closing_delimiter": "----结束----"
+}

@@ -18,13 +18,13 @@ import org.colorcoding.ibas.integration.MyConfiguration;
  *
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = IntegrationAction.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@XmlRootElement(name = IntegrationAction.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class IntegrationAction extends Serializable {
+@XmlType(name = Action.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+@XmlRootElement(name = Action.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+public class Action extends Serializable {
 
 	private static final long serialVersionUID = 1233762536408196271L;
 
-	public static final String BUSINESS_OBJECT_NAME = "IntegrationAction";
+	public static final String BUSINESS_OBJECT_NAME = "Action";
 	private String id;
 
 	@XmlElement(name = "id")
@@ -91,10 +91,10 @@ public class IntegrationAction extends Serializable {
 	}
 
 	@XmlElementWrapper(name = "configs")
-	@XmlElement(type = IntegrationActionConfig.class)
-	private ArrayList<IntegrationActionConfig> configs;
+	@XmlElement(type = ActionConfig.class)
+	private ArrayList<ActionConfig> configs;
 
-	public ArrayList<IntegrationActionConfig> getConfigs() {
+	public ArrayList<ActionConfig> getConfigs() {
 		if (this.configs == null) {
 			this.configs = new ArrayList<>();
 		}

@@ -51,7 +51,7 @@ export class DevelopmentTerminalApp extends ibas.Application<IDevelopmentTermina
         let boRepository: BORepositoryIntegrationDevelopment = new BORepositoryIntegrationDevelopment();
         boRepository.loadActions({
             url: url,
-            onCompleted(opRslt: ibas.IOperationResult<bo.IntegrationAction>) {
+            onCompleted(opRslt: ibas.IOperationResult<bo.Action>): void {
                 try {
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
@@ -72,11 +72,11 @@ export class DevelopmentTerminalApp extends ibas.Application<IDevelopmentTermina
             }
         });
     }
-    private usingAction: bo.IntegrationAction;
-    protected useAction(data: bo.IntegrationAction): void {
+    private usingAction: bo.Action;
+    protected useAction(data: bo.Action): void {
         if (ibas.objects.isNull(data) && ibas.objects.isNull(this.usingAction)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
-                ibas.i18n.prop("bo_integrationaction")
+                ibas.i18n.prop("bo_Action")
             ));
             return;
         }
@@ -87,7 +87,7 @@ export class DevelopmentTerminalApp extends ibas.Application<IDevelopmentTermina
     protected runAction(autoRun: boolean): void {
         if (ibas.objects.isNull(this.usingAction)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
-                ibas.i18n.prop("bo_integrationaction")
+                ibas.i18n.prop("bo_Action")
             ));
             return;
         }
@@ -103,13 +103,13 @@ export interface IDevelopmentTerminalView extends ibas.IView {
     /** 加载动作，参数1：地址 */
     loadActionsEvent: Function;
     /** 显示动作 */
-    showActions(datas: bo.IntegrationAction[]): void;
+    showActions(datas: bo.Action[]): void;
     /** 使用动作 */
     useActionEvent: Function;
     /** 显示动作 */
-    showAction(data: bo.IntegrationAction): void;
+    showAction(data: bo.Action): void;
     /** 显示动作配置 */
-    showActionConfigs(datas: bo.IntegrationActionConfig[]): void;
+    showActionConfigs(datas: bo.ActionConfig[]): void;
     /** 运行动作 */
     runActionEvent: Function;
 }

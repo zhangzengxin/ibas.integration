@@ -61,40 +61,46 @@ export class BORepositoryIntegration extends ibas.BORepositoryApplication implem
      * 查询 集成动作
      * @param fetcher 查询者
      */
-    fetchIntegrationAction(fetcher: ibas.FetchCaller<bo.IntegrationAction>): void {
-        super.fetch(bo.IntegrationAction.name, fetcher);
+    fetchAction(fetcher: ibas.FetchCaller<bo.Action>): void {
+        if (!this.address.endsWith("/")) { this.address += "/"; }
+        let boRepository: ibas.BORepositoryAjax = new ibas.BORepositoryAjax();
+        boRepository.address = this.address.replace("/services/rest/data/", "/services/rest/action/");
+        boRepository.token = this.token;
+        boRepository.converter = this.createConverter();
+        boRepository.fetch(bo.Action.name, fetcher);
     }
     /**
      * 删除 集成动作
      * @param fetcher 查询者
      */
     deleteActionPackage(deleter: IPackageDeleter): void {
+        if (!this.address.endsWith("/")) { this.address += "/"; }
         let boRepository: ibas.BORepositoryAjax = new ibas.BORepositoryAjax();
-        boRepository.address = this.address;
+        boRepository.address = this.address.replace("/services/rest/data/", "/services/rest/action/");
         boRepository.token = this.token;
         boRepository.converter = this.createConverter();
-        let method: string = ibas.strings.format("deleteActionPackage?group={0}&token={1}", deleter.beDeleted, this.token);
+        let method: string = ibas.strings.format("deletePackage?group={0}&token={1}", deleter.beDeleted, this.token);
         boRepository.callRemoteMethod(method, undefined, deleter);
     }
     /**
      * 上传程序包
      * @param caller 调用者
      */
-    uploadActionPackage(caller: ibas.UploadFileCaller<bo.IntegrationAction>): void {
+    uploadActionPackage(caller: ibas.UploadFileCaller<bo.Action>): void {
         if (!this.address.endsWith("/")) { this.address += "/"; }
         let fileRepository: ibas.FileRepositoryUploadAjax = new ibas.FileRepositoryUploadAjax();
         fileRepository.address = this.address.replace("/services/rest/data/", "/services/rest/action/");
         fileRepository.token = this.token;
         fileRepository.converter = this.createConverter();
-        fileRepository.upload("uploadActionPackage", caller);
+        fileRepository.upload("uploadPackage", caller);
     }
     /**
      * 获取动作地址
      */
-    toUrl(action: bo.IntegrationAction): string {
+    toUrl(action: bo.Action): string {
         if (!this.address.endsWith("/")) { this.address += "/"; }
         let url: string = this.address.replace("/services/rest/data/", "/services/rest/action/");
-        url += ibas.strings.format("{0}?token={1}", action.id, this.token);
+        url += ibas.strings.format("{0}?token={1}", action.fullPath(), this.token);
         return encodeURI(url);
     }
     /**
@@ -111,12 +117,12 @@ export class BORepositoryIntegration extends ibas.BORepositoryApplication implem
     }
 }
 /** 代码下载者 */
-export interface ICodeDownloader<T> extends ibas.MethodCaller {
+export interface ICodeDownloader<T> extends ibas.MethodCaller<T> {
     /** 标识 */
-    action: bo.IntegrationAction;
+    action: bo.Action;
 }
 /** 包删除者 */
-export interface IPackageDeleter extends ibas.MethodCaller {
+export interface IPackageDeleter extends ibas.MethodCaller<any> {
     /** 被删除 */
     beDeleted: string;
 }
@@ -131,8 +137,8 @@ export class CodeRepositoryDownloadAjax extends ibas.RemoteRepositoryXhr {
      * @param method 方法地址
      * @param caller 调用者
      */
-    download<T>(method: string, caller: ibas.MethodCaller): void {
-        let methodCaller: ibas.MethodCaller = {
+    download<T>(method: string, caller: ibas.MethodCaller<any>): void {
+        let methodCaller: ibas.MethodCaller<any> = {
             onCompleted(data: any): void {
                 let opRslt: ibas.IOperationResult<any> = null;
                 if (data instanceof ibas.OperationResult) {
@@ -186,9 +192,7 @@ export class BORepositoryIntegrationDevelopment extends ibas.BORepositoryApplica
     }
 }
 /** 动作读取者 */
-export interface IActionsLoader extends ibas.MethodCaller {
+export interface IActionsLoader extends ibas.MethodCaller<bo.Action> {
     /** 地址 */
     url: string;
-    /** 完成 */
-    onCompleted(opRslt: ibas.IOperationResult<bo.IntegrationAction>);
 }

@@ -8,9 +8,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.colorcoding.ibas.bobas.common.Criteria;
-import org.colorcoding.ibas.bobas.common.OperationMessage;
 import org.colorcoding.ibas.bobas.common.OperationResult;
-import org.colorcoding.ibas.integration.bo.integration.IntegrationAction;
 import org.colorcoding.ibas.integration.bo.integrationjob.IntegrationJob;
 import org.colorcoding.ibas.integration.repository.BORepositoryIntegration;
 
@@ -19,42 +17,6 @@ import org.colorcoding.ibas.integration.repository.BORepositoryIntegration;
  */
 @Path("data")
 public class DataService extends BORepositoryIntegration {
-	// --------------------------------------------------------------------------------------------//
-	/**
-	 * 查询-集成动作
-	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
-	 * @return 操作结果
-	 */
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("fetchIntegrationAction")
-	public OperationResult<IntegrationAction> fetchIntegrationAction(Criteria criteria,
-			@QueryParam("token") String token) {
-		return super.fetchIntegrationAction(criteria, token);
-	}
-
-	/**
-	 * 删除集成动作
-	 * 
-	 * @param id
-	 *            动作标记
-	 * @param token
-	 *            口令
-	 * @return 操作结果
-	 */
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("deleteActionPackage")
-	public OperationMessage deleteActionPackage(@QueryParam("group") String group,
-			@QueryParam("token") String token) {
-		return super.deleteActionPackage(group, token);
-	}
 
 	// --------------------------------------------------------------------------------------------//
 	/**

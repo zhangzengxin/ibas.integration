@@ -268,11 +268,11 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
     /** 选择任务动作 */
     chooseJobAction(caller: bo.IntegrationJobAction): void {
         let that: this = this;
-        ibas.servicesManager.runChooseService<bo.IntegrationAction>({
+        ibas.servicesManager.runChooseService<bo.Action>({
             caller: caller,
-            boCode: bo.IntegrationAction.name,
+            boCode: bo.Action.name,
             criteria: [],
-            onCompleted(selecteds: ibas.List<bo.IntegrationAction>): void {
+            onCompleted(selecteds: ibas.List<bo.Action>): void {
                 // 获取触发的对象
                 let index: number = that.editData.integrationJobActions.indexOf(caller);
                 let item: bo.IntegrationJobAction = that.editData.integrationJobActions[index];
@@ -290,7 +290,7 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
                         if (item.integrationJobActionCfgs.firstOrDefault((c) => { return c.key === cItem.key; }) !== null) {
                             continue;
                         }
-                        let jobConfig: bo.IntegrationActionConfig = item.integrationJobActionCfgs.create();
+                        let jobConfig: bo.ActionConfig = item.integrationJobActionCfgs.create();
                         jobConfig.key = cItem.key;
                         jobConfig.value = cItem.value;
                     }

@@ -7,8 +7,8 @@ import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.integration.MyConfiguration;
-import org.colorcoding.ibas.integration.repository.BORepositoryIntegration;
-import org.colorcoding.ibas.integration.repository.IBORepositoryIntegrationApp;
+import org.colorcoding.ibas.integration.repository.FileRepositoryAction;
+import org.colorcoding.ibas.integration.repository.IFileRepositoryActionApp;
 
 import junit.framework.TestCase;
 
@@ -33,14 +33,12 @@ public class testIntegrationAction extends TestCase {
 		// 测试对象的保存和查询
 		IOperationResult<?> operationResult = null;
 		ICriteria criteria = null;
-		IBORepositoryIntegrationApp boRepository = new BORepositoryIntegration();
-		// 设置用户口令
-		boRepository.setUserToken(this.getToken());
+		IFileRepositoryActionApp boRepository = new FileRepositoryAction();
 		File resFolder = new File(MyConfiguration.getWorkFolder());
 		resFolder = resFolder.getParentFile().getParentFile().getParentFile();
 		File packageFile = new File(
 				resFolder.getPath() + File.separator + "release" + File.separator + "ibas.integration.test-0.1.0.war");
-		operationResult = boRepository.registerIntegrationAction(packageFile);
+		operationResult = boRepository.registerAction(packageFile);
 		if (operationResult.getError() != null) {
 			throw operationResult.getError();
 		}
@@ -49,7 +47,7 @@ public class testIntegrationAction extends TestCase {
 		}
 		System.out.println("-----test-fetch-----");
 		criteria = new Criteria();
-		operationResult = boRepository.fetchIntegrationAction(criteria);
+		operationResult = boRepository.fetchAction(criteria);
 		if (operationResult.getError() != null) {
 			throw operationResult.getError();
 		}

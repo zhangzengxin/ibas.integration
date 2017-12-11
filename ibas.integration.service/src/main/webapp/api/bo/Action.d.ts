@@ -14,7 +14,7 @@ import {
 
 
 /** 集成-动作 */
-export interface IIntegrationAction {
+export interface IAction {
     /** 标识 */
     id: string;
     /** 包组 */
@@ -26,11 +26,11 @@ export interface IIntegrationAction {
     /** 激活的 */
     activated: boolean;
     /** 配置 */
-    configs: List<IIntegrationActionConfig>;
+    configs: List<IActionConfig>;
 }
 
 /** 集成-动作 */
-export interface IIntegrationActionConfig {
+export interface IActionConfig {
     /** 键 */
     key: string;
     /** 值 */

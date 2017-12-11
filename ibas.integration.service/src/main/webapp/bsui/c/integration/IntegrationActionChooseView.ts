@@ -17,7 +17,7 @@ import { IIntegrationActionChooseView } from "../../../bsapp/integration/index";
 export class IntegrationActionChooseView extends ibas.BOChooseView implements IIntegrationActionChooseView {
     /** 返回查询的对象 */
     get queryTarget(): any {
-        return bo.IntegrationAction;
+        return bo.Action;
     }
     /** 绘制工具条 */
     darwBars(): any {
@@ -30,7 +30,7 @@ export class IntegrationActionChooseView extends ibas.BOChooseView implements II
                 press: function (): void {
                     that.fireViewEvents(that.chooseDataEvent,
                         // 获取表格选中的对象
-                        openui5.utils.getTableSelecteds<bo.IntegrationAction>(that.table)
+                        openui5.utils.getTableSelecteds<bo.Action>(that.table)
                     );
                 }
             }),
@@ -53,7 +53,7 @@ export class IntegrationActionChooseView extends ibas.BOChooseView implements II
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_integrationaction_id"),
+                    label: ibas.i18n.prop("bo_action_id"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -61,7 +61,7 @@ export class IntegrationActionChooseView extends ibas.BOChooseView implements II
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_integrationaction_name"),
+                    label: ibas.i18n.prop("bo_action_name"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -99,7 +99,7 @@ export class IntegrationActionChooseView extends ibas.BOChooseView implements II
     }
     private table: sap.ui.table.Table;
     /** 显示数据 */
-    showData(datas: bo.IntegrationAction[]): void {
+    showData(datas: bo.Action[]): void {
         let done: boolean = false;
         let model: sap.ui.model.Model = this.table.getModel(undefined);
         if (!ibas.objects.isNull(model)) {

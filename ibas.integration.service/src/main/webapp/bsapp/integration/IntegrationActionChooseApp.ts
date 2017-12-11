@@ -11,14 +11,14 @@ import * as bo from "../../borep/bo/index";
 import { BORepositoryIntegration } from "../../borep/BORepositories";
 
 /** 选择应用-集成任务 */
-export class IntegrationActionChooseApp extends ibas.BOChooseService<IIntegrationActionChooseView, bo.IntegrationAction> {
+export class IntegrationActionChooseApp extends ibas.BOChooseService<IIntegrationActionChooseView, bo.Action> {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "f24546bd-fc0f-4b01-8711-783ddc33fdcd";
     /** 应用名称 */
     static APPLICATION_NAME: string = "integration_app_integrationaction_choose";
     /** 业务对象编码 */
-    static BUSINESS_OBJECT_CODE: string = bo.IntegrationAction.name;
+    static BUSINESS_OBJECT_CODE: string = bo.Action.name;
     /** 构造函数 */
     constructor() {
         super();
@@ -41,9 +41,9 @@ export class IntegrationActionChooseApp extends ibas.BOChooseService<IIntegratio
         this.busy(true);
         let that: this = this;
         let boRepository: BORepositoryIntegration = new BORepositoryIntegration();
-        boRepository.fetchIntegrationAction({
+        boRepository.fetchAction({
             criteria: criteria,
-            onCompleted(opRslt: ibas.IOperationResult<bo.IntegrationAction>): void {
+            onCompleted(opRslt: ibas.IOperationResult<bo.Action>): void {
                 try {
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
@@ -76,7 +76,7 @@ export class IntegrationActionChooseApp extends ibas.BOChooseService<IIntegratio
 /** 视图-集成任务 */
 export interface IIntegrationActionChooseView extends ibas.IBOChooseView {
     /** 显示数据 */
-    showData(datas: bo.IntegrationAction[]): void;
+    showData(datas: bo.Action[]): void;
 }
 /** 集成任务选择服务映射 */
 export class IntegrationActionChooseServiceMapping extends ibas.BOChooseServiceMapping {

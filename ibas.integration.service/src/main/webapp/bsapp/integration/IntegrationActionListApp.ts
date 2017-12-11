@@ -17,7 +17,7 @@ export class IntegrationActionListApp extends ibas.Application<IIntegrationActio
     /** 应用标识 */
     static APPLICATION_ID: string = "8171c5da-93fe-4809-ba17-feb0fefecf93";
     /** 应用名称 */
-    static APPLICATION_NAME: string = "integration_app_integrationaction_list";
+    static APPLICATION_NAME: string = "integration_app_action_list";
     /** 构造函数 */
     constructor() {
         super();
@@ -43,9 +43,9 @@ export class IntegrationActionListApp extends ibas.Application<IIntegrationActio
         this.busy(true);
         let that: this = this;
         let boRepository: BORepositoryIntegration = new BORepositoryIntegration();
-        boRepository.fetchIntegrationAction({
+        boRepository.fetchAction({
             criteria: criteria,
-            onCompleted(opRslt: ibas.IOperationResult<bo.IntegrationAction>): void {
+            onCompleted(opRslt: ibas.IOperationResult<bo.Action>): void {
                 try {
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
@@ -66,7 +66,7 @@ export class IntegrationActionListApp extends ibas.Application<IIntegrationActio
         let boRepository: BORepositoryIntegration = new BORepositoryIntegration();
         boRepository.uploadActionPackage({
             fileData: formData,
-            onCompleted(opRslt: ibas.IOperationResult<bo.IntegrationAction>): void {
+            onCompleted(opRslt: ibas.IOperationResult<bo.Action>): void {
                 try {
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
@@ -80,18 +80,18 @@ export class IntegrationActionListApp extends ibas.Application<IIntegrationActio
         });
         this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_uploading_file"));
     }
-    protected viewCode(data: bo.IntegrationAction | bo.IntegrationAction[]): void {
-        if (ibas.objects.isNull(data)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
-                ibas.i18n.prop("shell_data_delete")
-            ));
-            return;
-        }
-        let action: bo.IntegrationAction = undefined;
+    protected viewCode(data: bo.Action | bo.Action[]): void {
+        let action: bo.Action = undefined;
         if (data instanceof Array) {
             action = data[0];
         } else {
             action = data;
+        }
+        if (ibas.objects.isNull(action)) {
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                ibas.i18n.prop("shell_data_delete")
+            ));
+            return;
         }
         this.busy(true);
         let that: this = this;
@@ -113,7 +113,7 @@ export class IntegrationActionListApp extends ibas.Application<IIntegrationActio
         this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_downloading_file"));
     }
     /** 删除数据，参数：目标数据集合 */
-    protected deleteData(data: bo.IntegrationAction | bo.IntegrationAction[]): void {
+    protected deleteData(data: bo.Action | bo.Action[]): void {
         // 检查目标数据
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -196,7 +196,7 @@ export interface IIntegrationActionListView extends ibas.IBOQueryView {
     /** 查看代码 */
     viewCodeEvent: Function;
     /** 显示数据 */
-    showData(datas: bo.IntegrationAction[]): void;
+    showData(datas: bo.Action[]): void;
     /** 显示代码 */
     showCode(code: Blob): void;
 }

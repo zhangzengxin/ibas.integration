@@ -25,14 +25,14 @@ export class IntegrationActionRunnerView extends ibas.View implements IIntegrati
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("");
         this.table = new sap.ui.table.Table("", {
-            title: ibas.i18n.prop("bo_integrationaction"),
+            title: ibas.i18n.prop("bo_action"),
             selectionMode: sap.ui.table.SelectionMode.None,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 3),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_integrationaction_name"),
+                    label: ibas.i18n.prop("bo_action_name"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -40,7 +40,7 @@ export class IntegrationActionRunnerView extends ibas.View implements IIntegrati
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_integrationaction_path"),
+                    label: ibas.i18n.prop("bo_action_path"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -80,7 +80,7 @@ export class IntegrationActionRunnerView extends ibas.View implements IIntegrati
     private form: sap.ui.layout.form.SimpleForm;
     private table: sap.ui.table.Table;
     /** 显示数据 */
-    showActions(datas: bo.IntegrationAction[]): void {
+    showActions(datas: bo.Action[]): void {
         this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
     /** 显示消息 */

@@ -17,7 +17,7 @@ import { IIntegrationActionListView } from "../../../bsapp/integration/index";
 export class IntegrationActionListView extends ibas.BOQueryView implements IIntegrationActionListView {
     /** 返回查询的对象 */
     get queryTarget(): any {
-        return bo.IntegrationAction;
+        return bo.Action;
     }
     /** 上传包 */
     uploadActionPackageEvent: Function;
@@ -36,7 +36,7 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_integrationaction_id"),
+                    label: ibas.i18n.prop("bo_action_id"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -44,7 +44,7 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_integrationaction_name"),
+                    label: ibas.i18n.prop("bo_action_name"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -52,7 +52,7 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_integrationaction_group"),
+                    label: ibas.i18n.prop("bo_action_group"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -60,7 +60,7 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_integrationaction_path"),
+                    label: ibas.i18n.prop("bo_action_path"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -81,7 +81,7 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
                         press: function (): void {
                             that.fireViewEvents(that.deleteDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.IntegrationAction>(that.table)
+                                openui5.utils.getTableSelecteds<bo.Action>(that.table)
                             );
                         }
                     }),
@@ -92,7 +92,7 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
                         press: function (): void {
                             that.fireViewEvents(that.viewCodeEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.IntegrationAction>(that.table)
+                                openui5.utils.getTableSelecteds<bo.Action>(that.table)
                             );
                         }
                     }),
@@ -142,7 +142,7 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
     private form: sap.ui.layout.form.SimpleForm;
     private table: sap.ui.table.Table;
     /** 显示数据 */
-    showData(datas: bo.IntegrationAction[]): void {
+    showData(datas: bo.Action[]): void {
         this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
     /** 显示代码 */

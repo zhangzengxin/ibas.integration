@@ -7,7 +7,6 @@ import javax.jws.WebService;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.cxf.WebServicePath;
-import org.colorcoding.ibas.integration.bo.integration.IntegrationAction;
 import org.colorcoding.ibas.integration.bo.integrationjob.IntegrationJob;
 import org.colorcoding.ibas.integration.repository.BORepositoryIntegration;
 
@@ -17,21 +16,6 @@ import org.colorcoding.ibas.integration.repository.BORepositoryIntegration;
 @WebService
 @WebServicePath("data")
 public class DataService extends BORepositoryIntegration {
-	// --------------------------------------------------------------------------------------------//
-	/**
-	 * 查询-集成动作
-	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
-	 * @return 操作结果
-	 */
-	@WebMethod
-	public OperationResult<IntegrationAction> fetchIntegrationAction(@WebParam(name = "criteria") Criteria criteria,
-			@WebParam(name = "token") String token) {
-		return super.fetchIntegrationAction(criteria, token);
-	}
 
 	// --------------------------------------------------------------------------------------------//
 	/**

@@ -13,10 +13,9 @@ import {
 
 /** 数据转换者 */
 export class DataConverter4ig extends ibas.DataConverter4j {
-
     parsing(data: any, sign: string): any {
-        if (data.type === bo.IntegrationAction.name) {
-            let newData: bo.IntegrationAction = new bo.IntegrationAction();
+        if (data.type === bo.Action.name) {
+            let newData: bo.Action = new bo.Action();
             newData.id = data.id;
             newData.group = data.group;
             newData.name = data.name;
@@ -24,7 +23,7 @@ export class DataConverter4ig extends ibas.DataConverter4j {
             newData.path = data.path;
             if (!ibas.objects.isNull(data.configs)) {
                 for (let item of data.configs) {
-                    let newItem: bo.IntegrationActionConfig = new bo.IntegrationActionConfig;
+                    let newItem: bo.ActionConfig = new bo.ActionConfig;
                     newItem.key = item.key;
                     newItem.value = item.value;
                     newData.configs.add(newItem);

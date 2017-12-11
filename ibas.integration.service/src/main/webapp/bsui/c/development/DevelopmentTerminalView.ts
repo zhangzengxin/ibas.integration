@@ -26,7 +26,7 @@ export class DevelopmentTerminalView extends ibas.View implements IDevelopmentTe
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("");
         this.table = new sap.ui.table.Table("", {
-            title: ibas.i18n.prop("bo_integrationaction"),
+            title: ibas.i18n.prop("bo_action"),
             selectionMode: sap.ui.table.SelectionMode.None,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
@@ -46,7 +46,7 @@ export class DevelopmentTerminalView extends ibas.View implements IDevelopmentTe
             }),
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_integrationaction_name"),
+                    label: ibas.i18n.prop("bo_action_name"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -54,7 +54,7 @@ export class DevelopmentTerminalView extends ibas.View implements IDevelopmentTe
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_integrationaction_path"),
+                    label: ibas.i18n.prop("bo_action_path"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -77,7 +77,7 @@ export class DevelopmentTerminalView extends ibas.View implements IDevelopmentTe
             selected: true,
         });
         this.tableConfig = new sap.ui.table.Table("", {
-            title: ibas.i18n.prop("bo_integrationaction"),
+            title: ibas.i18n.prop("bo_action"),
             selectionMode: sap.ui.table.SelectionMode.None,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
             visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
@@ -106,7 +106,7 @@ export class DevelopmentTerminalView extends ibas.View implements IDevelopmentTe
             }),
             columns: [
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_integrationactionconfig_key"),
+                    label: ibas.i18n.prop("bo_actionconfig_key"),
                     template: new sap.m.Text("", {
                         wrapping: false
                     }).bindProperty("text", {
@@ -114,7 +114,7 @@ export class DevelopmentTerminalView extends ibas.View implements IDevelopmentTe
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_integrationactionconfig_value"),
+                    label: ibas.i18n.prop("bo_actionconfig_value"),
                     template: new sap.m.Input("", {
                     }).bindProperty("value", {
                         path: "value"
@@ -162,17 +162,17 @@ export class DevelopmentTerminalView extends ibas.View implements IDevelopmentTe
     private checkbox: sap.m.CheckBox;
     private splitContainer: sap.m.SplitContainer;
     /** 显示动作 */
-    showActions(datas: bo.IntegrationAction[]): void {
+    showActions(datas: bo.Action[]): void {
         this.splitContainer.backToTopDetail(null, null);
         this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
     /** 显示动作 */
-    showAction(data: bo.IntegrationAction): void {
+    showAction(data: bo.Action): void {
         this.tableConfig.setTitle(data.name);
         this.splitContainer.toDetail(this.tableConfig.getId(), null, null, null);
     }
     /** 显示动作配置 */
-    showActionConfigs(datas: bo.IntegrationActionConfig[]): void {
+    showActionConfigs(datas: bo.ActionConfig[]): void {
         this.tableConfig.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
 }

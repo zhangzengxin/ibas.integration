@@ -44,6 +44,6 @@ export interface IBORepositoryIntegration extends IBORepositoryApplication {
      * 查询 集成动作
      * @param fetcher 查询者
      */
-    fetchIntegrationAction(fetcher: FetchCaller<bo.IIntegrationAction>);
+    fetchAction(fetcher: FetchCaller<bo.IAction>);
 
 }

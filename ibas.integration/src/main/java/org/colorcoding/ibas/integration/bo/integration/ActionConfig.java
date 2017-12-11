@@ -15,18 +15,18 @@ import org.colorcoding.ibas.integration.MyConfiguration;
  *
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = IntegrationActionConfig.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class IntegrationActionConfig extends Serializable {
+@XmlType(name = ActionConfig.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
+public class ActionConfig extends Serializable {
 
 	private static final long serialVersionUID = -3637453402246087554L;
 
-	public static final String BUSINESS_OBJECT_NAME = "IntegrationActionConfig";
+	public static final String BUSINESS_OBJECT_NAME = "ActionConfig";
 
-	public IntegrationActionConfig() {
+	public ActionConfig() {
 
 	}
 
-	public IntegrationActionConfig(String key, Object value) {
+	public ActionConfig(String key, Object value) {
 		this();
 		this.setKey(key);
 		this.setValue(value);

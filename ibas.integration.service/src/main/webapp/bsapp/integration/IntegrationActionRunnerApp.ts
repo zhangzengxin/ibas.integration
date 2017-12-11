@@ -16,7 +16,7 @@ export class IntegrationActionRunnerApp extends ibas.Application<IIntegrationAct
     /** 应用标识 */
     static APPLICATION_ID: string = "50637c67-2a3a-4d9f-9553-c4a85b5751d5";
     /** 应用名称 */
-    static APPLICATION_NAME: string = "integration_app_integrationaction_runner";
+    static APPLICATION_NAME: string = "integration_app_action_runner";
     /** 构造函数 */
     constructor() {
         super();
@@ -39,19 +39,19 @@ export class IntegrationActionRunnerApp extends ibas.Application<IIntegrationAct
     }
     /** 自动运行 */
     autoRun: boolean;
-    run(action: bo.IntegrationAction | bo.IntegrationAction[]): void;
+    run(action: bo.Action | bo.Action[]): void;
     run(): void {
-        if (ibas.objects.instanceOf(arguments[0], bo.IntegrationAction)) {
+        if (ibas.objects.instanceOf(arguments[0], bo.Action)) {
             this.actions.add(arguments[0]);
         } else if (arguments[0] instanceof Array) {
             for (let item of arguments[0]) {
-                if (ibas.objects.instanceOf(item, bo.IntegrationAction)) {
+                if (ibas.objects.instanceOf(item, bo.Action)) {
                     this.actions.add(item);
                 }
             }
         } else {
             for (let item of arguments) {
-                if (ibas.objects.instanceOf(item, bo.IntegrationAction)) {
+                if (ibas.objects.instanceOf(item, bo.Action)) {
                     this.actions.add(item);
                 }
             }
@@ -64,8 +64,8 @@ export class IntegrationActionRunnerApp extends ibas.Application<IIntegrationAct
             super.run.apply(this, arguments);
         }
     }
-    private _actions: ibas.List<bo.IntegrationAction>;
-    get actions(): ibas.List<bo.IntegrationAction> {
+    private _actions: ibas.List<bo.Action>;
+    get actions(): ibas.List<bo.Action> {
         if (ibas.objects.isNull(this._actions)) {
             this._actions = new ibas.ArrayList();
         }
@@ -98,11 +98,11 @@ export class IntegrationActionRunnerApp extends ibas.Application<IIntegrationAct
             }
         }
     }
-    protected runAction(usingAction: bo.IntegrationAction): void {
+    protected runAction(usingAction: bo.Action): void {
         if (ibas.objects.isNull(usingAction)) {
             return;
         }
-        let baseUrl = usingAction.group;
+        let baseUrl: string = usingAction.group;
         if (ibas.strings.isEmpty(baseUrl)) {
             baseUrl = ibas.urls.normalize(ibas.urls.ROOT_URL_SIGN);
         }
@@ -114,9 +114,9 @@ export class IntegrationActionRunnerApp extends ibas.Application<IIntegrationAct
             context: usingAction.name.trim(),
             waitSeconds: ibas.config.get(ibas.requires.CONFIG_ITEM_WAIT_SECONDS, 30)
         }, []);
-        let path = usingAction.path;
+        let path: string = usingAction.path;
         if (ibas.strings.isEmpty(path)) {
-            path = usingAction.name.trim()
+            path = usingAction.name.trim();
         }
         if (path.indexOf(".") > 0) {
             path = path.substring(0, path.lastIndexOf("."));
@@ -125,7 +125,7 @@ export class IntegrationActionRunnerApp extends ibas.Application<IIntegrationAct
         actionRequire(
             [path],
             function (library: any): void {
-                //库加载成功
+                // 库加载成功
                 try {
                     if (ibas.objects.isNull(library)) {
                         throw new Error("invalid action library.");
@@ -175,7 +175,7 @@ export class IntegrationActionRunnerApp extends ibas.Application<IIntegrationAct
                     that.messages(error);
                 }
             },
-            function () {
+            function (): void {
                 // 库加载失败
                 that.messages(
                     ibas.emMessageType.ERROR,
@@ -191,7 +191,7 @@ export interface IIntegrationActionRunnerView extends ibas.IView {
     /** 停止 */
     stopActionsEvent: Function;
     /** 显示动作 */
-    showActions(datas: bo.IntegrationAction[]): void;
+    showActions(datas: bo.Action[]): void;
     /** 显示消息 */
     showMessages(type: ibas.emMessageType, message: string): void;
 }

@@ -1,6 +1,6 @@
 [
   {
-    "type": "IntegrationAction",
+    "type": "Action",
     "name": "Hello World",
     "activated": true,
     "path": "HelloWorld.ts",
@@ -16,7 +16,7 @@
     ]
   },
   {
-    "type": "IntegrationAction",
+    "type": "Action",
     "name": "Hello World Two",
     "activated": true,
     "path": "HelloWorld.ts",
