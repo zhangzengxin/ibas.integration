@@ -15,6 +15,7 @@
   "integration_upload_package": "上传程序包",
   "integration_delete_package": "删除程序包",
   "integration_view_code": "查看代码",
+  "integration_not_found_job_actions": "没有找到任务[{0}]的动作",
   "integration_closing_delimiter": "----结束----",
   "integrationdevelopment": "数据集成-开发",
   "integrationdevelopment_icon": "sap-icon://developer-settings",

@@ -57,6 +57,10 @@ export class BORepositoryIntegration extends ibas.BORepositoryApplication implem
     saveIntegrationJob(saver: ibas.SaveCaller<bo.IntegrationJob>): void {
         super.save(bo.IntegrationJob.name, saver);
     }
+    /** 查询动作条件-ID */
+    static CRITERIA_CONDITION_ALIAS_ACTION_ID: string = "ActionId";
+    /** 查询动作条件-包（组） */
+    static CRITERIA_CONDITION_ALIAS_PACKAGE: string = "FileFolder";
     /**
      * 查询 集成动作
      * @param fetcher 查询者
@@ -102,6 +106,19 @@ export class BORepositoryIntegration extends ibas.BORepositoryApplication implem
         let url: string = this.address.replace("/services/rest/data/", "/services/rest/action/");
         url += ibas.strings.format("{0}?token={1}", action.fullPath(), this.token);
         return encodeURI(url);
+    }
+    /**
+     * 获取动作地址
+     */
+    toPackageUrl(action: bo.Action): string {
+        if (!this.address.endsWith("/")) { this.address += "/"; }
+        let url: string = this.address.replace("/services/rest/data/", "/services/rest/action/");
+        if (ibas.objects.isNull(action.group)) {
+            return encodeURI(url);
+        } else if (action.group.startsWith("http")) {
+            return encodeURI(action.group);
+        }
+        return encodeURI(url + action.group);
     }
     /**
      * 下载代码文件
@@ -166,7 +183,6 @@ ibas.boFactory.register(BO_REPOSITORY_INTEGRATION, BORepositoryIntegration);
 
 /** 业务对象仓库-集成开发 */
 export class BORepositoryIntegrationDevelopment extends ibas.BORepositoryApplication {
-
     constructor() {
         super();
         // 重置状态

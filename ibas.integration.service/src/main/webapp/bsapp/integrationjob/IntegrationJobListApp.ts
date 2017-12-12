@@ -9,8 +9,8 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryIntegration } from "../../borep/BORepositories";
-import { DataConverter4ig, toAction } from "../../borep/DataConverters";
-import { IntegrationActionRunnerApp } from "../integration/index";
+import { DataConverter4ig } from "../../borep/DataConverters";
+import { IntegrationJobRunnerApp } from "../integration/index";
 import { IntegrationJobViewApp } from "./IntegrationJobViewApp";
 import { IntegrationJobEditApp } from "./IntegrationJobEditApp";
 
@@ -37,7 +37,7 @@ export class IntegrationJobListApp extends ibas.BOListApplication<IIntegrationJo
         // 其他事件
         this.view.editDataEvent = this.editData;
         this.view.deleteDataEvent = this.deleteData;
-        this.view.runDataEvent = this.runData;
+        this.view.viewDataEvent = this.viewData;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -76,15 +76,15 @@ export class IntegrationJobListApp extends ibas.BOListApplication<IIntegrationJo
         // 检查目标数据
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
-                ibas.i18n.prop("shell_data_view")
+                ibas.i18n.prop("shell_data_edit")
             ));
             return;
         }
-        let app: IntegrationJobViewApp = new IntegrationJobViewApp();
-        app.navigation = this.navigation;
-        app.viewShower = this.viewShower;
-        app.run(data);
-
+        let actionRunner: IntegrationJobRunnerApp = new IntegrationJobRunnerApp();
+        actionRunner.navigation = this.navigation;
+        actionRunner.viewShower = this.viewShower;
+        actionRunner.autoRun = false;
+        actionRunner.run(data);
     }
     /** 编辑数据，参数：目标数据 */
     protected editData(data: bo.IntegrationJob): void {
@@ -170,21 +170,6 @@ export class IntegrationJobListApp extends ibas.BOListApplication<IIntegrationJo
             }
         });
     }
-    /** 编辑数据，参数：目标数据 */
-    protected runData(data: bo.IntegrationJob): void {
-        // 检查目标数据
-        if (ibas.objects.isNull(data)) {
-            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
-                ibas.i18n.prop("shell_data_edit")
-            ));
-            return;
-        }
-        let actionRunner: IntegrationActionRunnerApp = new IntegrationActionRunnerApp();
-        actionRunner.navigation = this.navigation;
-        actionRunner.viewShower = this.viewShower;
-        actionRunner.autoRun = false;
-        actionRunner.run(toAction(data));
-    }
     /** 获取服务的契约 */
     protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {
         return [
@@ -205,6 +190,4 @@ export interface IIntegrationJobListView extends ibas.IBOListView {
     showData(datas: bo.IntegrationJob[]): void;
     /** 获取选择的数据 */
     getSelecteds(): bo.IntegrationJob[];
-    /** 运行 */
-    runDataEvent: Function;
 }

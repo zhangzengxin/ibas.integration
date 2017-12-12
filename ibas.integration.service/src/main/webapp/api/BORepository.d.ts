@@ -40,10 +40,4 @@ export interface IBORepositoryIntegration extends IBORepositoryApplication {
      * @param saver 保存者
      */
     saveIntegrationJob(saver: SaveCaller<bo.IIntegrationJob>);
-    /**
-     * 查询 集成动作
-     * @param fetcher 查询者
-     */
-    fetchAction(fetcher: FetchCaller<bo.IAction>);
-
 }

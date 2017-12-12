@@ -283,7 +283,7 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
                         item = that.editData.integrationJobActions.create();
                         created = true;
                     }
-                    item.actionId = selected.fullPath();
+                    item.actionId = selected.id;
                     item.actionName = selected.name;
                     for (let cItem of selected.configs) {
                         // 添加默认配置

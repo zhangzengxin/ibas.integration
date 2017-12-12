@@ -10,4 +10,5 @@
 export * from "./IntegrationActionChooseApp";
 export * from "./IntegrationActionListApp";
 export * from "./IntegrationActionRunnerApp";
+export * from "./IntegrationJobRunnerApp";
 export * from "./IntegrationFunc";

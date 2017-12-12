@@ -23,8 +23,8 @@ export class IntegrationJobListView extends ibas.BOListView implements IIntegrat
     editDataEvent: Function;
     /** 删除数据事件，参数：删除对象集合 */
     deleteDataEvent: Function;
-    /** 运行 */
-    runDataEvent: Function;
+    /** 查看数据 */
+    viewDataEvent: Function;
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
@@ -101,7 +101,6 @@ export class IntegrationJobListView extends ibas.BOListView implements IIntegrat
                             that.fireViewEvents(that.newDataEvent);
                         }
                     }),
-                    /*
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_view"),
                         type: sap.m.ButtonType.Transparent,
@@ -113,7 +112,6 @@ export class IntegrationJobListView extends ibas.BOListView implements IIntegrat
                             );
                         }
                     }),
-                    */
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_edit"),
                         type: sap.m.ButtonType.Transparent,
@@ -134,18 +132,6 @@ export class IntegrationJobListView extends ibas.BOListView implements IIntegrat
                             that.fireViewEvents(that.deleteDataEvent,
                                 // 获取表格选中的对象
                                 openui5.utils.getTableSelecteds<bo.IntegrationJob>(that.table)
-                            );
-                        }
-                    }),
-                    new sap.m.ToolbarSeparator(""),
-                    new sap.m.Button("", {
-                        text: ibas.i18n.prop("shell_run"),
-                        type: sap.m.ButtonType.Transparent,
-                        icon: "sap-icon://begin",
-                        press: function (): void {
-                            that.fireViewEvents(that.runDataEvent,
-                                // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.IntegrationJob>(that.table).firstOrDefault()
                             );
                         }
                     }),

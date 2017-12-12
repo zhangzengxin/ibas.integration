@@ -9,6 +9,7 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import org.colorcoding.ibas.bobas.common.ConditionOperation;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
@@ -39,12 +40,13 @@ import org.colorcoding.ibas.integration.bo.integration.Action;
  */
 public class FileRepositoryAction extends FileRepositoryService
 		implements IFileRepositoryActionApp, IFileRepositoryActionSvc {
+	public static final String TYPE_JSON_NO_ROOT = "json_no_root";
 	public static final String PACKAGE_INTEGRATION_ACTIONS_FOLDER = "integration/";
 	public static final String PACKAGE_INTEGRATION_ACTIONS_FILE = "actions.json";
-	public static final String TYPE_JSON_NO_ROOT = "json_no_root";
-	public static final String CRITERIA_CONDITION_ALIAS_FOLDER = FileRepository.CRITERIA_CONDITION_ALIAS_FOLDER;
+	public static final String CRITERIA_CONDITION_ALIAS_ACTION_ID = "ActionId";
+	public static final String CRITERIA_CONDITION_ALIAS_PACKAGE = FileRepository.CRITERIA_CONDITION_ALIAS_FOLDER;
 	public static final String CRITERIA_CONDITION_ALIAS_INCLUDE_SUBFOLDER = FileRepository.CRITERIA_CONDITION_ALIAS_INCLUDE_SUBFOLDER;
-	public static final String CRITERIA_CONDITION_ALIAS_FILE_NAME = FileRepository.CRITERIA_CONDITION_ALIAS_FILE_NAME;
+	public static final String CRITERIA_CONDITION_ALIAS_FOLDER = FileRepository.CRITERIA_CONDITION_ALIAS_FOLDER;
 
 	public FileRepositoryAction() {
 		String workFolder = MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_INTEGRATION_ACTION_FOLDER);
@@ -147,25 +149,51 @@ public class FileRepositoryAction extends FileRepositoryService
 			if (criteria == null) {
 				criteria = new Criteria();
 			}
-			if (criteria.getConditions()
-					.firstOrDefault(c -> c.getAlias().equals(FileRepository.CRITERIA_CONDITION_ALIAS_FOLDER)) == null) {
-				ICondition condition = criteria.getConditions().create();
+			ICriteria aCriteria = new Criteria();
+			ICondition condition = criteria.getConditions()
+					.firstOrDefault(c -> c.getAlias().equals(FileRepository.CRITERIA_CONDITION_ALIAS_FOLDER));
+			if (condition == null) {
+				condition = aCriteria.getConditions().create();
 				condition.setAlias(FileRepository.CRITERIA_CONDITION_ALIAS_INCLUDE_SUBFOLDER);
 				condition.setValue(emYesNo.YES);
+			} else {
+				aCriteria.getConditions().add(condition);
 			}
-			if (criteria.getConditions().firstOrDefault(
-					c -> c.getAlias().equals(FileRepository.CRITERIA_CONDITION_ALIAS_FILE_NAME)) == null) {
-				ICondition condition = criteria.getConditions().create();
+			condition = criteria.getConditions()
+					.firstOrDefault(c -> c.getAlias().equals(FileRepository.CRITERIA_CONDITION_ALIAS_FILE_NAME));
+			if (condition == null) {
+				condition = aCriteria.getConditions().create();
 				condition.setAlias(FileRepository.CRITERIA_CONDITION_ALIAS_FILE_NAME);
 				condition.setValue(PACKAGE_INTEGRATION_ACTIONS_FILE);
+			} else {
+				aCriteria.getConditions().add(condition);
 			}
-			IOperationResult<FileData> opRsltFile = this.fetch(criteria, token);
+			IOperationResult<FileData> opRsltFile = this.fetch(aCriteria, token);
 			if (opRsltFile.getError() != null) {
 				throw opRsltFile.getError();
 			}
+			ArrayList<ICondition> aConditions = new ArrayList<>();
+			criteria.getConditions().forEach(c -> {
+				if (CRITERIA_CONDITION_ALIAS_ACTION_ID.equalsIgnoreCase(c.getAlias())
+						&& c.getOperation() == ConditionOperation.EQUAL) {
+					aConditions.add(c);
+				}
+			});
 			OperationResult<Action> operationResult = new OperationResult<>();
 			for (FileData item : opRsltFile.getResultObjects()) {
-				operationResult.addResultObjects(this.parsing(new File(item.getLocation())));
+				for (Action action : this.parsing(new File(item.getLocation()))) {
+					boolean filter = aConditions.isEmpty() ? false : true;
+					for (ICondition cItem : aConditions) {
+						if (action.getId().equals(cItem.getValue())) {
+							filter = false;
+							break;
+						}
+					}
+					if (filter) {
+						continue;
+					}
+					operationResult.addResultObjects(action);
+				}
 			}
 			return operationResult;
 		} catch (Exception e) {

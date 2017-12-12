@@ -109,10 +109,19 @@ export class IntegrationActionRunnerApp extends ibas.Application<IIntegrationAct
         if (!baseUrl.toLowerCase().startsWith("http")) {
             baseUrl = ibas.urls.normalize(ibas.urls.ROOT_URL_SIGN) + baseUrl;
         }
+        let token: string = ibas.config.get(ibas.CONFIG_ITEM_USER_TOKEN, "");
+        let rtVersion: string = ibas.dates.now().getTime().toString();
         let actionRequire: Function = ibas.requires.create({
             baseUrl: baseUrl,
             context: usingAction.name.trim(),
-            waitSeconds: ibas.config.get(ibas.requires.CONFIG_ITEM_WAIT_SECONDS, 30)
+            waitSeconds: ibas.config.get(ibas.requires.CONFIG_ITEM_WAIT_SECONDS, 30),
+            urlArgs: function (id: string, url: string): string {
+                if (id.indexOf("ibas/") >= 0 || id.startsWith("_@") || id === "require" || id === "exports") {
+                    return "";
+                }
+                // 允许多次调用
+                return (url.indexOf("?") === -1 ? "?" : "&") + "token=" + token + "&_=" + rtVersion;
+            }
         }, []);
         let path: string = usingAction.path;
         if (ibas.strings.isEmpty(path)) {
