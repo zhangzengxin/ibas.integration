@@ -25,7 +25,6 @@ import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.data.FileData;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
-import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.repository.FileRepository;
 import org.colorcoding.ibas.integration.MyConfiguration;
 import org.colorcoding.ibas.integration.bo.integration.Action;
@@ -37,12 +36,21 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 public class ActionService extends FileRepositoryAction {
 
 	@GET
-	@Path("{group}/{file}")
+	@Path("{path: .*}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public byte[] download(@PathParam("group") String group, @PathParam("file") String file,
-			@QueryParam("token") String token, @Context HttpServletResponse response) {
+	public byte[] download(@PathParam("path") String path, @QueryParam("token") String token,
+			@Context HttpServletResponse response) {
 		try {
+			int index = path.indexOf("/");
+			String group = null, file = null;
+			if (index > 0) {
+				group = path.substring(0, index);
+				file = path.substring(index + 1);
+			}
+			if (group == null || group.isEmpty() || file == null || file.isEmpty()) {
+				throw new WebApplicationException(404);
+			}
 			ICriteria criteria = new Criteria();
 			ICondition condition = criteria.getConditions().create();
 			condition.setAlias(FileRepositoryAction.CRITERIA_CONDITION_ALIAS_FOLDER);
@@ -52,8 +60,9 @@ public class ActionService extends FileRepositoryAction {
 			condition.setValue(emYesNo.YES);
 			IOperationResult<FileData> operationResult = this.fetchFile(criteria, token);
 			for (FileData item : operationResult.getResultObjects()) {
-				String location = item.getLocation().substring(item.getLocation().indexOf(group) + group.length() + 1);
-				if (location.equalsIgnoreCase(file)) {
+				String location = item.getLocation().substring(item.getLocation().indexOf(group))
+						.replace(File.separator, "/");
+				if (location.equalsIgnoreCase(path)) {
 					// 获取文件流
 					File ioFile = new File(item.getLocation());
 					if (!ioFile.exists() || !ioFile.isFile()) {
@@ -78,8 +87,9 @@ public class ActionService extends FileRepositoryAction {
 				}
 			}
 			throw new WebApplicationException(404);
+		} catch (WebApplicationException e) {
+			throw e;
 		} catch (Exception e) {
-			Logger.log(e);
 			throw new WebApplicationException(500);
 		}
 	}
