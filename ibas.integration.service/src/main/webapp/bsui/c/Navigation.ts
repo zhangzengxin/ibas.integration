@@ -26,6 +26,9 @@ export default class Navigation extends ibas.ViewNavigation {
     protected newView(id: string): ibas.IView {
         let view: ibas.IView = null;
         switch (id) {
+            case integrationjobApps.IntegrationJobService.APPLICATION_ID:
+                view = new integrationjobViews.IntegrationJobServiceView();
+                break;
             case integrationjobApps.IntegrationJobListApp.APPLICATION_ID:
                 view = new integrationjobViews.IntegrationJobListView();
                 break;

@@ -96,7 +96,7 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
         this.tableTitle = new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_integrationjobaction") });
         this.form.addContent(this.tableTitle);
         this.tableIntegrationJobAction = new sap.ui.table.Table("", {
-            extension: new sap.m.Toolbar("", {
+            toolbar: new sap.m.Toolbar("", {
                 content: [
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_add"),
@@ -120,6 +120,7 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
                 ]
             }),
             enableSelectAll: false,
+            selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 10),
             rows: "{/rows}",
             rowActionCount: 1,
@@ -174,7 +175,7 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
             ]
         });
         this.tableIntegrationJobActionCfg = new sap.ui.table.Table("", {
-            extension: new sap.m.Toolbar("", {
+            toolbar: new sap.m.Toolbar("", {
                 content: [
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_add"),
@@ -207,6 +208,7 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
                 ]
             }),
             enableSelectAll: false,
+            selectionBehavior: sap.ui.table.SelectionBehavior.Row,
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 10),
             rows: "{/rows}",
             columns: [

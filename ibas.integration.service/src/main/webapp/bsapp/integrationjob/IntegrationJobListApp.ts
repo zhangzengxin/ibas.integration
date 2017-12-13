@@ -76,7 +76,7 @@ export class IntegrationJobListApp extends ibas.BOListApplication<IIntegrationJo
         // 检查目标数据
         if (ibas.objects.isNull(data)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
-                ibas.i18n.prop("shell_data_edit")
+                ibas.i18n.prop("shell_data_view")
             ));
             return;
         }

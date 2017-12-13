@@ -11,3 +11,4 @@ export * from "./IntegrationJobListView";
 export * from "./IntegrationJobChooseView";
 export * from "./IntegrationJobViewView";
 export * from "./IntegrationJobEditView";
+export * from "./IntegrationJobServiceView";

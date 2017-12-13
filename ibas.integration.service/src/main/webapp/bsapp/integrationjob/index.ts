@@ -12,3 +12,4 @@ export * from "./IntegrationJobListApp";
 export * from "./IntegrationJobChooseApp";
 export * from "./IntegrationJobViewApp";
 export * from "./IntegrationJobEditApp";
+export * from "./IntegrationJobService";
