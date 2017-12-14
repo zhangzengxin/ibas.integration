@@ -1,6 +1,6 @@
 #!/bin/sh
 echo '****************************************************************************'
-echo '             compile_packages.sh                                            '
+echo '             compile_packages_test.sh                                       '
 echo '                      by niuren.zhu                                         '
 echo '                           2017.12.05                                       '
 echo '  说明：                                                                    '
@@ -9,6 +9,7 @@ echo '    2. 解压apache-maven，并设置系统变量MAVEN_HOME为解压的程
 echo '    3. 添加PATH变量到MAVEN_HOME\bin，并检查JAVE_HOME配置是否正确。          '
 echo '    4. 运行提示符运行mvn -v 检查安装是否成功。                              '
 echo '    5. 此脚本用于编译测试war包。                                            '
+echo '    6. 报错时请尝试先运行compile_packages.sh。                              '
 echo '****************************************************************************'
 # 设置参数变量
 WORK_FOLDER=`pwd`

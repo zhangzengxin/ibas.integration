@@ -1,7 +1,7 @@
 @echo off
 setlocal EnableDelayedExpansion
 echo ***************************************************************************
-echo            compile_packages.bat
+echo            compile_packages_test.bat
 echo                     by niuren.zhu
 echo                           2017.12.05
 echo  说明：
@@ -10,6 +10,7 @@ echo     2. 解压apache-maven，并设置系统变量MAVEN_HOME为解压的程序目录。
 echo     3. 添加PATH变量到%%MAVEN_HOME%%\bin，并检查JAVA_HOME配置是否正确。
 echo     4. 运行提示符运行mvn -v 检查安装是否成功。
 echo     5. 此脚本用于编译测试war包。
+echo     6. 报错时请尝试先运行compile_packages.bat。
 echo ****************************************************************************
 REM 设置参数变量
 SET WORK_FOLDER=%~dp0
