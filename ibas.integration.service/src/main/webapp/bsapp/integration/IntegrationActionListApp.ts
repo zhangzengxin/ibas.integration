@@ -50,6 +50,9 @@ export class IntegrationActionListApp extends ibas.Application<IIntegrationActio
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
                     }
+                    if (opRslt.resultObjects.length === 0) {
+                        that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
+                    }
                     that.view.showData(opRslt.resultObjects);
                     that.busy(false);
                 } catch (error) {
@@ -70,6 +73,9 @@ export class IntegrationActionListApp extends ibas.Application<IIntegrationActio
                 try {
                     if (opRslt.resultCode !== 0) {
                         throw new Error(opRslt.message);
+                    }
+                    if (opRslt.resultObjects.length === 0) {
+                        that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
                     }
                     that.view.showData(opRslt.resultObjects);
                     that.busy(false);
