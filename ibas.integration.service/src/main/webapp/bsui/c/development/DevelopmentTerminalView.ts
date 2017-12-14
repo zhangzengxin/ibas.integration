@@ -73,8 +73,8 @@ export class DevelopmentTerminalView extends ibas.View implements IDevelopmentTe
             ]
         });
         this.checkbox = new sap.m.CheckBox("", {
-            text: ibas.i18n.prop("integrationdevelopment_run_action_immediately"),
-            selected: true,
+            text: ibas.i18n.prop("integrationdevelopment_display_console"),
+            selected: false,
         });
         this.tableConfig = new sap.ui.table.Table("", {
             title: ibas.i18n.prop("bo_action"),
@@ -91,7 +91,7 @@ export class DevelopmentTerminalView extends ibas.View implements IDevelopmentTe
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://begin",
                         press: function (): void {
-                            that.fireViewEvents(that.runActionEvent, that.checkbox.getSelected());
+                            that.fireViewEvents(that.runActionEvent, !that.checkbox.getSelected());
                         }
                     }),
                     new sap.m.Button("", {

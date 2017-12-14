@@ -23,12 +23,9 @@ export class IntegrationActionRunnerView extends ibas.View implements IIntegrati
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
-        this.form = new sap.ui.layout.form.SimpleForm("");
         this.table = new sap.ui.table.Table("", {
-            title: ibas.i18n.prop("bo_action"),
             selectionMode: sap.ui.table.SelectionMode.None,
-            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 3),
-            visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
+            visibleRowCount: 5,
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
@@ -49,7 +46,10 @@ export class IntegrationActionRunnerView extends ibas.View implements IIntegrati
                 }),
             ]
         });
-        this.form.addContent(this.table);
+        this.layout = new sap.ui.layout.VerticalLayout("", {
+            height: "100%",
+            width: "100%",
+        });
         this.page = new sap.m.Page("", {
             showHeader: false,
             subHeader: new sap.m.Toolbar("", {
@@ -72,26 +72,46 @@ export class IntegrationActionRunnerView extends ibas.View implements IIntegrati
                     }),
                 ]
             }),
-            content: [this.form]
+            content: [
+                new sap.ui.layout.form.SimpleForm("", {
+                    content: [
+                        new sap.ui.core.Title("", {
+                            text: ibas.i18n.prop("bo_action"),
+                        }),
+                        this.table,
+                        new sap.ui.core.Title("", {
+                            text: ibas.i18n.prop("integration_running_log"),
+                        }),
+                        new sap.m.ScrollContainer("", {
+                            horizontal: false,
+                            vertical: true,
+                            height: "360px",
+                            content: [
+                                this.layout
+                            ]
+                        })
+                    ]
+                })
+            ]
         });
         return this.page;
     }
     private page: sap.m.Page;
-    private form: sap.ui.layout.form.SimpleForm;
     private table: sap.ui.table.Table;
+    private layout: sap.ui.layout.VerticalLayout;
     /** 显示数据 */
     showActions(datas: bo.Action[]): void {
         this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
     }
     /** 显示消息 */
     showMessages(type: ibas.emMessageType, message: string): void {
-        let uiType: sap.ui.core.MessageType = openui5.utils.toMessageType(type);
-        this.table.setFooter(new sap.m.MessageStrip("", {
+        this.layout.insertContent(new sap.m.MessageStrip("", {
             width: "100%",
-            text: message,
-            type: uiType,
+            height: "100%",
+            text: message.replace("{", "(").replace("}", ")"),
+            type: openui5.utils.toMessageType(type),
             showIcon: true,
             showCloseButton: false
-        }));
+        }), 0);
     }
 }

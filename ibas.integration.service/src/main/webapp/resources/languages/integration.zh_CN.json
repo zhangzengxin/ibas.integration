@@ -15,6 +15,7 @@
   "integration_upload_package": "上传程序包",
   "integration_delete_package": "删除程序包",
   "integration_view_code": "查看代码",
+  "integration_running_log": "运行日志",
   "integration_not_found_job_actions": "没有找到任务[{0}]的动作",
   "integration_service_integrationjob": "集成任务服务",
   "integration_closing_delimiter": "----结束----",
@@ -25,6 +26,6 @@
   "integrationdevelopment_actions_url": "地址",
   "integrationdevelopment_please_actions_url": "请输入集成动作地址",
   "integrationdevelopment_run_action_faild": "运行动作[{0}]失败",
-  "integrationdevelopment_run_action_immediately": "直接运行",
+  "integrationdevelopment_display_console": "显示控制台",
   "integrationdevelopment_closing_delimiter": "----结束----"
 }
