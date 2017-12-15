@@ -70,6 +70,15 @@ export class IntegrationActionRunnerView extends ibas.View implements IIntegrati
                             that.fireViewEvents(that.stopActionsEvent);
                         }
                     }),
+                    new sap.m.ToolbarSeparator(""),
+                    new sap.m.Button("", {
+                        text: ibas.i18n.prop("integration_clear_log"),
+                        type: sap.m.ButtonType.Transparent,
+                        icon: "sap-icon://eraser",
+                        press: function (): void {
+                            that.layout.destroyContent();
+                        }
+                    }),
                 ]
             }),
             content: [

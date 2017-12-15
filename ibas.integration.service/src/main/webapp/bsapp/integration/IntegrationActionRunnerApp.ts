@@ -162,10 +162,10 @@ export class IntegrationActionRunnerApp extends ibas.Application<IIntegrationAct
                                 tmpArgs.push(item);
                             }
                             ibas.logger.log.apply(ibas.logger, tmpArgs);
-                            let type: ibas.emMessageType = ibas.emMessageType.INFORMATION;
                             let message: string;
-                            if (typeof (tmpArgs[0]) === "number" && tmpArgs.length > 1 && tmpArgs[0] <= this.level) {
-                                type = tmpArgs[0] <= ibas.emMessageLevel.ERROR ? ibas.emMessageType.ERROR : ibas.emMessageType.INFORMATION;
+                            let type: ibas.emMessageType = ibas.emMessageType.INFORMATION;
+                            if (typeof (tmpArgs[0]) === "number" && tmpArgs.length > 1) {
+                                type = that.toMessageType(tmpArgs[0]);
                                 message = ibas.strings.format(tmpArgs[1], tmpArgs.slice(2));
                             } else if (typeof (tmpArgs[0]) === "string") {
                                 message = ibas.strings.format(tmpArgs[0], tmpArgs.slice(1));
@@ -175,7 +175,7 @@ export class IntegrationActionRunnerApp extends ibas.Application<IIntegrationAct
                             } else {
                                 that.proceeding(type, message);
                             }
-                        },
+                        }
                     });
                     // 运行
                     action.do();
@@ -191,6 +191,18 @@ export class IntegrationActionRunnerApp extends ibas.Application<IIntegrationAct
                     ibas.i18n.prop("integrationdevelopment_run_action_faild", usingAction.name));
             }
         );
+    }
+
+    private toMessageType(level: ibas.emMessageLevel): ibas.emMessageType {
+        let type: ibas.emMessageType = ibas.emMessageType.INFORMATION;
+        if (level === ibas.emMessageLevel.WARN) {
+            type = ibas.emMessageType.WARNING;
+        } else if (level === ibas.emMessageLevel.ERROR) {
+            type = ibas.emMessageType.ERROR;
+        } else if (level === ibas.emMessageLevel.FATAL) {
+            type = ibas.emMessageType.ERROR;
+        }
+        return type;
     }
 }
 /** 视图-动作运行 */

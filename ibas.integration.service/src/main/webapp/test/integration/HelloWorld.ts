@@ -24,8 +24,9 @@ export default class HelloWorld extends ibas.Action {
         boRepository.fetchUser({
             criteria: new ibas.Criteria(),
             onCompleted(opRslt: ibas.IOperationResult<any>): void {
-                for (let item of opRslt.resultObjects) {
-                    that.log("user: {0}", item);
+                for (let index: number = 0; index < opRslt.resultObjects.length; index++) {
+                    let item: any = opRslt.resultObjects[index];
+                    that.log(Math.round(Math.random() * 6), "user: {0}", item);
                 }
                 // 动作完成
                 that.done();
