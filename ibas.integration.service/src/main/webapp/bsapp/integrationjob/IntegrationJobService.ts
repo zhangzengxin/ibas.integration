@@ -12,7 +12,7 @@ import { BORepositoryIntegration } from "../../borep/BORepositories";
 import { IntegrationJobRunnerApp } from "../integration/IntegrationJobRunnerApp";
 
 /** 集成任务服务 */
-export class IntegrationJobService extends ibas.Application<IIntegrationJobServiceView> implements ibas.IService<ibas.IServiceCaller> {
+export class IntegrationJobService extends ibas.ServiceApplication<IIntegrationJobServiceView, ibas.IBOServiceContract | ibas.IBOListServiceContract>  {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "cc6ba9f8-bae5-4a44-ad1a-db406de60da5";
@@ -34,8 +34,9 @@ export class IntegrationJobService extends ibas.Application<IIntegrationJobServi
     protected viewShowed(): void {
         // 视图加载完成
     }
-    /** 运行,覆盖原方法 */
-    run(): void {
+    /** 运行服务 */
+    runService(contract: ibas.IBOServiceContract | ibas.IBOListServiceContract): void {
+        super.show();
     }
     /** 查询数据 */
     protected fetchData(criteria: ibas.ICriteria): void {
@@ -90,7 +91,7 @@ export class IntegrationJobServiceMapping extends ibas.ServiceMapping {
         this.proxy = ibas.BOListServiceProxy;
         this.icon = ibas.i18n.prop("integration_icon");
     }
-    /** 创建服务并运行 */
+    /** 创建服务实例 */
     create(): ibas.IService<ibas.IServiceContract> {
         return new IntegrationJobService();
     }
