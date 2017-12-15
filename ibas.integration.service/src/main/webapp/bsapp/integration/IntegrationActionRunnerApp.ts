@@ -39,6 +39,7 @@ export class IntegrationActionRunnerApp extends ibas.Application<IIntegrationAct
     }
     /** 自动运行 */
     autoRun: boolean;
+    run(): void;
     run(action: bo.Action | bo.Action[]): void;
     run(): void {
         if (ibas.objects.instanceOf(arguments[0], bo.Action)) {

@@ -56,7 +56,9 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
         this.view.showIntegrationJobActions(this.editData.integrationJobActions.filterDeleted());
     }
     /** 运行,覆盖原方法 */
-    run(...args: any[]): void {
+    run(): void;
+    run(data: bo.IntegrationJob): void;
+    run(): void {
         let that: this = this;
         if (ibas.objects.instanceOf(arguments[0], bo.IntegrationJob)) {
             // 尝试重新查询编辑对象
@@ -91,7 +93,7 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
                 return;
             }
         }
-        super.run.apply(this, args);
+        super.run.apply(this, arguments);
     }
     /** 待编辑的数据 */
     protected editData: bo.IntegrationJob;
@@ -269,7 +271,6 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
     chooseJobAction(caller: bo.IntegrationJobAction): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.Action>({
-            caller: caller,
             boCode: bo.Action.name,
             criteria: [],
             onCompleted(selecteds: ibas.List<bo.Action>): void {
@@ -307,7 +308,6 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
     chooseJobActionCfgConfigItem(caller: bo.IntegrationJobActionCfg): void {
         let that: this = this;
         ibas.servicesManager.runChooseService<bo.IntegrationJobActionCfg>({
-            caller: caller,
             boCode: ia.BO_CODE_SYSTEM_CONFIG,
             criteria: [],
             onCompleted(selecteds: ibas.List<ibas.KeyValue>): void {

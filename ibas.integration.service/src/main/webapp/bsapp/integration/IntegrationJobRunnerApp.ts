@@ -17,6 +17,7 @@ export class IntegrationJobRunnerApp extends IntegrationActionRunnerApp {
     constructor() {
         super();
     }
+    run(): void;
     run(job: bo.IntegrationJob): void;
     run(action: bo.Action | bo.Action[]): void;
     run(): void {
