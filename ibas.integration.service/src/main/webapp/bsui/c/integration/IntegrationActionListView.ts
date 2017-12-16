@@ -115,6 +115,7 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
                             fileData.append("name", event.getParameters().newValue);
                             that.application.viewShower.messages({
                                 type: ibas.emMessageType.QUESTION,
+                                title: that.application.description,
                                 actions: [
                                     ibas.emMessageAction.YES,
                                     ibas.emMessageAction.NO

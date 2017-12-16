@@ -79,6 +79,7 @@ export class IntegrationJobListView extends ibas.BOListView implements IIntegrat
                         path: "boCode"
                     })
                 }),
+                /*
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_integrationjob_applicationid"),
                     template: new sap.m.Text("", {
@@ -87,6 +88,7 @@ export class IntegrationJobListView extends ibas.BOListView implements IIntegrat
                         path: "applicationId"
                     })
                 }),
+                */
             ]
         });
         this.form.addContent(this.table);

@@ -104,6 +104,7 @@ export class IntegrationJobChooseView extends ibas.BOChooseView implements IInte
                         path: "boCode"
                     })
                 }),
+                /*
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_integrationjob_applicationid"),
                     template: new sap.m.Text("", {
@@ -112,6 +113,7 @@ export class IntegrationJobChooseView extends ibas.BOChooseView implements IInte
                         path: "applicationId"
                     })
                 }),
+                */
             ]
         });
         this.id = this.table.getId();

@@ -36,7 +36,29 @@ export class IntegrationJobService extends ibas.ServiceApplication<IIntegrationJ
     }
     /** 运行服务 */
     runService(contract: ibas.IBOServiceContract | ibas.IBOListServiceContract): void {
-        super.show();
+        let data: ibas.IBusinessObject;
+        if (contract.data instanceof Array) {
+            // 数组只处理第一个
+            data = contract.data[0];
+        } else {
+            data = contract.data;
+        }
+        if (!ibas.objects.isNull(data) && !ibas.strings.isEmpty((<ibas.IBOStorageTag><any>data).objectCode)) {
+            // 传入的数据可能是数组
+            let criteria: ibas.ICriteria = new ibas.Criteria();
+            let condition: ibas.ICondition = criteria.conditions.create();
+            condition.alias = bo.IntegrationJob.PROPERTY_BOCODE_NAME;
+            condition.value = (<ibas.IBOStorageTag><any>data).objectCode;
+            condition = criteria.conditions.create();
+            condition.alias = bo.IntegrationJob.PROPERTY_ACTIVATED_NAME;
+            condition.value = "Y";
+            this.fetchData(criteria);
+            super.show();
+        } else {
+            // 输入数据无效，服务不运行
+            this.proceeding(ibas.emMessageType.WARNING,
+                ibas.i18n.prop("integration_service_integrationjob") + ibas.i18n.prop("sys_invalid_parameter", "data"));
+        }
     }
     /** 查询数据 */
     protected fetchData(criteria: ibas.ICriteria): void {
@@ -59,7 +81,7 @@ export class IntegrationJobService extends ibas.ServiceApplication<IIntegrationJ
         });
         this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
     }
-    protected runJob(job: bo.IntegrationJob): void {
+    protected runJob(job: bo.IntegrationJob, autoRun: boolean): void {
         if (ibas.objects.isNull(job)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
                 ibas.i18n.prop("shell_run")
@@ -69,8 +91,9 @@ export class IntegrationJobService extends ibas.ServiceApplication<IIntegrationJ
         let app: IntegrationJobRunnerApp = new IntegrationJobRunnerApp();
         app.navigation = this.navigation;
         app.viewShower = this.viewShower;
-        app.autoRun = true;
+        app.autoRun = autoRun ? true : false;
         app.run(job);
+        this.close();
     }
 }
 /** 集成任务服务-视图 */

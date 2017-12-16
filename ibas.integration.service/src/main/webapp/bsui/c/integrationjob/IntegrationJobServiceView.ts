@@ -23,7 +23,7 @@ export class IntegrationJobServiceView extends ibas.BODialogView implements IInt
         this.table = new sap.ui.table.Table("", {
             enableSelectAll: false,
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
-            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
+            visibleRowCount: 5,
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
@@ -54,20 +54,28 @@ export class IntegrationJobServiceView extends ibas.BODialogView implements IInt
             content: [this.table],
             buttons: [
                 new sap.m.Button("", {
-                    text: ibas.i18n.prop("shell_run"),
+                    text: ibas.i18n.prop("shell_call"),
                     type: sap.m.ButtonType.Transparent,
-                    // icon: "sap-icon://accept",
                     press: function (): void {
                         that.fireViewEvents(that.runJobEvent,
                             // 获取表格选中的对象
-                            openui5.utils.getTableSelecteds<bo.IntegrationJob>(that.table)
+                            openui5.utils.getTableSelecteds<bo.IntegrationJob>(that.table).firstOrDefault(), false
+                        );
+                    }
+                }),
+                new sap.m.Button("", {
+                    text: ibas.i18n.prop("shell_run"),
+                    type: sap.m.ButtonType.Transparent,
+                    press: function (): void {
+                        that.fireViewEvents(that.runJobEvent,
+                            // 获取表格选中的对象
+                            openui5.utils.getTableSelecteds<bo.IntegrationJob>(that.table).firstOrDefault(), true
                         );
                     }
                 }),
                 new sap.m.Button("", {
                     text: ibas.i18n.prop("shell_exit"),
                     type: sap.m.ButtonType.Transparent,
-                    // icon: "sap-icon://inspect-down",
                     press: function (): void {
                         that.fireViewEvents(that.closeEvent);
                     }

@@ -67,6 +67,7 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
                 }).bindProperty("value", {
                     path: "/boCode",
                 }),
+                /*
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_applicationid") }),
                 new sap.m.Input("", {
                     showValueHelp: true,
@@ -76,6 +77,7 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
                 }).bindProperty("value", {
                     path: "/applicationId",
                 }),
+                */
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("integration_other_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_objectkey") }),
                 new sap.m.Input("", {
