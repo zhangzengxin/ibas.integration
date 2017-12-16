@@ -17,6 +17,17 @@ const CONFIG_REPOSITORY_TOKEN: string = "REP_TOKEN";
 export default class HelloWorld extends ibas.Action {
     /** 运行逻辑 */
     protected run(): boolean {
+        // 显示额外运行数据
+        if (!ibas.objects.isNull(this.extraData)) {
+            if (this.extraData instanceof Array) {
+                for (let item of this.extraData) {
+                    this.log(ibas.emMessageLevel.WARN, "extraData: {0}", item);
+                }
+            } else {
+                this.log(ibas.emMessageLevel.WARN, "extraData: {0}", this.extraData);
+            }
+        }
+        // 逻辑代码
         let that: this = this;
         let boRepository: ia.IBORepositoryInitialFantasy = ibas.boFactory.create(ia.BO_REPOSITORY_INITIALFANTASY);
         boRepository.address = this.getConfig(CONFIG_REPOSITORY_URL);

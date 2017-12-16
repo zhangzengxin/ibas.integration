@@ -17,7 +17,7 @@ export class IntegrationJobService extends ibas.ServiceApplication<IIntegrationJ
     /** 应用标识 */
     static APPLICATION_ID: string = "cc6ba9f8-bae5-4a44-ad1a-db406de60da5";
     /** 应用名称 */
-    static APPLICATION_NAME: string = "integration_service_integrationjob";
+    static APPLICATION_NAME: string = "integration_integrationjob_service";
 
     constructor() {
         super();
@@ -34,14 +34,20 @@ export class IntegrationJobService extends ibas.ServiceApplication<IIntegrationJ
     protected viewShowed(): void {
         // 视图加载完成
     }
+    /** 额外的运行数据 */
+    extraData: any;
     /** 运行服务 */
     runService(contract: ibas.IBOServiceContract | ibas.IBOListServiceContract): void {
         let data: ibas.IBusinessObject;
         if (contract.data instanceof Array) {
             // 数组只处理第一个
             data = contract.data[0];
+            // 额外运行数据
+            this.extraData = contract.data;
         } else {
             data = contract.data;
+            // 额外运行数据
+            this.extraData = contract.data;
         }
         if (!ibas.objects.isNull(data) && !ibas.strings.isEmpty((<ibas.IBOStorageTag><any>data).objectCode)) {
             // 传入的数据可能是数组
@@ -91,6 +97,7 @@ export class IntegrationJobService extends ibas.ServiceApplication<IIntegrationJ
         let app: IntegrationJobRunnerApp = new IntegrationJobRunnerApp();
         app.navigation = this.navigation;
         app.viewShower = this.viewShower;
+        app.extraData = this.extraData;
         app.autoRun = autoRun ? true : false;
         app.run(job);
         this.close();

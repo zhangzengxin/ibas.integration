@@ -37,6 +37,8 @@ export class IntegrationActionRunnerApp extends ibas.Application<IIntegrationAct
         // 视图加载完成
         this.view.showActions(this.actions);
     }
+    /** 额外的运行数据 */
+    extraData: any;
     /** 自动运行 */
     autoRun: boolean;
     run(): void;
@@ -178,6 +180,8 @@ export class IntegrationActionRunnerApp extends ibas.Application<IIntegrationAct
                             }
                         }
                     });
+                    // 添加额外运行数据
+                    action.extraData = that.extraData;
                     // 运行
                     action.do();
                     that.runningActions.add(action);

@@ -18,7 +18,7 @@
   "integration_running_log": "运行日志",
   "integration_clear_log": "清理日志",
   "integration_not_found_job_actions": "没有找到任务[{0}]的动作",
-  "integration_service_integrationjob": "集成任务服务",
+  "integration_integrationjob_service": "数据集成服务",
   "integration_closing_delimiter": "----结束----",
   "integrationdevelopment": "数据集成-开发",
   "integrationdevelopment_icon": "sap-icon://developer-settings",
