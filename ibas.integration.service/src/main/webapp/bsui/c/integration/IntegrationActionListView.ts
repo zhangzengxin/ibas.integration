@@ -111,8 +111,7 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
                                 return;
                             }
                             let fileData: FormData = new FormData();
-                            fileData.append("file", event.getParameters().files[0]);
-                            fileData.append("name", event.getParameters().newValue);
+                            fileData.append("file", event.getParameters().files[0], encodeURI(event.getParameters().newValue));
                             that.application.viewShower.messages({
                                 type: ibas.emMessageType.QUESTION,
                                 title: that.application.description,
