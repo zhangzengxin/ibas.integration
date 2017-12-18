@@ -58,6 +58,7 @@ export class IntegrationJobChooseView extends ibas.BOChooseView implements IInte
         this.table = new sap.ui.table.Table("", {
             enableSelectAll: false,
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
+            selectionMode: openui5.utils.toSelectionMode(this.chooseType),
             visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
             rows: "{/rows}",
             columns: [
@@ -161,7 +162,7 @@ export class IntegrationJobChooseView extends ibas.BOChooseView implements IInte
         }
         if (!done) {
             // 没有显示数据
-            this.table.setModel(new sap.ui.model.json.JSONModel({rows: datas}));
+            this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         }
         this.table.setBusy(false);
     }

@@ -23,6 +23,7 @@ export class IntegrationJobServiceView extends ibas.BODialogView implements IInt
         this.table = new sap.ui.table.Table("", {
             enableSelectAll: false,
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
+            selectionMode: sap.ui.table.SelectionMode.Single,
             visibleRowCount: 5,
             rows: "{/rows}",
             columns: [
