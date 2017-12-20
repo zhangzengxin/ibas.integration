@@ -1,8 +1,8 @@
 package org.colorcoding.ibas.integration.service.rest;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -37,9 +37,7 @@ public class ActionService extends FileRepositoryAction {
 
 	@GET
 	@Path("{path: .*}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public byte[] download(@PathParam("path") String path, @QueryParam("token") String token,
+	public void resource(@PathParam("path") String path, @QueryParam("token") String token,
 			@Context HttpServletResponse response) {
 		try {
 			int index = path.indexOf("/");
@@ -63,34 +61,20 @@ public class ActionService extends FileRepositoryAction {
 				String location = item.getLocation().substring(item.getLocation().indexOf(group))
 						.replace(File.separator, "/");
 				if (location.equalsIgnoreCase(path)) {
-					// 获取文件流
-					File ioFile = new File(item.getLocation());
-					if (!ioFile.exists() || !ioFile.isFile()) {
-						throw new WebApplicationException(404);
-					}
-					long fileSize = ioFile.length();
-					if (fileSize > Integer.MAX_VALUE) {
-						throw new Exception(I18N.prop("msg_bobas_invalid_data"));
-					}
-					FileInputStream inputStream = new FileInputStream(ioFile);
-					byte[] buffer = new byte[(int) fileSize];
-					int offset = 0;
-					int numRead = 0;
-					while (offset < buffer.length
-							&& (numRead = inputStream.read(buffer, offset, buffer.length - offset)) >= 0) {
-						offset += numRead;
-					}
-					inputStream.close();
-					response.setHeader("content-disposition",
-							String.format("attachment;filename=%s", ioFile.getName()));
-					return buffer;
+					// 设置内容类型
+					response.setContentType(this.getContentType(item));
+					// 写入响应输出流
+					OutputStream os = response.getOutputStream();
+					os.write(item.getFileBytes());
+					os.flush();
+					return;
 				}
 			}
 			throw new WebApplicationException(404);
 		} catch (WebApplicationException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new WebApplicationException(500);
+			throw new WebApplicationException(e);
 		}
 	}
 
@@ -120,6 +104,23 @@ public class ActionService extends FileRepositoryAction {
 		}
 	}
 
+	/**
+	 * 删除集成动作组
+	 * 
+	 * @param id
+	 *            动作标记
+	 * @param token
+	 *            口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("deletePackage")
+	public OperationMessage deletePackage(@QueryParam("group") String group, @QueryParam("token") String token) {
+		return super.deletePackage(group, token);
+	}
+
 	// --------------------------------------------------------------------------------------------//
 	/**
 	 * 查询-集成动作
@@ -138,20 +139,4 @@ public class ActionService extends FileRepositoryAction {
 		return super.fetchAction(criteria, token);
 	}
 
-	/**
-	 * 删除集成动作组
-	 * 
-	 * @param id
-	 *            动作标记
-	 * @param token
-	 *            口令
-	 * @return 操作结果
-	 */
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("deletePackage")
-	public OperationMessage deletePackage(@QueryParam("group") String group, @QueryParam("token") String token) {
-		return super.deletePackage(group, token);
-	}
 }
