@@ -9,7 +9,6 @@
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
 import * as bo from "../../../borep/bo/index";
-import { emActionRelationship } from "../../../api/index";
 import { IIntegrationJobEditView } from "../../../bsapp/integrationjob/index";
 
 /**
