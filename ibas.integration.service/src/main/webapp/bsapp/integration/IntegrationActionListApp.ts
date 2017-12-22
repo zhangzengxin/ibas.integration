@@ -95,7 +95,7 @@ export class IntegrationActionListApp extends ibas.Application<IIntegrationActio
         }
         if (ibas.objects.isNull(action)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
-                ibas.i18n.prop("shell_data_delete")
+                ibas.i18n.prop("shell_data_view")
             ));
             return;
         }
