@@ -10,6 +10,7 @@
 import {
 	strings,
 	MODULE_REPOSITORY_NAME_TEMPLATE,
+	ServiceProxy,
 } from "ibas/index";
 
 /** 模块-标识 */
@@ -35,4 +36,17 @@ export enum emActionRelationship {
 	 * 或(||)
 	 */
 	OR,
+}
+/** 集成任务服务契约 */
+export interface IIntegrationJobServiceContract {
+	/** 任务名称 */
+	jobName: string;
+	/** 是否自动运行 */
+	autoRun?: boolean;
+	/** 参数 */
+	extraData?: any;
+}
+/** 集成任务服务代理 */
+export class IntegrationJobServiceProxy extends ServiceProxy<IIntegrationJobServiceContract> {
+
 }

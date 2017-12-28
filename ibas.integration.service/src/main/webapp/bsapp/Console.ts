@@ -12,7 +12,10 @@ import {
     IntegrationJobFunc, IntegrationJobChooseServiceMapping,
     IntegrationJobLinkServiceMapping, IntegrationJobServiceMapping
 } from "./integrationjob/index";
-import { IntegrationActionChooseServiceMapping, IntegrationActionFunc } from "./integration/index";
+import {
+    IntegrationActionChooseServiceMapping,
+    IntegrationActionFunc, IntegrationJobServiceMapping as IntegrationJobServiceMapping2
+} from "./integration/index";
 
 /** 模块控制台 */
 export class Console extends ibas.ModuleConsole {
@@ -42,6 +45,7 @@ export class Console extends ibas.ModuleConsole {
         this.register(new IntegrationJobLinkServiceMapping());
         this.register(new IntegrationActionChooseServiceMapping());
         this.register(new IntegrationJobServiceMapping());
+        this.register(new IntegrationJobServiceMapping2());
         // 注册常驻应用
 
     }

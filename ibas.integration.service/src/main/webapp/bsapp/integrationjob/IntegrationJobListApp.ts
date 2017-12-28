@@ -83,11 +83,21 @@ export class IntegrationJobListApp extends ibas.BOListApplication<IIntegrationJo
             ));
             return;
         }
+        /*
+        // 直接调用
         let actionRunner: IntegrationJobRunnerApp = new IntegrationJobRunnerApp();
         actionRunner.navigation = this.navigation;
         actionRunner.viewShower = this.viewShower;
         actionRunner.autoRun = false;
         actionRunner.run(data);
+        */
+        // 服务调用
+        ibas.servicesManager.runApplicationService({
+            proxy: new bo.IntegrationJobServiceProxy({
+                jobName: data.jobName,
+                autoRun: false,
+            }),
+        });
     }
     /** 编辑数据，参数：目标数据 */
     protected editData(data: bo.IntegrationJob): void {

@@ -12,7 +12,8 @@ import { BORepositoryIntegration } from "../../borep/BORepositories";
 import { IntegrationJobRunnerApp } from "../integration/IntegrationJobRunnerApp";
 
 /** 集成任务服务 */
-export class IntegrationJobService extends ibas.ServiceApplication<IIntegrationJobServiceView, ibas.IBOServiceContract | ibas.IBOListServiceContract>  {
+export class IntegrationJobService extends
+    ibas.ServiceApplication<IIntegrationJobServiceView, ibas.IBOServiceContract | ibas.IBOListServiceContract>  {
 
     /** 应用标识 */
     static APPLICATION_ID: string = "cc6ba9f8-bae5-4a44-ad1a-db406de60da5";
