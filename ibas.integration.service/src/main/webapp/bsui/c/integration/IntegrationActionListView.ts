@@ -82,7 +82,7 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
                         press: function (): void {
                             that.fireViewEvents(that.deleteDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.Action>(that.table)
+                                openui5.utils.getSelecteds<bo.Action>(that.table)
                             );
                         }
                     }),
@@ -93,7 +93,7 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
                         press: function (): void {
                             that.fireViewEvents(that.viewCodeEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.Action>(that.table)
+                                openui5.utils.getSelecteds<bo.Action>(that.table)
                             );
                         }
                     }),

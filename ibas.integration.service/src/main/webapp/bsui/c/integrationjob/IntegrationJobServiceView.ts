@@ -60,7 +60,7 @@ export class IntegrationJobServiceView extends ibas.BODialogView implements IInt
                     press: function (): void {
                         that.fireViewEvents(that.runJobEvent,
                             // 获取表格选中的对象
-                            openui5.utils.getTableSelecteds<bo.IntegrationJob>(that.table).firstOrDefault(), false
+                            openui5.utils.getSelecteds<bo.IntegrationJob>(that.table).firstOrDefault(), false
                         );
                     }
                 }),
@@ -70,7 +70,7 @@ export class IntegrationJobServiceView extends ibas.BODialogView implements IInt
                     press: function (): void {
                         that.fireViewEvents(that.runJobEvent,
                             // 获取表格选中的对象
-                            openui5.utils.getTableSelecteds<bo.IntegrationJob>(that.table).firstOrDefault(), true
+                            openui5.utils.getSelecteds<bo.IntegrationJob>(that.table).firstOrDefault(), true
                         );
                     }
                 }),

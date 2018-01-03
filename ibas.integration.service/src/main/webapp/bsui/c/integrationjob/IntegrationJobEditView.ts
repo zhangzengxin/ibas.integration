@@ -115,7 +115,7 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
                         press: function (): void {
                             that.fireViewEvents(that.removeIntegrationJobActionEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.IntegrationJobAction>(that.tableIntegrationJobAction)
+                                openui5.utils.getSelecteds<bo.IntegrationJobAction>(that.tableIntegrationJobAction)
                             );
                         }
                     })
@@ -194,7 +194,7 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
                         press: function (): void {
                             that.fireViewEvents(that.removeIntegrationJobActionCfgEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.IntegrationJobActionCfg>(that.tableIntegrationJobActionCfg)
+                                openui5.utils.getSelecteds<bo.IntegrationJobActionCfg>(that.tableIntegrationJobActionCfg)
                             );
                         }
                     }),

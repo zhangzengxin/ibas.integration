@@ -111,7 +111,7 @@ export class IntegrationJobListView extends ibas.BOListView implements IIntegrat
                         press: function (): void {
                             that.fireViewEvents(that.viewDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.IntegrationJob>(that.table).firstOrDefault()
+                                openui5.utils.getSelecteds<bo.IntegrationJob>(that.table).firstOrDefault()
                             );
                         }
                     }),
@@ -122,7 +122,7 @@ export class IntegrationJobListView extends ibas.BOListView implements IIntegrat
                         press: function (): void {
                             that.fireViewEvents(that.editDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.IntegrationJob>(that.table).firstOrDefault()
+                                openui5.utils.getSelecteds<bo.IntegrationJob>(that.table).firstOrDefault()
                             );
                         }
                     }),
@@ -134,7 +134,7 @@ export class IntegrationJobListView extends ibas.BOListView implements IIntegrat
                         press: function (): void {
                             that.fireViewEvents(that.deleteDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.IntegrationJob>(that.table)
+                                openui5.utils.getSelecteds<bo.IntegrationJob>(that.table)
                             );
                         }
                     }),
@@ -233,6 +233,6 @@ export class IntegrationJobListView extends ibas.BOListView implements IIntegrat
     }
     /** 获取选择的数据 */
     getSelecteds(): bo.IntegrationJob[] {
-        return openui5.utils.getTableSelecteds<bo.IntegrationJob>(this.table);
+        return openui5.utils.getSelecteds<bo.IntegrationJob>(this.table);
     }
 }

@@ -38,7 +38,7 @@ export class IntegrationJobChooseView extends ibas.BOChooseView implements IInte
                 press: function (): void {
                     that.fireViewEvents(that.chooseDataEvent,
                         // 获取表格选中的对象
-                        openui5.utils.getTableSelecteds<bo.IntegrationJob>(that.table)
+                        openui5.utils.getSelecteds<bo.IntegrationJob>(that.table)
                     );
                 }
             }),
