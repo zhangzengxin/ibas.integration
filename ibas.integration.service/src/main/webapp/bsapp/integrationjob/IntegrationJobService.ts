@@ -58,7 +58,7 @@ export class IntegrationJobService extends
             condition.value = (<ibas.IBOStorageTag><any>data).objectCode;
             condition = criteria.conditions.create();
             condition.alias = bo.IntegrationJob.PROPERTY_ACTIVATED_NAME;
-            condition.value = "Y";
+            condition.value = ibas.emYesNo.YES.toString();
             this.fetchData(criteria);
             super.show();
         } else {
