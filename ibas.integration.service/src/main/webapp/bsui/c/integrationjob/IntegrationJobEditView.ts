@@ -174,6 +174,14 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
                         path: "actionName"
                     })
                 }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_integrationjobaction_actionremark"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                    }).bindProperty("value", {
+                        path: "actionRemark"
+                    })
+                }),
             ]
         });
         this.tableIntegrationJobActionCfg = new sap.ui.table.Table("", {
@@ -235,6 +243,14 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
                         width: "100%",
                     }).bindProperty("value", {
                         path: "value"
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_integrationjobactioncfg_remark"),
+                    template: new sap.m.Input("", {
+                        width: "100%",
+                    }).bindProperty("value", {
+                        path: "remark"
                     })
                 }),
             ]

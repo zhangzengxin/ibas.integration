@@ -251,6 +251,21 @@ public interface IIntegrationJobAction extends IBOSimpleLine {
 	void setActionName(String value);
 
 	/**
+	 * 获取-任务项说明
+	 * 
+	 * @return 值
+	 */
+	String getActionRemark();
+
+	/**
+	 * 设置-任务项说明
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setActionRemark(String value);
+
+	/**
 	 * 获取-集成任务-动作-配置集合
 	 * 
 	 * @return 值

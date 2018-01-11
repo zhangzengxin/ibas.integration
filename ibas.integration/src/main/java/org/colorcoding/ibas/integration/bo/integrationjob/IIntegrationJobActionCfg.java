@@ -249,4 +249,18 @@ public interface IIntegrationJobActionCfg extends IBOSimpleLine {
 	 */
 	void setValue(String value);
 
+	/**
+	 * 获取-配置说明
+	 * 
+	 * @return 值
+	 */
+	String getRemark();
+
+	/**
+	 * 设置-配置说明
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setRemark(String value);
 }

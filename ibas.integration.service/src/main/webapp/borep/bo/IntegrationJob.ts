@@ -496,6 +496,16 @@ export class IntegrationJobAction extends BOSimpleLine<IntegrationJobAction> imp
         this.setProperty(IntegrationJobAction.PROPERTY_ACTIONNAME_NAME, value);
     }
 
+    /** 映射的属性名称-任务项说明 */
+    static PROPERTY_ACTIONREMARK_NAME: string = "ActionRemark";
+    /** 获取-任务项说明 */
+    get actionRemark(): string {
+        return this.getProperty<string>(IntegrationJobAction.PROPERTY_ACTIONREMARK_NAME);
+    }
+    /** 设置-任务项说明 */
+    set actionRemark(value: string) {
+        this.setProperty(IntegrationJobAction.PROPERTY_ACTIONREMARK_NAME, value);
+    }
 
     /** 映射的属性名称-集成任务-动作-配置集合 */
     static PROPERTY_INTEGRATIONJOBACTIONCFGS_NAME: string = "IntegrationJobActionCfgs";
@@ -709,7 +719,16 @@ export class IntegrationJobActionCfg extends BOSimpleLine<IntegrationJobActionCf
         this.setProperty(IntegrationJobActionCfg.PROPERTY_VALUE_NAME, value);
     }
 
-
+    /** 映射的属性名称-配置项说明 */
+    static PROPERTY_REMARK_NAME: string = "Remark";
+    /** 获取-配置项说明 */
+    get remark(): string {
+        return this.getProperty<string>(IntegrationJobActionCfg.PROPERTY_REMARK_NAME);
+    }
+    /** 设置-配置项说明 */
+    set remark(value: string) {
+        this.setProperty(IntegrationJobActionCfg.PROPERTY_REMARK_NAME, value);
+    }
 
     /** 初始化数据 */
     protected init(): void {

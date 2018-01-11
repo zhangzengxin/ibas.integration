@@ -69,6 +69,17 @@ public class Action extends Serializable {
 		this.path = path;
 	}
 
+	private String remark;
+
+	@XmlElement(name = "remark")
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
 	private boolean activated;
 
 	@XmlElement(name = "activated")

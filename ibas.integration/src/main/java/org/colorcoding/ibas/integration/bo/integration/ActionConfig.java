@@ -54,6 +54,17 @@ public class ActionConfig extends Serializable {
 		this.value = value;
 	}
 
+	private String remark;
+
+	@XmlElement(name = "remark")
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
 	@Override
 	public String toString() {
 		return String.format("{action config: %s %s}", this.getKey(), this.getValue());

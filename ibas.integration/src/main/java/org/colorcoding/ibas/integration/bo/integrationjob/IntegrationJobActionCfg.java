@@ -559,6 +559,38 @@ public class IntegrationJobActionCfg extends BusinessObject<IntegrationJobAction
 	}
 
 	/**
+	 * 属性名称-配置说明
+	 */
+	private static final String PROPERTY_REMARK_NAME = "Remark";
+
+	/**
+	 * 配置说明 属性
+	 */
+	@DbField(name = "CfgRemark", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_REMARK = registerProperty(PROPERTY_REMARK_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-配置说明
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_REMARK_NAME)
+	public final String getRemark() {
+		return this.getProperty(PROPERTY_REMARK);
+	}
+
+	/**
+	 * 设置-配置说明
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setRemark(String value) {
+		this.setProperty(PROPERTY_REMARK, value);
+	}
+
+	/**
 	 * 初始化数据
 	 */
 	@Override

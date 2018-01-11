@@ -21,11 +21,13 @@ export class DataConverter4ig extends ibas.DataConverter4j {
             newData.name = data.name;
             newData.activated = data.activated;
             newData.path = data.path;
+            newData.remark = data.remark;
             if (!ibas.objects.isNull(data.configs)) {
                 for (let item of data.configs) {
                     let newItem: bo.ActionConfig = new bo.ActionConfig;
                     newItem.key = item.key;
                     newItem.value = item.value;
+                    newItem.remark = item.remark;
                     newData.configs.add(newItem);
                 }
             }

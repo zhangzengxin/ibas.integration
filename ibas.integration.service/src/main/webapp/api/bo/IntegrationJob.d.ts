@@ -158,6 +158,8 @@ export interface IIntegrationJobAction extends IBOSimpleLine {
     /** 任务项名称 */
     actionName: string;
 
+    /** 任务项说明 */
+    actionRemark: string;
 
     /** 集成任务-动作-配置集合 */
     integrationJobActionCfgs: IIntegrationJobActionCfgs;
@@ -222,6 +224,9 @@ export interface IIntegrationJobActionCfg extends IBOSimpleLine {
 
     /** 配置项值 */
     value: string;
+
+    /** 配置项说明 */
+    remark: string;
 
 
 }

@@ -31,6 +31,8 @@ export class Action implements IAction {
     name: string;
     /** 路径 */
     path: string;
+    /** 说明 */
+    remark: string;
     /** 激活的 */
     activated: boolean;
     /** 配置 */
@@ -61,4 +63,6 @@ export class ActionConfig implements IActionConfig {
     key: string;
     /** 值 */
     value: any;
+    /** 说明 */
+    remark: string;
 }

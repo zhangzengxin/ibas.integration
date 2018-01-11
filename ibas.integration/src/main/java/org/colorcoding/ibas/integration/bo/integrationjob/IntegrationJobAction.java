@@ -560,6 +560,38 @@ public class IntegrationJobAction extends BusinessObject<IntegrationJobAction> i
 	}
 
 	/**
+	 * 属性名称-任务项说明
+	 */
+	private static final String PROPERTY_ACTIONREMARK_NAME = "ActionRemark";
+
+	/**
+	 * 任务项说明 属性
+	 */
+	@DbField(name = "ActionRemark", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_ACTIONREMARK = registerProperty(PROPERTY_ACTIONREMARK_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-任务项说明
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_ACTIONREMARK_NAME)
+	public final String getActionRemark() {
+		return this.getProperty(PROPERTY_ACTIONREMARK);
+	}
+
+	/**
+	 * 设置-任务项说明
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setActionRemark(String value) {
+		this.setProperty(PROPERTY_ACTIONREMARK, value);
+	}
+
+	/**
 	 * 属性名称-集成任务-动作-配置
 	 */
 	private static final String PROPERTY_INTEGRATIONJOBACTIONCFGS_NAME = "IntegrationJobActionCfgs";

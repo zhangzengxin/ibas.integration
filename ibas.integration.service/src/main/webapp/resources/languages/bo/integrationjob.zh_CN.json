@@ -40,6 +40,7 @@
   "bo_integrationjobaction_relationship": "与上一个动作的关系",
   "bo_integrationjobaction_actionid": "任务项标识",
   "bo_integrationjobaction_actionname": "任务项名称",
+  "bo_integrationjobaction_actionremark": "任务项说明",
   "bo_integrationjobaction_integrationjobactioncfgs": "集成任务-动作-配置集合",
   "bo_integrationjobactioncfg": "集成任务-动作-配置",
   "bo_integrationjobactioncfg_objectkey": "对象编号",
@@ -58,5 +59,6 @@
   "bo_integrationjobactioncfg_actionlineid": "动作行号",
   "bo_integrationjobactioncfg_key": "配置项健",
   "bo_integrationjobactioncfg_value": "配置项值",
+  "bo_integrationjobactioncfg_remark": "配置项说明",
   "bo_integrationjob_closing_delimiter": "----结束----"
 }

@@ -293,6 +293,7 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
                     }
                     item.actionId = selected.id;
                     item.actionName = selected.name;
+                    item.actionRemark = selected.remark;
                     for (let cItem of selected.configs) {
                         // 添加默认配置
                         if (item.integrationJobActionCfgs.firstOrDefault((c) => { return c.key === cItem.key; }) !== null) {
@@ -301,6 +302,7 @@ export class IntegrationJobEditApp extends ibas.BOEditApplication<IIntegrationJo
                         let jobConfig: bo.ActionConfig = item.integrationJobActionCfgs.create();
                         jobConfig.key = cItem.key;
                         jobConfig.value = cItem.value;
+                        jobConfig.remark = cItem.remark;
                     }
                     item = null;
                 }
