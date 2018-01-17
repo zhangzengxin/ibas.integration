@@ -44,7 +44,7 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
         this.form = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("integration_general_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("integration_title_general") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_jobname") }),
                 new sap.m.Input("", {
                     type: sap.m.InputType.Text
@@ -78,7 +78,7 @@ export class IntegrationJobEditView extends ibas.BOEditView implements IIntegrat
                     path: "/applicationId",
                 }),
                 */
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("integration_other_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("integration_title_others") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_objectkey") }),
                 new sap.m.Input("", {
                     enable: false,
