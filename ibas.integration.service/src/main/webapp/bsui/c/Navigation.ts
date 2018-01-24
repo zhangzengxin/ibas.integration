@@ -35,9 +35,6 @@ export default class Navigation extends ibas.ViewNavigation {
             case integrationjobApps.IntegrationJobChooseApp.APPLICATION_ID:
                 view = new integrationjobViews.IntegrationJobChooseView();
                 break;
-            case integrationjobApps.IntegrationJobViewApp.APPLICATION_ID:
-                view = new integrationjobViews.IntegrationJobViewView();
-                break;
             case integrationjobApps.IntegrationJobEditApp.APPLICATION_ID:
                 view = new integrationjobViews.IntegrationJobEditView();
                 break;

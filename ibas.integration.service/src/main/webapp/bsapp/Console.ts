@@ -10,7 +10,7 @@ import * as ibas from "ibas/index";
 import { CONSOLE_ID, CONSOLE_NAME, CONSOLE_VERSION } from "../api/index";
 import {
     IntegrationJobFunc, IntegrationJobChooseServiceMapping,
-    IntegrationJobLinkServiceMapping, IntegrationJobServiceMapping
+    IntegrationJobServiceMapping
 } from "./integrationjob/index";
 import {
     IntegrationActionChooseServiceMapping,
@@ -42,7 +42,6 @@ export class Console extends ibas.ModuleConsole {
         }
         // 注册服务应用
         this.register(new IntegrationJobChooseServiceMapping());
-        this.register(new IntegrationJobLinkServiceMapping());
         this.register(new IntegrationActionChooseServiceMapping());
         this.register(new IntegrationJobServiceMapping());
         this.register(new IntegrationJobServiceMapping2());

@@ -11,7 +11,6 @@ import * as bo from "../../borep/bo/index";
 import { BORepositoryIntegration } from "../../borep/BORepositories";
 import { DataConverter4ig } from "../../borep/DataConverters";
 import { IntegrationJobRunnerApp } from "../integration/index";
-import { IntegrationJobViewApp } from "./IntegrationJobViewApp";
 import { IntegrationJobEditApp } from "./IntegrationJobEditApp";
 
 /** 列表应用-集成任务 */
