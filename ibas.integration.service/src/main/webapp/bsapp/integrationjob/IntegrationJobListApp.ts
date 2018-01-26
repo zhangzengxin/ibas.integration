@@ -9,7 +9,7 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryIntegration } from "../../borep/BORepositories";
-import { DataConverter4ig } from "../../borep/DataConverters";
+import { DataConverter4IG } from "../../borep/DataConverters";
 import { IntegrationJobRunnerApp } from "../integration/index";
 import { IntegrationJobEditApp } from "./IntegrationJobEditApp";
 
@@ -190,7 +190,7 @@ export class IntegrationJobListApp extends ibas.BOListApplication<IIntegrationJo
         return [
             new ibas.BOListServiceProxy({
                 data: this.view.getSelecteds(),
-                converter: new DataConverter4ig()
+                converter: new DataConverter4IG()
             })
         ];
     }

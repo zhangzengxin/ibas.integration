@@ -18,7 +18,7 @@ export class IntegrationJobServiceView extends ibas.BODialogView implements IInt
     /** 运行任务 */
     runJobEvent: Function;
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.table = new sap.ui.table.Table("", {
             enableSelectAll: false,

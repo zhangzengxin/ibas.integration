@@ -26,7 +26,7 @@ export class IntegrationJobListView extends ibas.BOListView implements IIntegrat
     /** 查看数据 */
     viewDataEvent: Function;
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("");
         this.table = new sap.ui.table.Table("", {

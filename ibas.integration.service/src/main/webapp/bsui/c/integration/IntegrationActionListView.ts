@@ -26,7 +26,7 @@ export class IntegrationActionListView extends ibas.BOQueryView implements IInte
     /** 查看代码 */
     viewCodeEvent: Function;
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("");
         this.table = new sap.ui.table.Table("", {

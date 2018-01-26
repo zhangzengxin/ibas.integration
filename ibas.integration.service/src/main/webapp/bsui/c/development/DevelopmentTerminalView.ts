@@ -22,7 +22,7 @@ export class DevelopmentTerminalView extends ibas.View implements IDevelopmentTe
     /** 运行动作 */
     runActionEvent: Function;
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("");
         this.table = new sap.ui.table.Table("", {

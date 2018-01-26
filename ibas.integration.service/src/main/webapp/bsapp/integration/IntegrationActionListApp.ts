@@ -9,7 +9,7 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryIntegration } from "../../borep/BORepositories";
-import { DataConverter4ig } from "../../borep/DataConverters";
+import { DataConverter4IG } from "../../borep/DataConverters";
 
 /** 列表应用-集成任务 */
 export class IntegrationActionListApp extends ibas.Application<IIntegrationActionListView> {

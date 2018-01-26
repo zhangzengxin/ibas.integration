@@ -12,7 +12,7 @@ import {
 } from "../api/index";
 
 /** 数据转换者 */
-export class DataConverter4ig extends ibas.DataConverter4j {
+export class DataConverter4IG extends ibas.DataConverter4j {
     parsing(data: any, sign: string): any {
         if (data.type === bo.Action.name) {
             let newData: bo.Action = new bo.Action();
@@ -38,12 +38,12 @@ export class DataConverter4ig extends ibas.DataConverter4j {
     }
     /** 创建业务对象转换者 */
     protected createConverter(): ibas.BOConverter {
-        return new BOConverter4ig;
+        return new BOConverter4IG;
     }
 }
 
 /** 业务对象转换者 */
-class BOConverter4ig extends ibas.BOConverter {
+class BOConverter4IG extends ibas.BOConverter {
 
     /**
      * 自定义解析
