@@ -52,9 +52,7 @@ export class Console extends ibas.ModuleConsole {
     run(): void {
         // 加载语言-框架默认
         ibas.i18n.load(this.rootUrl + "resources/languages/integration.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/enums.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/bo/integrationjob.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/bo/action.json");
+        ibas.i18n.load(this.rootUrl + "resources/languages/bos.json");
         // 设置资源属性
         this.description = ibas.i18n.prop(this.name.toLowerCase());
         this.icon = ibas.i18n.prop(this.name.toLowerCase() + "_icon");
@@ -113,8 +111,7 @@ export class ConsoleDev extends ibas.ModuleConsole {
     run(): void {
         // 加载语言-框架默认
         ibas.i18n.load(this.rootUrl + "resources/languages/integration.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/enums.json");
-        ibas.i18n.load(this.rootUrl + "resources/languages/bo/action.json");
+        ibas.i18n.load(this.rootUrl + "resources/languages/bos.json");
         // 设置资源属性
         this.description = ibas.i18n.prop(this.name.toLowerCase());
         this.icon = ibas.i18n.prop(this.name.toLowerCase() + "_icon");
