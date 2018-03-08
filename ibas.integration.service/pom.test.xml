@@ -9,10 +9,10 @@
     <artifactId>ibas.integration.test</artifactId>
     <packaging>war</packaging>
     <name>ibas.integration.test</name>
-    <url>http://colorcoding.org/ibas/integration/</url>
+    <url>https://colorcoding.org/ibas/integration/</url>
     <organization>
-        <name>colorcoding</name>
-        <url>http://colorcoding.org</url>
+        <name>Color-Coding Studio</name>
+        <url>https://colorcoding.org</url>
     </organization>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,7 +24,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <packagingExcludes>index.html,index.js,config.json,tsconfig.json,**/*.ts,**/*.bat,**/*.sh,3rdparty/**,modules/**,api/**,borep/**,bsapp/**,bsui/**,resources/**,WEB-INF/**,test/bo/**,test/repository/**</packagingExcludes>
+                    <packagingExcludes>index.html,index.js,config.json,tsconfig*.json,**/*.map,**/*.ts,**/*.bat,**/*.sh,3rdparty/**,modules/**,api/**,borep/**,bsapp/**,bsui/**,resources/**,WEB-INF/**,test/bo/**,test/repository/**</packagingExcludes>
                 </configuration>
             </plugin>
         </plugins>

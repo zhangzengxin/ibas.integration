@@ -1,6 +1,6 @@
 ﻿/**
  * @license
- * Copyright color-coding studio. All Rights Reserved.
+ * Copyright Color-Coding Studio. All Rights Reserved.
  *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
@@ -29,7 +29,7 @@ export default class HelloWorld extends ibas.Action {
         }
         // 逻辑代码
         let that: this = this;
-        let boRepository: ia.IBORepositoryInitialFantasy = ibas.boFactory.create(ia.BO_REPOSITORY_INITIALFANTASY);
+        let boRepository: initialfantasy.bo.IBORepositoryInitialFantasy = ibas.boFactory.create(initialfantasy.bo.BO_REPOSITORY_INITIALFANTASY);
         boRepository.address = this.getConfig(CONFIG_REPOSITORY_URL);
         boRepository.token = this.getConfig(CONFIG_REPOSITORY_TOKEN);
         boRepository.fetchUser({

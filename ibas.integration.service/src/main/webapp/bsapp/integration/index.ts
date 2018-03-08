@@ -1,15 +1,13 @@
 /**
  * @license
- * Copyright color-coding studio. All Rights Reserved.
+ * Copyright Color-Coding Studio. All Rights Reserved.
  *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
-
-// 模块索引文件，此文件集中导出类
-export * from "./IntegrationActionChooseApp";
-export * from "./IntegrationActionListApp";
-export * from "./IntegrationActionRunnerApp";
-export * from "./IntegrationJobRunnerApp";
-export * from "./IntegrationJobService";
-export * from "./IntegrationFunc";
+/// <reference path="./IntegrationActionChooseApp.ts" />
+/// <reference path="./IntegrationActionListApp.ts" />
+/// <reference path="./IntegrationActionRunnerApp.ts" />
+/// <reference path="./IntegrationFunc.ts" />
+/// <reference path="./IntegrationJobRunnerApp.ts" />
+/// <reference path="./IntegrationJobService.ts" />
