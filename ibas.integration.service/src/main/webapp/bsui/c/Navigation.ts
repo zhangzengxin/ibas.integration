@@ -5,54 +5,55 @@
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
+/// <reference path="../../3rdparty/ibas/index.d.ts" />
+/// <reference path="../../3rdparty/openui5/index.d.ts" />
+/// <reference path="../../index.d.ts" />
+/// <reference path="./development/index.ts" />
+/// <reference path="./integration/index.ts" />
+/// <reference path="./integrationjob/index.ts" />
+namespace integration {
+    export namespace ui {
+        /**
+         * 视图导航
+         */
+        export class Navigation extends ibas.ViewNavigation {
 
-import * as ibas from "ibas/index";
-import * as integrationjobApps from "../../bsapp/integrationjob/index";
-import * as integrationjobViews from "./integrationjob/index";
-import * as integrationactionApps from "../../bsapp/integration/index";
-import * as integrationactionViews from "./integration/index";
-import * as developmentApps from "../../bsapp/development/index";
-import * as developmentViews from "./development/index";
-
-/**
- * 视图导航
- */
-export default class Navigation extends ibas.ViewNavigation {
-
-    /**
-     * 创建实例
-     * @param id 应用id
-     */
-    protected newView(id: string): ibas.IView {
-        let view: ibas.IView = null;
-        switch (id) {
-            case integrationjobApps.IntegrationJobService.APPLICATION_ID:
-                view = new integrationjobViews.IntegrationJobServiceView();
-                break;
-            case integrationjobApps.IntegrationJobListApp.APPLICATION_ID:
-                view = new integrationjobViews.IntegrationJobListView();
-                break;
-            case integrationjobApps.IntegrationJobChooseApp.APPLICATION_ID:
-                view = new integrationjobViews.IntegrationJobChooseView();
-                break;
-            case integrationjobApps.IntegrationJobEditApp.APPLICATION_ID:
-                view = new integrationjobViews.IntegrationJobEditView();
-                break;
-            case integrationactionApps.IntegrationActionChooseApp.APPLICATION_ID:
-                view = new integrationactionViews.IntegrationActionChooseView();
-                break;
-            case integrationactionApps.IntegrationActionListApp.APPLICATION_ID:
-                view = new integrationactionViews.IntegrationActionListView();
-                break;
-            case integrationactionApps.IntegrationActionRunnerApp.APPLICATION_ID:
-                view = new integrationactionViews.IntegrationActionRunnerView();
-                break;
-            case developmentApps.DevelopmentTerminalApp.APPLICATION_ID:
-                view = new developmentViews.DevelopmentTerminalView();
-                break;
-            default:
-                break;
+            /**
+             * 创建实例
+             * @param id 应用id
+             */
+            protected newView(id: string): ibas.IView {
+                let view: ibas.IView = null;
+                switch (id) {
+                    case app.IntegrationJobService.APPLICATION_ID:
+                        view = new c.IntegrationJobServiceView();
+                        break;
+                    case app.IntegrationJobListApp.APPLICATION_ID:
+                        view = new c.IntegrationJobListView();
+                        break;
+                    case app.IntegrationJobChooseApp.APPLICATION_ID:
+                        view = new c.IntegrationJobChooseView();
+                        break;
+                    case app.IntegrationJobEditApp.APPLICATION_ID:
+                        view = new c.IntegrationJobEditView();
+                        break;
+                    case app.IntegrationActionChooseApp.APPLICATION_ID:
+                        view = new c.IntegrationActionChooseView();
+                        break;
+                    case app.IntegrationActionListApp.APPLICATION_ID:
+                        view = new c.IntegrationActionListView();
+                        break;
+                    case app.IntegrationActionRunnerApp.APPLICATION_ID:
+                        view = new c.IntegrationActionRunnerView();
+                        break;
+                    case app.DevelopmentTerminalApp.APPLICATION_ID:
+                        view = new c.DevelopmentTerminalView();
+                        break;
+                    default:
+                        break;
+                }
+                return view;
+            }
         }
-        return view;
     }
 }
