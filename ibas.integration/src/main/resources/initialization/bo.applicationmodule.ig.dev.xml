@@ -3,7 +3,7 @@
 <ns:ApplicationModule xmlns:ns="http://colorcoding.org/ibas/initialfantasy/bo">
     <!-- 安全考虑，默认不激活 -->
     <Activated>NO</Activated>
-	<ModuleEntry>index.dev</ModuleEntry>
+	<ModuleEntry>ConsoleDev</ModuleEntry>
     <ModuleId>689bc97c-c7a8-4e7f-a5e4-b2003da0ffa0</ModuleId>
     <ModuleName>IntegrationDevelopment</ModuleName>
     <PlatformId>DESKTOP</PlatformId>
