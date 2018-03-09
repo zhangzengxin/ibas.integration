@@ -7,9 +7,8 @@
  */
 namespace integration {
     export namespace app {
-
         /** 集成任务服务 */
-        export class IntegrationJobService2 extends
+        export class IntegrationJobService extends
             ibas.ServiceApplication<IIntegrationJobServiceView, ibas.IBOServiceContract | ibas.IBOListServiceContract>  {
 
             /** 应用标识 */
@@ -109,7 +108,7 @@ namespace integration {
             runJobEvent: Function;
         }
         /** 集成任务服务映射 */
-        export class IntegrationJobServiceMapping2 extends ibas.ServiceMapping {
+        export class IntegrationJobServiceMapping extends ibas.ServiceMapping {
 
             constructor() {
                 super();

@@ -40,8 +40,8 @@ namespace integration {
                 // 注册服务应用
                 this.register(new IntegrationJobChooseServiceMapping());
                 this.register(new IntegrationActionChooseServiceMapping());
+                this.register(new IntegrationJobAppMapping());
                 this.register(new IntegrationJobServiceMapping());
-                this.register(new IntegrationJobServiceMapping2());
                 // 注册常驻应用
 
             }

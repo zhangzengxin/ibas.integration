@@ -10,4 +10,4 @@
 /// <reference path="./IntegrationActionRunnerApp.ts" />
 /// <reference path="./IntegrationFunc.ts" />
 /// <reference path="./IntegrationJobRunnerApp.ts" />
-/// <reference path="./IntegrationJobService.ts" />
+/// <reference path="./IntegrationJobApp.ts" />

@@ -5,8 +5,8 @@
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
-import * as ibas from "ibas/index";
-import * as ia from "3rdparty/initialfantasy/index";
+/// <reference path="../../3rdparty/ibas/index.d.ts" />
+/// <reference path="./3rdparty/initialfantasy/index.ts" />
 /** 配置项-业务仓库地址 */
 const CONFIG_REPOSITORY_URL: string = "REP_URL";
 /** 配置项-业务仓库口令 */

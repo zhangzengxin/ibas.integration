@@ -7,7 +7,6 @@
  */
 namespace integration {
     export namespace app {
-
         /** 集成任务运行 */
         export class IntegrationJobRunnerApp extends IntegrationActionRunnerApp {
             /** 构造函数 */

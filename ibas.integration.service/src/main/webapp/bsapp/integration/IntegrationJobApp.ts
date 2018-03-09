@@ -7,17 +7,16 @@
  */
 namespace integration {
     export namespace app {
-
         /** 集成任务运行 */
-        export class IntegrationJobService extends IntegrationJobRunnerApp {
+        export class IntegrationJobApp extends IntegrationJobRunnerApp {
             /** 应用标识 */
             static APPLICATION_ID: string = IntegrationJobRunnerApp.APPLICATION_ID;
             /** 应用名称 */
             static APPLICATION_NAME: string = IntegrationJobRunnerApp.APPLICATION_NAME;
             constructor() {
                 super();
-                this.id = IntegrationJobService.APPLICATION_ID;
-                this.name = IntegrationJobService.APPLICATION_NAME;
+                this.id = IntegrationJobApp.APPLICATION_ID;
+                this.name = IntegrationJobApp.APPLICATION_NAME;
                 this.description = ibas.i18n.prop(this.name);
             }
             run(): void;
@@ -71,19 +70,19 @@ namespace integration {
             }
         }
         /** 集成任务服务映射 */
-        export class IntegrationJobServiceMapping extends ibas.ServiceMapping {
+        export class IntegrationJobAppMapping extends ibas.ServiceMapping {
 
             constructor() {
                 super();
-                this.id = IntegrationJobService.APPLICATION_ID;
-                this.name = IntegrationJobService.APPLICATION_NAME;
+                this.id = IntegrationJobApp.APPLICATION_ID;
+                this.name = IntegrationJobApp.APPLICATION_NAME;
                 this.description = ibas.i18n.prop(this.name);
                 this.proxy = IntegrationJobServiceProxy;
                 this.icon = ibas.i18n.prop("integration_icon");
             }
             /** 创建服务实例 */
             create(): ibas.IService<ibas.IServiceContract> {
-                return new IntegrationJobService();
+                return new IntegrationJobApp();
             }
         }
     }
