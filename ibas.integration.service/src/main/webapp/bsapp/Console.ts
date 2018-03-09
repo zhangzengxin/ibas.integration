@@ -55,18 +55,21 @@ namespace integration {
                 this.icon = ibas.i18n.prop(this.name.toLowerCase() + "_icon");
                 // 先加载ui导航
                 let uiModules: string[] = [];
-                if (!ibas.config.get(ibas.CONFIG_ITEM_DISABLE_PLATFORM_VIEW, false)
-                    && this.plantform === ibas.emPlantform.PHONE) {
-                    // 使用m类型视图
-                    uiModules.push("../bsui/m/Navigation");
-                } else {
+                if (!ibas.config.get(ibas.CONFIG_ITEM_DISABLE_PLATFORM_VIEW, false)) {
+                    if (this.plantform === ibas.emPlantform.PHONE) {
+                        // 使用m类型视图
+                        uiModules.push("index.ui.m");
+                    }
+                }
+                // 默认使用视图
+                if (uiModules.length === 0) {
                     // 使用c类型视图
-                    uiModules.push("../bsui/c/Navigation");
+                    uiModules.push("index.ui.c");
                 }
                 let that: this = this;
-                require(uiModules, function (ui: any): void {
+                this.loadUI(uiModules, function (ui: any): void {
                     // 设置导航
-                    that._navigation = new ui.default();
+                    that._navigation = new ui.Navigation();
                     // 调用初始化
                     that.initialize();
                 });

@@ -5,6 +5,6 @@
     <Activated>NO</Activated>
 	<ModuleEntry>ConsoleDev</ModuleEntry>
     <ModuleId>689bc97c-c7a8-4e7f-a5e4-b2003da0ffa0</ModuleId>
-    <ModuleName>IntegrationDevelopment</ModuleName>
+    <ModuleName>Integration</ModuleName>
     <PlatformId>DESKTOP</PlatformId>
 </ns:ApplicationModule>
