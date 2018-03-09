@@ -24,7 +24,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <packagingExcludes>index.html,index.js,config.json,tsconfig*.json,**/*.map,**/*.ts,**/*.bat,**/*.sh,3rdparty/**,modules/**,api/**,borep/**,bsapp/**,bsui/**,resources/**,WEB-INF/**,test/bo/**,test/repository/**</packagingExcludes>
+                    <packagingExcludes>index.html,index.js,config.json,**/tsconfig*.json,**/*.map,**/*.ts,**/*.bat,**/*.sh,3rdparty/**,modules/**,api/**,borep/**,bsapp/**,bsui/**,resources/**,WEB-INF/**,test/bo/**,test/repository/**</packagingExcludes>
                 </configuration>
             </plugin>
         </plugins>
