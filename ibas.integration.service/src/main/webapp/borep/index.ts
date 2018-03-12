@@ -16,9 +16,9 @@
 namespace integration {
     export namespace bo {
         // 注册业务对象仓库到工厂
-        ibas.boFactory.register(BO_REPOSITORY_INTEGRATION, BORepositoryIntegration);
+        boFactory.register(BO_REPOSITORY_INTEGRATION, BORepositoryIntegration);
         // 注册业务对象到工厂
-        ibas.boFactory.register(IntegrationJob.BUSINESS_OBJECT_CODE, IntegrationJob);
-        ibas.boFactory.register(Action);
+        boFactory.register(IntegrationJob.BUSINESS_OBJECT_CODE, IntegrationJob);
+        boFactory.register(Action);
     }
 }
