@@ -149,7 +149,7 @@ namespace integration {
                     title: ibas.i18n.prop(this.name),
                     message: ibas.i18n.prop("shell_confirm") +
                         ibas.i18n.prop("integration_delete_package") +
-                        ibas.strings.format("[{0}]", ibas.strings.toString(beDeleteds)),
+                        ibas.strings.format("[{0}]", ibas.strings.valueOf(beDeleteds)),
                     actions: [ibas.emMessageAction.YES, ibas.emMessageAction.NO],
                     onCompleted(action: ibas.emMessageAction): void {
                         if (action === ibas.emMessageAction.YES) {
