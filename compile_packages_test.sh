@@ -12,7 +12,8 @@ echo '    5. 此脚本用于编译测试war包。                               
 echo '    6. 报错时请尝试先运行compile_packages.sh。                              '
 echo '****************************************************************************'
 # 设置参数变量
-WORK_FOLDER=`pwd`
+cd `dirname $0`
+WORK_FOLDER=${PWD}
 
 echo --当前工作的目录是[${WORK_FOLDER}]
 if [ ! -e ${WORK_FOLDER}/release/ ]
