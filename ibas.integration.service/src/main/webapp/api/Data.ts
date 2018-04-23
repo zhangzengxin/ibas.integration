@@ -32,6 +32,10 @@ namespace integration {
              */
             OR,
         }
+        /** 查询动作条件-ID */
+        export const CRITERIA_CONDITION_ALIAS_ACTION_ID: string = "ActionId";
+        /** 查询动作条件-包（组） */
+        export const CRITERIA_CONDITION_ALIAS_PACKAGE: string = "FileFolder";
     }
 
     export namespace app {

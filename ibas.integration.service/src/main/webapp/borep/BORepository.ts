@@ -54,10 +54,6 @@ namespace integration {
             saveIntegrationJob(saver: ibas.ISaveCaller<bo.IntegrationJob>): void {
                 super.save(bo.IntegrationJob.name, saver);
             }
-            /** 查询动作条件-ID */
-            static CRITERIA_CONDITION_ALIAS_ACTION_ID: string = "ActionId";
-            /** 查询动作条件-包（组） */
-            static CRITERIA_CONDITION_ALIAS_PACKAGE: string = "FileFolder";
             /**
              * 查询 集成动作
              * @param fetcher 查询者

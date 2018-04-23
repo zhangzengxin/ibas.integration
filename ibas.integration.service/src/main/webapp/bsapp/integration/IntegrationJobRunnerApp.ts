@@ -22,7 +22,7 @@ namespace integration {
                     let criteria: ibas.ICriteria = new ibas.Criteria();
                     for (let item of job.integrationJobActions) {
                         let condition: ibas.ICondition = criteria.conditions.create();
-                        condition.alias = bo.BORepositoryIntegration.CRITERIA_CONDITION_ALIAS_ACTION_ID;
+                        condition.alias = bo.CRITERIA_CONDITION_ALIAS_ACTION_ID;
                         condition.value = item.actionId;
                         condition.relationship = ibas.emConditionRelationship.OR;// 其他无意义
                     }

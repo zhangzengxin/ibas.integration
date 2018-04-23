@@ -29,6 +29,15 @@ namespace integration {
              * @param saver 保存者
              */
             saveIntegrationJob(saver: ibas.ISaveCaller<bo.IIntegrationJob>): void;
+            /**
+             * 查询 集成动作
+             * @param fetcher 查询者
+             */
+            fetchAction(fetcher: ibas.IFetchCaller<bo.Action>): void;
+            /**
+             * 获取动作地址
+             */
+            toPackageUrl(action: bo.Action): string;
         }
     }
 }
