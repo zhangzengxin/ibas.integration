@@ -42,7 +42,7 @@ namespace integration {
         /** 集成任务服务契约 */
         export interface IIntegrationJobServiceContract {
             /** 任务名称 */
-            jobName: string;
+            jobName: string | bo.IIntegrationJob;
             /** 是否自动运行 */
             autoRun?: boolean;
             /** 参数 */

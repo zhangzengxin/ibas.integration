@@ -40,33 +40,37 @@ namespace integration {
                 // 设置参数
                 this.autoRun = contract.autoRun === true ? true : false;
                 this.extraData = contract.extraData ? contract.extraData : undefined;
-                // 查询任务
-                let criteria: ibas.ICriteria = new ibas.Criteria();
-                let condition: ibas.ICondition = criteria.conditions.create();
-                condition.alias = bo.IntegrationJob.PROPERTY_JOBNAME_NAME;
-                condition.value = contract.jobName;
-                condition = criteria.conditions.create();
-                condition.alias = bo.IntegrationJob.PROPERTY_ACTIVATED_NAME;
-                condition.value = ibas.emYesNo.YES.toString();
-                let that: this = this;
-                let boRepository: bo.BORepositoryIntegration = new bo.BORepositoryIntegration();
-                boRepository.fetchIntegrationJob({
-                    criteria: criteria,
-                    onCompleted(opRslt: ibas.IOperationResult<bo.IntegrationJob>): void {
-                        try {
-                            if (opRslt.resultCode !== 0) {
-                                throw new Error(opRslt.message);
+                if (contract.jobName instanceof bo.IntegrationJob) {
+                    this.run(contract.jobName);
+                } else {
+                    // 查询任务
+                    let criteria: ibas.ICriteria = new ibas.Criteria();
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = bo.IntegrationJob.PROPERTY_JOBNAME_NAME;
+                    condition.value = ibas.strings.valueOf(contract.jobName);
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.IntegrationJob.PROPERTY_ACTIVATED_NAME;
+                    condition.value = ibas.emYesNo.YES.toString();
+                    let that: this = this;
+                    let boRepository: bo.BORepositoryIntegration = new bo.BORepositoryIntegration();
+                    boRepository.fetchIntegrationJob({
+                        criteria: criteria,
+                        onCompleted(opRslt: ibas.IOperationResult<bo.IntegrationJob>): void {
+                            try {
+                                if (opRslt.resultCode !== 0) {
+                                    throw new Error(opRslt.message);
+                                }
+                                let job: bo.IntegrationJob = opRslt.resultObjects.firstOrDefault();
+                                if (ibas.objects.isNull(job)) {
+                                    throw new Error(ibas.i18n.prop("integration_not_found_integrationjob", contract.jobName));
+                                }
+                                that.run(job);
+                            } catch (error) {
+                                that.messages(error);
                             }
-                            let job: bo.IntegrationJob = opRslt.resultObjects.firstOrDefault();
-                            if (ibas.objects.isNull(job)) {
-                                throw new Error(ibas.i18n.prop("integration_not_found_integrationjob", contract.jobName));
-                            }
-                            that.run(job);
-                        } catch (error) {
-                            that.messages(error);
                         }
-                    }
-                });
+                    });
+                }
             }
         }
         /** 集成任务服务映射 */
