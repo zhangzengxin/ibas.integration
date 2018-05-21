@@ -796,7 +796,7 @@ public class IntegrationJob extends BusinessObject<IntegrationJob> implements II
 		super.initialize();// 基类初始化，不可去除
 		this.setIntegrationJobActions(new IntegrationJobActions(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-
+		this.setActivated(emYesNo.YES);
 	}
 
 }

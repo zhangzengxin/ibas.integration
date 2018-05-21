@@ -20,7 +20,7 @@ namespace integration {
                     this.table = new sap.ui.table.Table("", {
                         enableSelectAll: false,
                         selectionBehavior: sap.ui.table.SelectionBehavior.Row,
-                        selectionMode: sap.ui.table.SelectionMode.Single,
+                        selectionMode: sap.ui.table.SelectionMode.MultiToggle,
                         visibleRowCount: 5,
                         rows: "{/rows}",
                         columns: [
@@ -42,6 +42,7 @@ namespace integration {
                             }),
                         ]
                     });
+                    openui5.utils.changeSelectionStyle(this.table, ibas.emChooseType.SINGLE);
                     return new sap.m.Dialog("", {
                         title: this.title,
                         type: sap.m.DialogType.Standard,
