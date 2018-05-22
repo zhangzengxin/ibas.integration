@@ -8,9 +8,7 @@
 namespace integration {
     export namespace app {
         /** 集成任务服务 */
-        export class IntegrationJobService extends
-            ibas.ServiceApplication<IIntegrationJobServiceView, ibas.IBOServiceContract | ibas.IBOListServiceContract>  {
-
+        export class IntegrationJobService extends ibas.ServiceApplication<IIntegrationJobServiceView, ibas.IBOServiceContract>  {
             /** 应用标识 */
             static APPLICATION_ID: string = "cc6ba9f8-bae5-4a44-ad1a-db406de60da5";
             /** 应用名称 */
@@ -34,7 +32,7 @@ namespace integration {
             /** 额外的运行数据 */
             extraData: any;
             /** 运行服务 */
-            runService(contract: ibas.IBOServiceContract | ibas.IBOListServiceContract): void {
+            runService(contract: ibas.IBOServiceContract): void {
                 let data: ibas.IBusinessObject;
                 if (contract.data instanceof Array) {
                     // 数组只处理第一个
@@ -115,7 +113,7 @@ namespace integration {
                 this.id = IntegrationJobService.APPLICATION_ID;
                 this.name = IntegrationJobService.APPLICATION_NAME;
                 this.description = ibas.i18n.prop(this.name);
-                this.proxy = ibas.BOListServiceProxy;
+                this.proxy = ibas.BOServiceProxy;
                 this.icon = ibas.i18n.prop("integration_icon");
             }
             /** 创建服务实例 */
