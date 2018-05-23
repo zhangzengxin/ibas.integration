@@ -33,11 +33,11 @@ namespace integration {
              * 查询 集成动作
              * @param fetcher 查询者
              */
-            fetchAction(fetcher: ibas.IFetchCaller<bo.Action>): void;
+            fetchAction(fetcher: ibas.IFetchCaller<bo.IAction>): void;
             /**
              * 获取动作地址
              */
-            toPackageUrl(action: bo.Action): string;
+            toPackageUrl(action: bo.IAction): string;
         }
     }
 }
