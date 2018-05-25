@@ -67,6 +67,10 @@ namespace integration {
                             new sap.ui.core.Item("", {
                                 key: "demo",
                                 text: ".../../test/apps/integration/test/integration/actions.json",
+                            }),
+                            new sap.ui.core.Item("", {
+                                key: "dev",
+                                text: ".../../test/apps/datainteraction/integration/actions.json",
                             })
                         ]
                     });
