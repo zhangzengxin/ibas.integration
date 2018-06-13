@@ -44,6 +44,7 @@ namespace integration {
                     criteria: criteria,
                     onCompleted(opRslt: ibas.IOperationResult<bo.Action>): void {
                         try {
+                            that.busy(false);
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
                             }
@@ -51,7 +52,6 @@ namespace integration {
                                 that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
                             }
                             that.view.showData(opRslt.resultObjects);
-                            that.busy(false);
                         } catch (error) {
                             that.messages(error);
                         }
@@ -68,6 +68,7 @@ namespace integration {
                     fileData: formData,
                     onCompleted(opRslt: ibas.IOperationResult<bo.Action>): void {
                         try {
+                            that.busy(false);
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
                             }
@@ -75,7 +76,6 @@ namespace integration {
                                 that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_fetched_none"));
                             }
                             that.view.showData(opRslt.resultObjects);
-                            that.busy(false);
                         } catch (error) {
                             that.messages(error);
                         }
@@ -103,11 +103,11 @@ namespace integration {
                     action: action,
                     onCompleted(opRslt: ibas.IOperationResult<Blob>): void {
                         try {
+                            that.busy(false);
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
                             }
                             that.view.showCode(opRslt.resultObjects.firstOrDefault());
-                            that.busy(false);
                         } catch (error) {
                             that.messages(error);
                         }

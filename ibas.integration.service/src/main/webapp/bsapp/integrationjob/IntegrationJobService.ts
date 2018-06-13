@@ -70,11 +70,11 @@ namespace integration {
                     criteria: criteria,
                     onCompleted(opRslt: ibas.IOperationResult<bo.IntegrationJob>): void {
                         try {
+                            that.busy(false);
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
                             }
                             that.view.showJobs(opRslt.resultObjects);
-                            that.busy(false);
                         } catch (error) {
                             that.messages(error);
                         }

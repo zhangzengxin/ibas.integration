@@ -50,6 +50,7 @@ namespace integration {
                     url: url,
                     onCompleted(opRslt: ibas.IOperationResult<bo.Action>): void {
                         try {
+                            that.busy(false);
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
                             }
@@ -62,7 +63,6 @@ namespace integration {
                                 item.group = rootUrl;
                             }
                             that.view.showActions(opRslt.resultObjects);
-                            that.busy(false);
                         } catch (error) {
                             that.messages(error);
                         }
