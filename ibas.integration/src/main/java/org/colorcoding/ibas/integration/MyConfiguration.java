@@ -1,9 +1,35 @@
 package org.colorcoding.ibas.integration;
 
+import org.colorcoding.ibas.bobas.configuration.ConfigurationFactory;
+import org.colorcoding.ibas.bobas.configuration.IConfigurationManager;
+
 /**
  * 我的配置项
  */
 public class MyConfiguration extends org.colorcoding.ibas.bobas.MyConfiguration {
+
+	private volatile static IConfigurationManager instance;
+
+	public static IConfigurationManager create() {
+		if (instance == null) {
+			synchronized (MyConfiguration.class) {
+				if (instance == null) {
+					instance = ConfigurationFactory.create().createManager();
+					instance.setConfigSign(MODULE_ID);
+					instance.update();
+				}
+			}
+		}
+		return instance;
+	}
+
+	public static <P> P getConfigValue(String key, P defaultValue) {
+		return create().getConfigValue(key, defaultValue);
+	}
+
+	public static String getConfigValue(String key) {
+		return create().getConfigValue(key);
+	}
 
 	/**
 	 * 模块标识
@@ -30,12 +56,8 @@ public class MyConfiguration extends org.colorcoding.ibas.bobas.MyConfiguration 
 	 */
 	public static final String NAMESPACE_SERVICE = NAMESPACE_ROOT + "service";
 	/**
-	 * 配置项目-文件文件夹
-	 */
-	public final static String CONFIG_ITEM_INTEGRATION_FILE_FOLDER = "IGFileFolder";
-	/**
 	 * 配置项目-动作文件文件夹
 	 */
-	public final static String CONFIG_ITEM_INTEGRATION_ACTION_FOLDER = "IGActionFolder";
+	public final static String CONFIG_ITEM_ACTION_FOLDER = "ActionFolder";
 
 }

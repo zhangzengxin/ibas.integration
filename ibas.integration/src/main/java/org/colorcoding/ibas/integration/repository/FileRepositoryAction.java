@@ -49,7 +49,7 @@ public class FileRepositoryAction extends FileRepositoryService
 	public static final String CRITERIA_CONDITION_ALIAS_FOLDER = FileRepository.CRITERIA_CONDITION_ALIAS_FOLDER;
 
 	public FileRepositoryAction() {
-		String workFolder = MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_INTEGRATION_ACTION_FOLDER);
+		String workFolder = MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_ACTION_FOLDER);
 		if (workFolder == null || workFolder.isEmpty()) {
 			workFolder = MyConfiguration.getDataFolder() + File.separator + "integration_actions";
 		}
