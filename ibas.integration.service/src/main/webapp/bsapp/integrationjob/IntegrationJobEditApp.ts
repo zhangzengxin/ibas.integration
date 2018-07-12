@@ -185,13 +185,13 @@ namespace integration {
                 }
             }
             /** 添加集成任务-动作事件 */
-            addIntegrationJobAction(): void {
+            private addIntegrationJobAction(): void {
                 this.editData.integrationJobActions.create();
                 // 仅显示没有标记删除的
                 this.view.showIntegrationJobActions(this.editData.integrationJobActions.filterDeleted());
             }
             /** 删除集成任务-动作事件 */
-            removeIntegrationJobAction(items: bo.IntegrationJobAction[]): void {
+            private removeIntegrationJobAction(items: bo.IntegrationJobAction[]): void {
                 // 非数组，转为数组
                 if (!(items instanceof Array)) {
                     items = [items];
@@ -215,7 +215,7 @@ namespace integration {
                 this.view.showIntegrationJobActions(this.editData.integrationJobActions.filterDeleted());
             }
             /** 编辑审集成任务-动作事件 */
-            editJobActionEvent(item: bo.IntegrationJobAction): void {
+            private editJobActionEvent(item: bo.IntegrationJobAction): void {
                 this.editIntegrationJobAction = item;
                 if (ibas.objects.isNull(this.editIntegrationJobAction)) {
                     // 无编辑对象
@@ -226,13 +226,13 @@ namespace integration {
                 }
             }
             /** 添加集成任务-动作事件 */
-            addIntegrationJobActionCfg(): void {
+            private addIntegrationJobActionCfg(): void {
                 this.editIntegrationJobAction.integrationJobActionCfgs.create();
                 // 仅显示没有标记删除的
                 this.view.showIntegrationJobActionCfgs(this.editIntegrationJobAction.integrationJobActionCfgs.filterDeleted());
             }
             /** 删除集成任务-动作事件 */
-            removeIntegrationJobActionCfg(items: bo.IntegrationJobActionCfg[]): void {
+            private removeIntegrationJobActionCfg(items: bo.IntegrationJobActionCfg[]): void {
                 // 非数组，转为数组
                 if (!(items instanceof Array)) {
                     items = [items];
@@ -256,11 +256,17 @@ namespace integration {
                 this.view.showIntegrationJobActionCfgs(this.editIntegrationJobAction.integrationJobActionCfgs.filterDeleted());
             }
             /** 选择业务对象 */
-            chooseBusinessObject(): void {
+            private chooseBusinessObject(): void {
                 let that: this = this;
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                criteria.noChilds = true;
+                let condition: ibas.ICondition = criteria.conditions.create();
+                condition.alias = "Code";
+                condition.value = ".";
+                condition.operation = ibas.emConditionOperation.NOT_CONTAIN;
                 ibas.servicesManager.runChooseService<initialfantasy.bo.IBOInformation>({
                     boCode: initialfantasy.bo.BO_CODE_BOINFORMATION,
-                    criteria: [],
+                    criteria: criteria,
                     onCompleted(selecteds: ibas.IList<initialfantasy.bo.IBOInformation>): void {
                         // 获取触发的对象
                         that.editData.boCode = selecteds.firstOrDefault().code;
@@ -268,11 +274,11 @@ namespace integration {
                 });
             }
             /** 选择应用 */
-            chooseApplication(): void {
+            private chooseApplication(): void {
                 // 不能提供
             }
             /** 选择任务动作 */
-            chooseJobAction(caller: bo.IntegrationJobAction): void {
+            private chooseJobAction(caller: bo.IntegrationJobAction): void {
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.Action>({
                     boCode: bo.Action.name,
@@ -311,7 +317,7 @@ namespace integration {
                 });
             }
             /** 选择任务动作配置-配置项目 */
-            chooseJobActionCfgConfigItem(caller: bo.IntegrationJobActionCfg): void {
+            private chooseJobActionCfgConfigItem(caller: bo.IntegrationJobActionCfg): void {
                 let that: this = this;
                 ibas.servicesManager.runChooseService<bo.IntegrationJobActionCfg>({
                     boCode: initialfantasy.bo.BO_CODE_SYSTEM_CONFIG,
