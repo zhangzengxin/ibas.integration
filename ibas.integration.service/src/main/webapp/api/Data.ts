@@ -32,6 +32,12 @@ namespace integration {
              */
             OR,
         }
+        /** 查询任务条件-服务的名称 */
+        export const CRITERIA_CONDITION_ALIAS_JOB_NAME: string = "JobName";
+        /** 查询任务条件-关联的业务对象 */
+        export const CRITERIA_CONDITION_ALIAS_BOCODE: string = "BOCode";
+        /** 查询任务条件-关联的应用 */
+        export const CRITERIA_CONDITION_ALIAS_APPLICATION_ID: string = "ApplicationId";
         /** 查询动作条件-ID */
         export const CRITERIA_CONDITION_ALIAS_ACTION_ID: string = "ActionId";
         /** 查询动作条件-包（组） */
