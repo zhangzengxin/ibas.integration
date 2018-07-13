@@ -77,6 +77,13 @@ namespace integration {
                 super.run();
             }
         }
+        /** 模块控制台 */
+        export class ConsolePhone extends Console {
+            /** 初始化 */
+            protected registers(): void {
+
+            }
+        }
 
         const CONSOLE_ID_DEV: string = "689bc97c-c7a8-4e7f-a5e4-b2003da0ffa0";
         const CONSOLE_NAME_DEV: string = "IntegrationDevelopment";
