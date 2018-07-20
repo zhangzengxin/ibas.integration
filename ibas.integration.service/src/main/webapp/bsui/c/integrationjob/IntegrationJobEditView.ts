@@ -55,6 +55,13 @@ namespace integration {
                                 path: "/activated",
                                 type: "sap.ui.model.type.Integer"
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_frequency") }),
+                            new sap.m.Input("", {
+                                enable: false,
+                                type: sap.m.InputType.Number
+                            }).bindProperty("value", {
+                                path: "/frequency",
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_bocode") }),
                             new sap.m.Input("", {
                                 showValueHelp: true,
@@ -75,21 +82,7 @@ namespace integration {
                                 path: "/applicationId",
                             }),
                             */
-                            new sap.ui.core.Title("", { text: ibas.i18n.prop("integration_title_others") }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_objectkey") }),
-                            new sap.m.Input("", {
-                                enable: false,
-                                type: sap.m.InputType.Text
-                            }).bindProperty("value", {
-                                path: "/objectKey",
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_objectcode") }),
-                            new sap.m.Input("", {
-                                enabled: false,
-                                type: sap.m.InputType.Text
-                            }).bindProperty("value", {
-                                path: "/objectCode",
-                            }),
+                            new sap.ui.core.Title("", {}),
                         ]
                     });
                     this.tableTitle = new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_integrationjobaction") });

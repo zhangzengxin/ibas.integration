@@ -277,6 +277,7 @@ namespace integration {
                 this.integrationJobActions = new IntegrationJobActions(this);
                 this.objectCode = ibas.config.applyVariables(IntegrationJob.BUSINESS_OBJECT_CODE);
                 this.activated = ibas.emYesNo.YES;
+                this.frequency = 0;
             }
         }
 

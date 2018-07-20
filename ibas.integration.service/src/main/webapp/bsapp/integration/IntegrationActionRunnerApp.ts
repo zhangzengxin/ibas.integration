@@ -7,7 +7,8 @@
  */
 namespace integration {
     export namespace app {
-
+        const PROPERTY_ACTIONS: symbol = Symbol("actions");
+        const PROPERTY_RUNNING_ACTIONS: symbol = Symbol("runningActions");
         /** 动作运行 */
         export class IntegrationActionRunnerApp extends ibas.Application<IIntegrationActionRunnerView> {
 
@@ -65,12 +66,11 @@ namespace integration {
                     super.run.apply(this, arguments);
                 }
             }
-            private _actions: ibas.IList<bo.Action>;
             get actions(): ibas.IList<bo.Action> {
-                if (ibas.objects.isNull(this._actions)) {
-                    this._actions = new ibas.ArrayList();
+                if (ibas.objects.isNull(this[PROPERTY_ACTIONS])) {
+                    this[PROPERTY_ACTIONS] = new ibas.ArrayList();
                 }
-                return this._actions;
+                return this[PROPERTY_ACTIONS];
             }
             private runActions(): void {
                 if (ibas.objects.isNull(this.actions)) {
@@ -80,12 +80,11 @@ namespace integration {
                     this.runAction(item);
                 }
             }
-            private _runningActions: ibas.IList<ibas.Action>;
             get runningActions(): ibas.IList<ibas.Action> {
-                if (ibas.objects.isNull(this._runningActions)) {
-                    this._runningActions = new ibas.ArrayList();
+                if (ibas.objects.isNull(this[PROPERTY_RUNNING_ACTIONS])) {
+                    this[PROPERTY_RUNNING_ACTIONS] = new ibas.ArrayList();
                 }
-                return this._runningActions;
+                return this[PROPERTY_RUNNING_ACTIONS];
             }
             private stopActions(): void {
                 for (let item of this.runningActions) {
