@@ -17,7 +17,6 @@ namespace integration {
          * 视图导航
          */
         export class Navigation extends ibas.ViewNavigation {
-
             /**
              * 创建实例
              * @param id 应用id
@@ -45,6 +44,9 @@ namespace integration {
                         break;
                     case app.IntegrationActionRunnerApp.APPLICATION_ID:
                         view = new c.IntegrationActionRunnerView();
+                        break;
+                    case app.IntegrationJobSchedulerApp.APPLICATION_ID:
+                        view = new c.IntegrationJobSchedulerView();
                         break;
                     case app.DevelopmentTerminalApp.APPLICATION_ID:
                         view = new c.DevelopmentTerminalView();

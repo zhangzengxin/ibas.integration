@@ -46,13 +46,13 @@ namespace integration {
                             new sap.m.Input("", {
                                 type: sap.m.InputType.Text
                             }).bindProperty("value", {
-                                path: "/jobName",
+                                path: "jobName",
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_activated") }),
                             new sap.m.Select("", {
                                 items: openui5.utils.createComboBoxItems(ibas.emYesNo)
                             }).bindProperty("selectedKey", {
-                                path: "/activated",
+                                path: "activated",
                                 type: "sap.ui.model.type.Integer"
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_frequency") }),
@@ -60,16 +60,7 @@ namespace integration {
                                 enable: false,
                                 type: sap.m.InputType.Number
                             }).bindProperty("value", {
-                                path: "/frequency",
-                            }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_bocode") }),
-                            new sap.m.Input("", {
-                                showValueHelp: true,
-                                valueHelpRequest: function (): void {
-                                    that.fireViewEvents(that.chooseBusinessObjectEvent);
-                                }
-                            }).bindProperty("value", {
-                                path: "/boCode",
+                                path: "frequency",
                             }),
                             /*
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_applicationid") }),
@@ -82,7 +73,22 @@ namespace integration {
                                 path: "/applicationId",
                             }),
                             */
-                            new sap.ui.core.Title("", {}),
+                            new sap.ui.core.Title("", { text: ibas.i18n.prop("integration_title_others") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_bocode") }),
+                            new sap.m.Input("", {
+                                showValueHelp: true,
+                                valueHelpRequest: function (): void {
+                                    that.fireViewEvents(that.chooseBusinessObjectEvent);
+                                }
+                            }).bindProperty("value", {
+                                path: "boCode",
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_dataowner") }),
+                            new sap.m.ex.DataOwnerInput("", {
+                                bindingValue: {
+                                    path: "dataOwner"
+                                }
+                            }),
                         ]
                     });
                     this.tableTitle = new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_integrationjobaction") });
@@ -330,6 +336,7 @@ namespace integration {
                 /** 显示数据 */
                 showIntegrationJob(data: bo.IntegrationJob): void {
                     this.form.setModel(new sap.ui.model.json.JSONModel(data));
+                    this.form.bindObject("/");
                     // 监听属性改变，并更新控件
                     openui5.utils.refreshModelChanged(this.form, data);
                     // 改变视图状态

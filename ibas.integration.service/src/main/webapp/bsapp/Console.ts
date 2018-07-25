@@ -43,7 +43,7 @@ namespace integration {
                 this.register(new IntegrationJobAppMapping());
                 this.register(new IntegrationJobServiceMapping());
                 // 注册常驻应用
-
+                this.register(new IntegrationJobSchedulerApp());
             }
             /** 运行 */
             run(): void {

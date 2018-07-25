@@ -44,7 +44,6 @@ namespace integration {
                                         item.group = boRepository.toPackageUrl(item);
                                     }
                                     that.run(opRslt.resultObjects);
-
                                 } catch (error) {
                                     that.messages(error);
                                 }

@@ -7,11 +7,8 @@
  */
 namespace integration {
     export namespace app {
-        const PROPERTY_ACTIONS: symbol = Symbol("actions");
-        const PROPERTY_RUNNING_ACTIONS: symbol = Symbol("runningActions");
         /** 动作运行 */
         export class IntegrationActionRunnerApp extends ibas.Application<IIntegrationActionRunnerView> {
-
             /** 应用标识 */
             static APPLICATION_ID: string = "50637c67-2a3a-4d9f-9553-c4a85b5751d5";
             /** 应用名称 */
@@ -23,6 +20,7 @@ namespace integration {
                 this.name = IntegrationActionRunnerApp.APPLICATION_NAME;
                 this.description = ibas.i18n.prop(this.name);
                 this.autoRun = true;
+                this.actions = new ibas.ArrayList<bo.Action>();
             }
             /** 注册视图 */
             protected registerView(): void {
@@ -66,145 +64,68 @@ namespace integration {
                     super.run.apply(this, arguments);
                 }
             }
-            get actions(): ibas.IList<bo.Action> {
-                if (ibas.objects.isNull(this[PROPERTY_ACTIONS])) {
-                    this[PROPERTY_ACTIONS] = new ibas.ArrayList();
-                }
-                return this[PROPERTY_ACTIONS];
-            }
+            private actions: ibas.IList<bo.Action>;
+            private groupAction: GroupAction;
             private runActions(): void {
                 if (ibas.objects.isNull(this.actions)) {
                     return;
                 }
-                for (let item of this.actions) {
-                    this.runAction(item);
-                }
-            }
-            get runningActions(): ibas.IList<ibas.Action> {
-                if (ibas.objects.isNull(this[PROPERTY_RUNNING_ACTIONS])) {
-                    this[PROPERTY_RUNNING_ACTIONS] = new ibas.ArrayList();
-                }
-                return this[PROPERTY_RUNNING_ACTIONS];
-            }
-            private stopActions(): void {
-                for (let item of this.runningActions) {
-                    try {
-                        if (!item.isRunning()) {
-                            continue;
+                let that: this = this;
+                let groupAction: GroupAction = new GroupAction();
+                groupAction.setLogger({
+                    level: ibas.config.get(ibas.CONFIG_ITEM_MESSAGES_LEVEL, ibas.emMessageLevel.INFO, ibas.emMessageLevel),
+                    log(): void {
+                        let tmpArgs: Array<any> = new Array();
+                        for (let item of arguments) {
+                            tmpArgs.push(item);
                         }
-                        item.stop();
-                    } catch (error) {
-                        this.messages(error);
-                    }
-                }
-            }
-            protected runAction(usingAction: bo.Action): void {
-                if (ibas.objects.isNull(usingAction)) {
-                    return;
-                }
-                let baseUrl: string = usingAction.group;
-                if (ibas.strings.isEmpty(baseUrl)) {
-                    baseUrl = ibas.urls.normalize(ibas.urls.ROOT_URL_SIGN);
-                }
-                if (!baseUrl.toLowerCase().startsWith("http")) {
-                    baseUrl = ibas.urls.normalize(ibas.urls.ROOT_URL_SIGN) + baseUrl;
-                }
-                let token: string = ibas.config.get(ibas.CONFIG_ITEM_USER_TOKEN, "");
-                let rtVersion: string = ibas.dates.now().getTime().toString();
-                let actionRequire: Require = ibas.requires.create({
-                    baseUrl: baseUrl,
-                    context: usingAction.name.trim(),
-                    waitSeconds: ibas.config.get(ibas.requires.CONFIG_ITEM_WAIT_SECONDS, 30),
-                    urlArgs: function (id: string, url: string): string {
-                        if (id.indexOf("ibas/") >= 0 || id.startsWith("_@") || id === "require" || id === "exports") {
-                            return "";
+                        ibas.logger.log.apply(ibas.logger, tmpArgs);
+                        let message: string;
+                        let type: ibas.emMessageType = ibas.emMessageType.INFORMATION;
+                        if (typeof (tmpArgs[0]) === "number" && tmpArgs.length > 1) {
+                            type = bo.DataConverter.toMessageType(tmpArgs[0]);
+                            message = ibas.strings.format(tmpArgs[1], tmpArgs.slice(2));
+                        } else if (typeof (tmpArgs[0]) === "string") {
+                            message = ibas.strings.format(tmpArgs[0], tmpArgs.slice(1));
                         }
-                        // 允许多次调用
-                        return (url.indexOf("?") === -1 ? "?" : "&") + "token=" + token + "&_=" + rtVersion;
+                        if (that.isViewShowed()) {
+                            that.view.showMessages(type, message);
+                        } else {
+                            that.proceeding(type, message);
+                        }
                     }
                 });
-                let path: string = usingAction.path;
-                if (ibas.strings.isEmpty(path)) {
-                    path = usingAction.name.trim();
-                }
-                if (path.indexOf(".") > 0) {
-                    path = path.substring(0, path.lastIndexOf("."));
-                }
-                let that: this = this;
-                actionRequire(
-                    [path],
-                    function (library: any): void {
-                        // 库加载成功
-                        try {
-                            if (ibas.objects.isNull(library)) {
-                                throw new Error("invalid action library.");
-                            }
-                            if (ibas.objects.isNull(library.default) && !ibas.objects.isAssignableFrom(library.default, ibas.Action)) {
-                                throw new Error("invalid action class.");
-                            }
-                            let action: ibas.Action = new library.default();
-                            if (!(ibas.objects.instanceOf(action, ibas.Action))) {
-                                throw new Error("invalid action instance.");
-                            }
+                for (let item of this.actions) {
+                    bo.actionFactory.create({
+                        action: item,
+                        onError(error: Error): void {
+                            that.messages(error);
+                        },
+                        onCompleted(action: ibas.Action): void {
                             // 输入设置
-                            for (let item of usingAction.configs) {
-                                if (ibas.objects.isNull(item.value) || ibas.objects.isNull(item.key)) {
+                            for (let config of item.configs) {
+                                if (ibas.objects.isNull(config.value) || ibas.objects.isNull(config.key)) {
                                     continue;
                                 }
-                                action.addConfig(item.key, ibas.config.applyVariables(item.value));
+                                action.addConfig(config.key, ibas.config.applyVariables(config.value));
                             }
-                            // 日志输出视图
-                            action.setLogger({
-                                level: ibas.config.get(ibas.CONFIG_ITEM_MESSAGES_LEVEL, ibas.emMessageLevel.INFO, ibas.emMessageLevel),
-                                log(): void {
-                                    let tmpArgs: Array<any> = new Array();
-                                    for (let item of arguments) {
-                                        tmpArgs.push(item);
-                                    }
-                                    ibas.logger.log.apply(ibas.logger, tmpArgs);
-                                    let message: string;
-                                    let type: ibas.emMessageType = ibas.emMessageType.INFORMATION;
-                                    if (typeof (tmpArgs[0]) === "number" && tmpArgs.length > 1) {
-                                        type = that.toMessageType(tmpArgs[0]);
-                                        message = ibas.strings.format(tmpArgs[1], tmpArgs.slice(2));
-                                    } else if (typeof (tmpArgs[0]) === "string") {
-                                        message = ibas.strings.format(tmpArgs[0], tmpArgs.slice(1));
-                                    }
-                                    if (that.isViewShowed()) {
-                                        that.view.showMessages(type, message);
-                                    } else {
-                                        that.proceeding(type, message);
-                                    }
-                                }
-                            });
                             // 添加额外运行数据
                             action.extraData = that.extraData;
-                            // 运行
-                            action.do();
-                            that.runningActions.add(action);
-                        } catch (error) {
-                            that.messages(error);
+                            groupAction.addAction(action);
+                            if (groupAction.length === that.actions.length) {
+                                that.groupAction = groupAction;
+                                groupAction.do();
+                            }
                         }
-                    },
-                    function (): void {
-                        // 库加载失败
-                        that.messages(
-                            ibas.emMessageType.ERROR,
-                            ibas.i18n.prop("integrationdevelopment_run_action_faild", usingAction.name));
-                    }
-                );
-            }
-
-            private toMessageType(level: ibas.emMessageLevel): ibas.emMessageType {
-                let type: ibas.emMessageType = ibas.emMessageType.INFORMATION;
-                if (level === ibas.emMessageLevel.WARN) {
-                    type = ibas.emMessageType.WARNING;
-                } else if (level === ibas.emMessageLevel.ERROR) {
-                    type = ibas.emMessageType.ERROR;
-                } else if (level === ibas.emMessageLevel.FATAL) {
-                    type = ibas.emMessageType.ERROR;
+                    });
                 }
-                return type;
+            }
+            private stopActions(): void {
+                if (ibas.objects.isNull(this.groupAction)) {
+                    return;
+                }
+                this.groupAction.stop();
+                this.groupAction = null;
             }
         }
         /** 视图-动作运行 */
@@ -217,6 +138,69 @@ namespace integration {
             showActions(datas: bo.Action[]): void;
             /** 显示消息 */
             showMessages(type: ibas.emMessageType, message: string): void;
+        }
+        /** 集合动作 */
+        class GroupAction extends ibas.Action {
+            /** 日志者 */
+            logger: ibas.ILogger;
+            /** 设置日志记录者 */
+            setLogger(logger: ibas.ILogger): void {
+                this.logger = logger;
+                super.setLogger(this.logger);
+            }
+            /** 运行 */
+            protected run(): boolean {
+                if (ibas.objects.isNull(this.actions)) {
+                    return true;
+                }
+                let action: ibas.Action = this.actions.firstOrDefault();
+                if (ibas.objects.isNull(action)) {
+                    return true;
+                }
+                let that: this = this;
+                let index: number = 0;
+                let onDone: Function = function (): void {
+                    index++;
+                    if (index > 0 && index < that.actions.length) {
+                        action = that.actions[index];
+                        action.onDone = onDone;
+                        action.do();
+                    } else {
+                        that.done();
+                        index = null;
+                        onDone = null;
+                        action = null;
+                        that = null;
+                    }
+                };
+                action.onDone = onDone;
+                action.do();
+                return false;
+            }
+            /** 子任务 */
+            private actions: ibas.IList<ibas.Action>;
+            /** 任务个数 */
+            get length(): number {
+                if (ibas.objects.isNull(this.actions)) {
+                    return 0;
+                }
+                return this.actions.length;
+            }
+            addAction(action: ibas.Action): void {
+                if (ibas.objects.isNull(this.actions)) {
+                    this.actions = new ibas.ArrayList<ibas.Action>();
+                }
+                action.setLogger(this.logger);
+                this.actions.add(action);
+            }
+            stop(): void {
+                if (ibas.objects.isNull(this.actions)) {
+                    return;
+                }
+                for (let item of this.actions) {
+                    item.stop();
+                }
+            }
         }
     }
 }

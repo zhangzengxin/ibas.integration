@@ -8,3 +8,4 @@
 /// <reference path="./IntegrationActionChooseView.ts" />
 /// <reference path="./IntegrationActionListView.ts" />
 /// <reference path="./IntegrationActionRunnerView.ts" />
+/// <reference path="./IntegrationJobSchedulerView.ts" />

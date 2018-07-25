@@ -7,7 +7,6 @@
  */
 namespace integration {
     export namespace bo {
-
         /** 数据转换者 */
         export class DataConverter extends ibas.DataConverter4j {
             parsing(data: any, sign: string): any {
@@ -37,8 +36,19 @@ namespace integration {
             protected createConverter(): ibas.BOConverter {
                 return new BOConverter;
             }
+            /** 转换数据 */
+            static toMessageType(level: ibas.emMessageLevel): ibas.emMessageType {
+                let type: ibas.emMessageType = ibas.emMessageType.INFORMATION;
+                if (level === ibas.emMessageLevel.WARN) {
+                    type = ibas.emMessageType.WARNING;
+                } else if (level === ibas.emMessageLevel.ERROR) {
+                    type = ibas.emMessageType.ERROR;
+                } else if (level === ibas.emMessageLevel.FATAL) {
+                    type = ibas.emMessageType.ERROR;
+                }
+                return type;
+            }
         }
-
         /** 模块业务对象工厂 */
         export const boFactory: ibas.BOFactory = new ibas.BOFactory();
         /** 业务对象转换者 */
@@ -79,5 +89,105 @@ namespace integration {
                 return super.parsingData(boName, property, value);
             }
         }
+        /** 动作类加载器 */
+        export interface IActionClassLoader {
+            /** 动作信息 */
+            action: bo.Action;
+            /** 错误 */
+            onError: (error: Error) => void;
+            /** 成功 */
+            onCompleted: (clazz: any) => void;
+        }
+        /** 动作类加载器 */
+        export interface IActionClassCreater extends IActionClassLoader {
+            /** 成功 */
+            onCompleted: (action: ibas.Action) => void;
+        }
+        /** 动作工厂 */
+        export class ActionFactory {
+            /** 获取动作的类 */
+            classOf(caller: IActionClassLoader): void {
+                if (ibas.objects.isNull(caller.action)) {
+                    return;
+                }
+                let baseUrl: string = caller.action.group;
+                if (ibas.strings.isEmpty(baseUrl)) {
+                    baseUrl = ibas.urls.normalize(ibas.urls.ROOT_URL_SIGN);
+                }
+                if (!baseUrl.toLowerCase().startsWith("http")) {
+                    baseUrl = ibas.urls.normalize(ibas.urls.ROOT_URL_SIGN) + baseUrl;
+                }
+                let token: string = ibas.config.get(ibas.CONFIG_ITEM_USER_TOKEN, "");
+                let rtVersion: string = ibas.dates.now().getTime().toString();
+                let actionRequire: Require = ibas.requires.create({
+                    baseUrl: baseUrl,
+                    context: caller.action.name.trim(),
+                    waitSeconds: ibas.config.get(ibas.requires.CONFIG_ITEM_WAIT_SECONDS, 30),
+                    urlArgs: function (id: string, url: string): string {
+                        if (id.indexOf("ibas/") >= 0 || id.startsWith("_@") || id === "require" || id === "exports") {
+                            return "";
+                        }
+                        // 允许多次调用
+                        return (url.indexOf("?") === -1 ? "?" : "&") + "token=" + token + "&_=" + rtVersion;
+                    }
+                });
+                let path: string = caller.action.path;
+                if (ibas.strings.isEmpty(path)) {
+                    path = caller.action.name.trim();
+                }
+                if (path.indexOf(".") > 0) {
+                    path = path.substring(0, path.lastIndexOf("."));
+                }
+                let that: this = this;
+                actionRequire(
+                    [
+                        path
+                    ],
+                    function (library: any): void {
+                        // 库加载成功
+                        try {
+                            if (ibas.objects.isNull(library)) {
+                                throw new Error("invalid action library.");
+                            }
+                            if (ibas.objects.isNull(library.default) && !ibas.objects.isAssignableFrom(library.default, ibas.Action)) {
+                                throw new Error("invalid action class.");
+                            }
+                            if (!ibas.objects.isAssignableFrom(library.default, ibas.Action)) {
+                                throw new Error("invalid action class.");
+                            }
+                            if (caller.onCompleted instanceof Function) {
+                                caller.onCompleted(library.default);
+                            }
+                        } catch (error) {
+                            if (caller.onError instanceof Function) {
+                                caller.onError(error);
+                            }
+                        }
+                    },
+                    function (): void {
+                        if (caller.onError instanceof Function) {
+                            caller.onError(arguments[0]);
+                        }
+                    }
+                );
+            }
+            create(caller: IActionClassCreater): void {
+                this.classOf({
+                    action: caller.action,
+                    onError: caller.onError,
+                    onCompleted(clazz: any): void {
+                        let action: ibas.Action = new clazz();
+                        if (!(ibas.objects.instanceOf(action, ibas.Action))) {
+                            throw new Error("invalid action instance.");
+                        }
+                        if (caller.onCompleted instanceof Function) {
+                            caller.onCompleted(action);
+                        }
+                    }
+                });
+            }
+        }
+        /** 模块业务对象工厂 */
+        export const actionFactory: ActionFactory = new ActionFactory();
     }
 }
