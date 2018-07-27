@@ -33,11 +33,11 @@ namespace integration {
                                 })
                             }),
                             new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_integrationjob_jobname"),
+                                label: ibas.i18n.prop("bo_integrationjob_name"),
                                 template: new sap.m.Text("", {
                                     wrapping: false
                                 }).bindProperty("text", {
-                                    path: "jobName"
+                                    path: "name"
                                 })
                             }),
                         ]

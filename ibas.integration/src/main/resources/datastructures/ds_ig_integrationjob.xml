@@ -2,7 +2,7 @@
 <!DOCTYPE Domain>
 <Domain Name="Integration" ShortName="IG">
   <Model Name="IntegrationJob" Description="集成任务" ModelType="Simple" Mapped="${Company}_IG_OJOB">
-    <Property Name="JobName" Description="服务的名称" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="JobName" UniqueKey="Yes"/>
+    <Property Name="Name" Description="名称" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="Name" UniqueKey="Yes"/>
     <Property Name="Activated" Description="是否激活" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="Activated"/>
     <Property Name="Frequency" Description="频率（秒）" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Frequency"/>
     <Property Name="BOCode" Description="关联的业务对象" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="BOCode"/>

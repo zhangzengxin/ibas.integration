@@ -15,7 +15,7 @@
     },
     {
         "bo_integrationjob": "集成任务",
-        "bo_integrationjob_jobname": "服务的名称",
+        "bo_integrationjob_name": "服务的名称",
         "bo_integrationjob_activated": "是否激活",
         "bo_integrationjob_frequency": "频率（秒）",
         "bo_integrationjob_bocode": "关联的业务对象",

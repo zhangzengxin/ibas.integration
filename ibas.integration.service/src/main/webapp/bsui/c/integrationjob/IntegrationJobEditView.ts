@@ -42,11 +42,11 @@ namespace integration {
                         editable: true,
                         content: [
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("integration_title_general") }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_jobname") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_name") }),
                             new sap.m.Input("", {
                                 type: sap.m.InputType.Text
                             }).bindProperty("value", {
-                                path: "jobName",
+                                path: "name",
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_activated") }),
                             new sap.m.Select("", {

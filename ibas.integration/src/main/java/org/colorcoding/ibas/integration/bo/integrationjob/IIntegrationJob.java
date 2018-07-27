@@ -11,19 +11,19 @@ import org.colorcoding.ibas.bobas.data.emYesNo;
 public interface IIntegrationJob extends IBOSimple {
 
 	/**
-	 * 获取-服务的名称
+	 * 获取-名称
 	 * 
 	 * @return 值
 	 */
-	String getJobName();
+	String getName();
 
 	/**
-	 * 设置-服务的名称
+	 * 设置-名称
 	 * 
 	 * @param value
 	 *            值
 	 */
-	void setJobName(String value);
+	void setName(String value);
 
 	/**
 	 * 获取-是否激活

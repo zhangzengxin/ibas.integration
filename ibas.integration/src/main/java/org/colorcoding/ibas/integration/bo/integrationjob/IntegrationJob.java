@@ -53,35 +53,35 @@ public class IntegrationJob extends BusinessObject<IntegrationJob> implements II
 	public static final String BUSINESS_OBJECT_NAME = "IntegrationJob";
 
 	/**
-	 * 属性名称-服务的名称
+	 * 属性名称-名称
 	 */
-	private static final String PROPERTY_JOBNAME_NAME = "JobName";
+	private static final String PROPERTY_NAME_NAME = "Name";
 
 	/**
-	 * 服务的名称 属性
+	 * 名称 属性
 	 */
-	@DbField(name = "JobName", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
-	public static final IPropertyInfo<String> PROPERTY_JOBNAME = registerProperty(PROPERTY_JOBNAME_NAME, String.class,
+	@DbField(name = "Name", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, uniqueKey = true)
+	public static final IPropertyInfo<String> PROPERTY_NAME = registerProperty(PROPERTY_NAME_NAME, String.class,
 			MY_CLASS);
 
 	/**
-	 * 获取-服务的名称
+	 * 获取-名称
 	 * 
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_JOBNAME_NAME)
-	public final String getJobName() {
-		return this.getProperty(PROPERTY_JOBNAME);
+	@XmlElement(name = PROPERTY_NAME_NAME)
+	public final String getName() {
+		return this.getProperty(PROPERTY_NAME);
 	}
 
 	/**
-	 * 设置-服务的名称
+	 * 设置-名称
 	 * 
 	 * @param value
 	 *            值
 	 */
-	public final void setJobName(String value) {
-		this.setProperty(PROPERTY_JOBNAME, value);
+	public final void setName(String value) {
+		this.setProperty(PROPERTY_NAME, value);
 	}
 
 	/**

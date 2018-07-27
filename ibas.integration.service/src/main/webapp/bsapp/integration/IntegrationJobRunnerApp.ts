@@ -37,7 +37,7 @@ namespace integration {
                                         throw new Error(opRslt.message);
                                     }
                                     if (opRslt.resultObjects.length === 0) {
-                                        throw new Error(ibas.i18n.prop("integration_not_found_job_actions", job.jobName));
+                                        throw new Error(ibas.i18n.prop("integration_not_found_job_actions", job.name));
                                     }
                                     // 补充根地址
                                     for (let item of opRslt.resultObjects) {

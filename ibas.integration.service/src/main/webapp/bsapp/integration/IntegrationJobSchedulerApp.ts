@@ -95,14 +95,14 @@ namespace integration {
                                 let task: TaskAction = new TaskAction();
                                 task.job = item;
                                 task.id = task.job.toString();
-                                task.name = task.job.jobName;
+                                task.name = task.job.name;
                                 task.activated = true;
                                 task.setLogger(logger);
                                 jobs.add(task);
                                 if (builder.length > 2) {
                                     builder.append(",");
                                 }
-                                builder.append(task.job.jobName);
+                                builder.append(task.job.name);
                             }
                             builder.append(")");
                             that.jobs = jobs;
@@ -217,7 +217,7 @@ namespace integration {
                                     throw new Error(opRslt.message);
                                 }
                                 if (opRslt.resultObjects.length === 0) {
-                                    throw new Error(ibas.i18n.prop("integration_not_found_job_actions", that.job.jobName));
+                                    throw new Error(ibas.i18n.prop("integration_not_found_job_actions", that.job.name));
                                 }
                                 // 补充根地址
                                 for (let item of opRslt.resultObjects) {

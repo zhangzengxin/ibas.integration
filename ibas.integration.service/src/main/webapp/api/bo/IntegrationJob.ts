@@ -10,8 +10,8 @@ namespace integration {
         /** 集成任务 */
         export interface IIntegrationJob extends ibas.IBOSimple {
 
-            /** 服务的名称 */
-            jobName: string;
+            /** 名称 */
+            name: string;
 
             /** 是否激活 */
             activated: ibas.emYesNo;

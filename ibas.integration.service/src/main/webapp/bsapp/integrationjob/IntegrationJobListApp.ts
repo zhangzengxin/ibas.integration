@@ -88,7 +88,7 @@ namespace integration {
                 // 服务调用
                 ibas.servicesManager.runApplicationService({
                     proxy: new IntegrationJobServiceProxy({
-                        jobName: data.jobName,
+                        jobName: data.name,
                         autoRun: false,
                     }),
                 });

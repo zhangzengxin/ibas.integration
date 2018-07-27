@@ -17,15 +17,15 @@ namespace integration {
             constructor() {
                 super();
             }
-            /** 映射的属性名称-服务的名称 */
-            static PROPERTY_JOBNAME_NAME: string = "JobName";
-            /** 获取-服务的名称 */
-            get jobName(): string {
-                return this.getProperty<string>(IntegrationJob.PROPERTY_JOBNAME_NAME);
+            /** 映射的属性名称-名称 */
+            static PROPERTY_NAME_NAME: string = "Name";
+            /** 获取-名称 */
+            get name(): string {
+                return this.getProperty<string>(IntegrationJob.PROPERTY_NAME_NAME);
             }
-            /** 设置-服务的名称 */
-            set jobName(value: string) {
-                this.setProperty(IntegrationJob.PROPERTY_JOBNAME_NAME, value);
+            /** 设置-名称 */
+            set name(value: string) {
+                this.setProperty(IntegrationJob.PROPERTY_NAME_NAME, value);
             }
 
             /** 映射的属性名称-是否激活 */

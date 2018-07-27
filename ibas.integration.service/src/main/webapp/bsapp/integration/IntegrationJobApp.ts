@@ -46,7 +46,7 @@ namespace integration {
                     // 查询任务
                     let criteria: ibas.ICriteria = new ibas.Criteria();
                     let condition: ibas.ICondition = criteria.conditions.create();
-                    condition.alias = bo.IntegrationJob.PROPERTY_JOBNAME_NAME;
+                    condition.alias = bo.IntegrationJob.PROPERTY_NAME_NAME;
                     condition.value = ibas.strings.valueOf(contract.jobName);
                     condition = criteria.conditions.create();
                     condition.alias = bo.IntegrationJob.PROPERTY_ACTIVATED_NAME;
