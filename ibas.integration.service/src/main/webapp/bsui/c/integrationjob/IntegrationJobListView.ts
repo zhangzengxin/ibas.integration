@@ -73,7 +73,10 @@ namespace integration {
                                 template: new sap.m.Text("", {
                                     wrapping: false
                                 }).bindProperty("text", {
-                                    path: "boCode"
+                                    path: "boCode",
+                                    formatter(data: any): any {
+                                        return openui5.utils.describeBOCode(data);
+                                    }
                                 })
                             }),
                             /*
