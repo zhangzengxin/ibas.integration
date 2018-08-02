@@ -127,6 +127,8 @@ namespace integration {
                                         }, 10000);
                                     }
                                 });
+                            } else {
+                                that.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("integration_not_found_user_integrationjob"));
                             }
                         } catch (error) {
                             that.messages(error);

@@ -58,7 +58,7 @@ namespace integration {
                 } else {
                     // 输入数据无效，服务不运行
                     this.proceeding(ibas.emMessageType.WARNING,
-                        ibas.i18n.prop("integration_service_integrationjob") + ibas.i18n.prop("sys_invalid_parameter", "data"));
+                        ibas.i18n.prop("integration_integrationjob_service") + ibas.i18n.prop("sys_invalid_parameter", "data"));
                 }
             }
             /** 查询数据 */
