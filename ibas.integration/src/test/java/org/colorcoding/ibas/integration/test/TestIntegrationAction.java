@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.integration.test.bo;
+package org.colorcoding.ibas.integration.test;
 
 import java.io.File;
 
@@ -16,7 +16,7 @@ import junit.framework.TestCase;
  * 集成任务 测试
  * 
  */
-public class testIntegrationAction extends TestCase {
+public class TestIntegrationAction extends TestCase {
 	/**
 	 * 获取连接口令
 	 */
