@@ -40,8 +40,18 @@ namespace integration {
                                         throw new Error(ibas.i18n.prop("integration_not_found_job_actions", job.name));
                                     }
                                     // 补充根地址
-                                    for (let item of opRslt.resultObjects) {
-                                        item.group = boRepository.toPackageUrl(item);
+                                    for (let action of opRslt.resultObjects) {
+                                        action.group = boRepository.toPackageUrl(action);
+                                        // 传递配置值
+                                        let jobItem: bo.IntegrationJobAction = job.integrationJobActions.firstOrDefault(c => c.actionId === action.id);
+                                        if (!ibas.objects.isNull(jobItem)) {
+                                            for (let cfgItem of jobItem.integrationJobActionCfgs) {
+                                                let cfgAction: bo.IActionConfig = action.configs.firstOrDefault(c => c.key === cfgItem.key);
+                                                if (!ibas.objects.isNull(cfgAction)) {
+                                                    cfgAction.value = cfgItem.value;
+                                                }
+                                            }
+                                        }
                                     }
                                     that.run(opRslt.resultObjects);
                                 } catch (error) {
