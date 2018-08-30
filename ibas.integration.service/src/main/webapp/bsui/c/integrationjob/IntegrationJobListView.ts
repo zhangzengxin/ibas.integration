@@ -75,7 +75,7 @@ namespace integration {
                                 }).bindProperty("text", {
                                     path: "boCode",
                                     formatter(data: any): any {
-                                        return openui5.utils.describeBOCode(data);
+                                        return ibas.businessobjects.describe(data);
                                     }
                                 })
                             }),
