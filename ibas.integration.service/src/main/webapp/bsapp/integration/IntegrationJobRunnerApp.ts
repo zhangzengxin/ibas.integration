@@ -18,50 +18,26 @@ namespace integration {
             run(action: bo.Action | bo.Action[]): void;
             run(): void {
                 if (ibas.objects.instanceOf(arguments[0], bo.IntegrationJob)) {
-                    let job: bo.IntegrationJob = arguments[0];
-                    let criteria: ibas.ICriteria = new ibas.Criteria();
-                    for (let item of job.integrationJobActions) {
-                        let condition: ibas.ICondition = criteria.conditions.create();
-                        condition.alias = bo.CRITERIA_CONDITION_ALIAS_ACTION_ID;
-                        condition.value = item.actionId;
-                        condition.relationship = ibas.emConditionRelationship.OR;// 其他无意义
-                    }
-                    if (criteria.conditions.length > 0) {
-                        let that: this = this;
-                        let boRepository: bo.BORepositoryIntegration = new bo.BORepositoryIntegration();
-                        boRepository.fetchAction({
-                            criteria: criteria,
-                            onCompleted(opRslt: ibas.IOperationResult<bo.Action>): void {
-                                try {
-                                    if (opRslt.resultCode !== 0) {
-                                        throw new Error(opRslt.message);
-                                    }
-                                    if (opRslt.resultObjects.length === 0) {
-                                        throw new Error(ibas.i18n.prop("integration_not_found_job_actions", job.name));
-                                    }
-                                    // 补充根地址
-                                    for (let action of opRslt.resultObjects) {
-                                        action.group = boRepository.toPackageUrl(action);
-                                        // 传递配置值
-                                        let jobItem: bo.IntegrationJobAction = job.integrationJobActions.firstOrDefault(c => c.actionId === action.id);
-                                        if (!ibas.objects.isNull(jobItem)) {
-                                            for (let cfgItem of jobItem.integrationJobActionCfgs) {
-                                                let cfgAction: bo.IActionConfig = action.configs.firstOrDefault(c => c.key === cfgItem.key);
-                                                if (!ibas.objects.isNull(cfgAction)) {
-                                                    cfgAction.value = cfgItem.value;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    that.run(opRslt.resultObjects);
-                                } catch (error) {
-                                    that.messages(error);
+                    let that: this = this;
+                    let boRepository: bo.BORepositoryIntegration = new bo.BORepositoryIntegration();
+                    boRepository.fetchAction({
+                        criteria: arguments[0],
+                        onCompleted(opRslt: ibas.IOperationResult<bo.Action>): void {
+                            try {
+                                if (opRslt.resultCode !== 0) {
+                                    throw new Error(opRslt.message);
                                 }
+                                if (opRslt.resultObjects.length === 0) {
+                                    throw new Error(ibas.i18n.prop("integration_not_found_job_actions", arguments[0].name));
+                                }
+                                that.run(opRslt.resultObjects);
+                            } catch (error) {
+                                that.messages(error);
                             }
-                        });
-                        // 开始任务，退出后续操作
-                        return;
-                    }
+                        }
+                    });
+                    // 开始任务，退出后续操作
+                    return;
                 }
                 super.run.apply(this, arguments);
             }

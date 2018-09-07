@@ -197,22 +197,10 @@ namespace integration {
             protected run(): boolean {
                 if (ibas.objects.isNull(this.actions)) {
                     // 尚未初始化
-                    let criteria: ibas.ICriteria = new ibas.Criteria();
-                    for (let item of this.job.integrationJobActions) {
-                        let condition: ibas.ICondition = criteria.conditions.create();
-                        condition.alias = bo.CRITERIA_CONDITION_ALIAS_ACTION_ID;
-                        condition.value = item.actionId;
-                        condition.relationship = ibas.emConditionRelationship.OR;// 其他无意义
-                    }
-                    if (criteria.conditions.length === 0) {
-                        // 数据无效
-                        this.activated = false;
-                        return false;
-                    }
                     let that: this = this;
                     let boRepository: bo.BORepositoryIntegration = new bo.BORepositoryIntegration();
                     boRepository.fetchAction({
-                        criteria: criteria,
+                        criteria: this.job,
                         onCompleted(opRslt: ibas.IOperationResult<bo.Action>): void {
                             try {
                                 if (opRslt.resultCode !== 0) {
@@ -221,9 +209,7 @@ namespace integration {
                                 if (opRslt.resultObjects.length === 0) {
                                     throw new Error(ibas.i18n.prop("integration_not_found_job_actions", that.job.name));
                                 }
-                                // 补充根地址
                                 for (let item of opRslt.resultObjects) {
-                                    item.group = boRepository.toPackageUrl(item);
                                     bo.actionFactory.create({
                                         action: item,
                                         onError(error: Error): void {
@@ -233,13 +219,6 @@ namespace integration {
                                         onCompleted(action: ibas.Action): void {
                                             if (ibas.objects.isNull(that.actions)) {
                                                 that.actions = new ibas.ArrayList<ibas.Action>();
-                                            }
-                                            // 输入设置
-                                            for (let config of item.configs) {
-                                                if (ibas.objects.isNull(config.value) || ibas.objects.isNull(config.key)) {
-                                                    continue;
-                                                }
-                                                action.addConfig(config.key, ibas.config.applyVariables(config.value));
                                             }
                                             // 设置日志记录
                                             action.setLogger(that.logger);

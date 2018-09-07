@@ -102,13 +102,6 @@ namespace integration {
                             that.messages(error);
                         },
                         onCompleted(action: ibas.Action): void {
-                            // 输入设置
-                            for (let config of item.configs) {
-                                if (ibas.objects.isNull(config.value) || ibas.objects.isNull(config.key)) {
-                                    continue;
-                                }
-                                action.addConfig(config.key, ibas.config.applyVariables(config.value));
-                            }
                             // 添加额外运行数据
                             action.extraData = that.extraData;
                             groupAction.addAction(action);

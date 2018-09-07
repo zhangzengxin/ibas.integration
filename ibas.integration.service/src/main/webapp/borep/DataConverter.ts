@@ -180,6 +180,13 @@ namespace integration {
                         if (!(ibas.objects.instanceOf(action, ibas.Action))) {
                             throw new Error("invalid action instance.");
                         }
+                        // 输入设置
+                        for (let config of caller.action.configs) {
+                            if (ibas.objects.isNull(config.key)) {
+                                continue;
+                            }
+                            action.addConfig(config.key, ibas.config.applyVariables(config.value));
+                        }
                         if (caller.onCompleted instanceof Function) {
                             caller.onCompleted(action);
                         }

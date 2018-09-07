@@ -58,13 +58,91 @@ namespace integration {
              * 查询 集成动作
              * @param fetcher 查询者
              */
-            fetchAction(fetcher: ibas.IFetchCaller<bo.Action>): void {
+            fetchAction(fetcher: IActionFetcher): void {
                 if (!this.address.endsWith("/")) { this.address += "/"; }
+                let criteria: ibas.ICriteria = null;
+                let jobActions: ibas.IList<bo.IIntegrationJobAction> = new ibas.ArrayList<bo.IIntegrationJobAction>();
+                if (fetcher.criteria instanceof ibas.Criteria) {
+                    criteria = fetcher.criteria;
+                } else if (fetcher.criteria instanceof bo.IntegrationJob) {
+                    // 集成任务，查询所有动作
+                    criteria = new ibas.Criteria();
+                    for (let item of fetcher.criteria.integrationJobActions) {
+                        let condition: ibas.ICondition = criteria.conditions.create();
+                        condition.alias = bo.CRITERIA_CONDITION_ALIAS_ACTION_ID;
+                        condition.value = item.actionId;
+                        condition.relationship = ibas.emConditionRelationship.OR;
+                        jobActions.add(item);
+                    }
+                } else if (fetcher.criteria instanceof bo.IntegrationJobAction) {
+                    // 集成动作
+                    criteria = new ibas.Criteria();
+                    let condition: ibas.ICondition = criteria.conditions.create();
+                    condition.alias = bo.CRITERIA_CONDITION_ALIAS_ACTION_ID;
+                    condition.value = fetcher.criteria.actionId;
+                    jobActions.add(fetcher.criteria);
+                } else if (fetcher.criteria instanceof Array) {
+                    // 数组
+                    criteria = new ibas.Criteria();
+                    for (let item of fetcher.criteria) {
+                        if (item instanceof bo.IntegrationJobAction) {
+                            // 动作
+                            let condition: ibas.ICondition = criteria.conditions.create();
+                            condition.alias = bo.CRITERIA_CONDITION_ALIAS_ACTION_ID;
+                            condition.value = item.actionId;
+                            condition.relationship = ibas.emConditionRelationship.OR;
+                            jobActions.add(item);
+                        } else if (item instanceof ibas.Condition) {
+                            // 查寻条件
+                            criteria.conditions.add(item);
+                        }
+                    }
+                }
+                let that: this = this;
                 let boRepository: ibas.BORepositoryAjax = new ibas.BORepositoryAjax();
                 boRepository.address = this.address.replace("/services/rest/data/", "/services/rest/action/");
                 boRepository.token = this.token;
                 boRepository.converter = this.createConverter();
-                boRepository.fetch(bo.Action.name, fetcher);
+                let caller: ibas.IFetchCaller<bo.IAction> = {
+                    caller: fetcher.caller,
+                    criteria: criteria,
+                    onCompleted(opRslt: ibas.IOperationResult<bo.Action>): void {
+                        if (opRslt.resultCode !== 0) {
+                            fetcher.onCompleted(opRslt);
+                        } else {
+                            for (let action of opRslt.resultObjects) {
+                                // 补充地址
+                                action.group = that.toPackageUrl(action);
+                                let jobAction: bo.IIntegrationJobAction = jobActions.firstOrDefault(c => c.actionId === action.id);
+                                if (!ibas.objects.isNull(jobAction)) {
+                                    // 输入设置
+                                    for (let item of jobAction.integrationJobActionCfgs) {
+                                        if (ibas.objects.isNull(item.key)) {
+                                            continue;
+                                        }
+                                        if (ibas.objects.isNull(action.configs)) {
+                                            action.configs = new ibas.ArrayList<bo.ActionConfig>();
+                                        }
+                                        let config: bo.ActionConfig = action.configs.firstOrDefault(c => c.key === item.key);
+                                        if (ibas.objects.isNull(config)) {
+                                            config = new bo.ActionConfig();
+                                            config.key = item.key;
+                                            config.value = item.value;
+                                            config.remark = item.remark;
+                                            action.configs.add(config);
+                                        } else {
+                                            config.key = item.key;
+                                            config.value = item.value;
+                                            config.remark = item.remark;
+                                        }
+                                    }
+                                }
+                            }
+                            fetcher.onCompleted(opRslt);
+                        }
+                    }
+                };
+                boRepository.fetch(bo.Action.name, caller);
             }
             /**
              * 删除 集成动作

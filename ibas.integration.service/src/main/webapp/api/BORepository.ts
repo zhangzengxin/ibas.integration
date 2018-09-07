@@ -33,11 +33,18 @@ namespace integration {
              * 查询 集成动作
              * @param fetcher 查询者
              */
-            fetchAction(fetcher: ibas.IFetchCaller<bo.IAction>): void;
+            fetchAction(fetcher: IActionFetcher): void;
             /**
              * 获取动作地址
              */
             toPackageUrl(action: bo.IAction): string;
+        }
+        /**
+         * 集成动作查询者
+         */
+        export interface IActionFetcher extends ibas.IMethodCaller<bo.IAction> {
+            /** 查询条件 */
+            criteria: ibas.ICriteria | ibas.ICondition[] | bo.IIntegrationJob | bo.IIntegrationJobAction | bo.IIntegrationJobAction[];
         }
     }
 }
