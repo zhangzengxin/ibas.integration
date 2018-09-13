@@ -17,17 +17,21 @@
   },
   {
     "type": "Action",
-    "name": "Hello World Two",
+    "name": "Sync B1 Items",
     "activated": true,
-    "path": "HelloWorld.ts",
+    "path": "SyncMaterials.ts",
     "configs": [
       {
-        "key": "REP_URL",
-        "value": "${repositoryAddress|BORepositoryInitialFantasy}"
+        "key": "REPOSITORY_TOKEN",
+        "value": "1q2w3e"
       },
       {
-        "key": "REP_TOKEN",
-        "value": "${userToken}"
+        "key": "REPOSITORY_URL",
+        "value": "http://ibas-demo-b1:8080/datainteraction/services/rest/data/"
+      },
+      {
+        "key": "FETCH_DATA_COUNT",
+        "value": "60"
       }
     ]
   }
