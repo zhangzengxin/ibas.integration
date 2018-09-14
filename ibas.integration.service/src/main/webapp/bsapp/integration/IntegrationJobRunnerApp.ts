@@ -17,18 +17,19 @@ namespace integration {
             run(job: bo.IntegrationJob): void;
             run(action: bo.Action | bo.Action[]): void;
             run(): void {
-                if (ibas.objects.instanceOf(arguments[0], bo.IntegrationJob)) {
+                let job: bo.IntegrationJob = arguments[0];
+                if (ibas.objects.instanceOf(job, bo.IntegrationJob)) {
                     let that: this = this;
                     let boRepository: bo.BORepositoryIntegration = new bo.BORepositoryIntegration();
                     boRepository.fetchAction({
-                        criteria: arguments[0],
+                        criteria: job,
                         onCompleted(opRslt: ibas.IOperationResult<bo.Action>): void {
                             try {
                                 if (opRslt.resultCode !== 0) {
                                     throw new Error(opRslt.message);
                                 }
                                 if (opRslt.resultObjects.length === 0) {
-                                    throw new Error(ibas.i18n.prop("integration_not_found_job_actions", arguments[0].name));
+                                    throw new Error(ibas.i18n.prop("integration_not_found_job_actions", job.name));
                                 }
                                 that.run(opRslt.resultObjects);
                             } catch (error) {

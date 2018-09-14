@@ -12,6 +12,10 @@
       {
         "key": "REP_TOKEN",
         "value": "${userToken}"
+      },
+      {
+        "key": "CHS_USER",
+        "value": "#{${Company}_SYS_USER}.{Code}"
       }
     ]
   },

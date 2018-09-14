@@ -127,13 +127,26 @@ namespace integration {
                 let beDeleteds: ibas.ArrayList<string> = new ibas.ArrayList<string>();
                 if (data instanceof Array) {
                     for (let item of data) {
-                        if (!beDeleteds.contain(item.group)) {
-                            beDeleteds.add(item.group);
+                        let value: string = item.group;
+                        if (ibas.strings.isEmpty(value)) {
+                            continue;
+                        }
+                        if (value.indexOf("/") > 0) {
+                            value = value.substring(value.lastIndexOf("/") + 1);
+                        }
+                        if (!beDeleteds.contain(value)) {
+                            beDeleteds.add(value);
                         }
                     }
                 } else {
-                    if (!beDeleteds.contain(data.group)) {
-                        beDeleteds.add(data.group);
+                    let value: string = data.group;
+                    if (!ibas.strings.isEmpty(value)) {
+                        if (value.indexOf("/") > 0) {
+                            value = value.substring(value.lastIndexOf("/") + 1);
+                        }
+                        if (!beDeleteds.contain(value)) {
+                            beDeleteds.add(value);
+                        }
                     }
                 }
                 // 没有选择删除的对象

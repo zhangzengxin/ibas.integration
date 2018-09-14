@@ -115,6 +115,8 @@ namespace integration {
                                 action.group = that.toPackageUrl(action);
                                 let jobAction: bo.IIntegrationJobAction = jobActions.firstOrDefault(c => c.actionId === action.id);
                                 if (!ibas.objects.isNull(jobAction)) {
+                                    // 输入描述
+                                    action.remark = jobAction.actionRemark;
                                     // 输入设置
                                     for (let item of jobAction.integrationJobActionCfgs) {
                                         if (ibas.objects.isNull(item.key)) {

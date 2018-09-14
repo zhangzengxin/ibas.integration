@@ -26,7 +26,7 @@ namespace integration {
                     this.table = new sap.ui.table.Table("", {
                         title: ibas.i18n.prop("bo_action"),
                         selectionMode: sap.ui.table.SelectionMode.None,
-                        visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
+                        visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 13),
                         visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
                         rows: "{/rows}",
                         rowActionCount: 1,

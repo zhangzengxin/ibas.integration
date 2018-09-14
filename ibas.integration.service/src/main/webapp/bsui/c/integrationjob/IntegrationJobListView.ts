@@ -61,14 +61,6 @@ namespace integration {
                                 })
                             }),
                             new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_integrationjob_frequency"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
-                                    path: "frequency"
-                                })
-                            }),
-                            new sap.ui.table.Column("", {
                                 label: ibas.i18n.prop("bo_integrationjob_bocode"),
                                 template: new sap.m.Text("", {
                                     wrapping: false
@@ -77,6 +69,14 @@ namespace integration {
                                     formatter(data: any): any {
                                         return ibas.businessobjects.describe(data);
                                     }
+                                })
+                            }),
+                            new sap.ui.table.Column("", {
+                                label: ibas.i18n.prop("bo_integrationjob_frequency"),
+                                template: new sap.m.Text("", {
+                                    wrapping: false
+                                }).bindProperty("text", {
+                                    path: "frequency"
                                 })
                             }),
                             /*

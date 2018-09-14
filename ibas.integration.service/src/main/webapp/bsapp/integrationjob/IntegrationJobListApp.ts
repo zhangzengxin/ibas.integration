@@ -93,6 +93,7 @@ namespace integration {
                         autoRun: false,
                     }),
                 });
+                this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
             }
             /** 编辑数据，参数：目标数据 */
             protected editData(data: bo.IntegrationJob): void {
