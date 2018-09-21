@@ -98,6 +98,83 @@ namespace integration {
                 showActions(datas: bo.Action[]): void {
                     this.layoutAction.destroyContent();
                     for (let data of datas) {
+                        let configForm: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+                            editable: true,
+                        });
+                        for (let config of data.configs) {
+                            configForm.addContent(new sap.m.Label("", {
+                                text: ibas.strings.isEmpty(config.remark) ? config.key : config.remark,
+                            }));
+                            let criteria: ibas.ICriteria = null;
+                            if (ibas.strings.valueOf(config.value).startsWith("#{") && ibas.strings.valueOf(config.value).endsWith("}")) {
+                                // #{CC_SYS_USER}.{Code}
+                                // 替换变量
+                                let value: string = ibas.config.applyVariables(config.value);
+                                let values: string[] = value.split(".");
+                                if (values.length > 1) {
+                                    criteria = new ibas.Criteria();
+                                    if (!ibas.strings.isEmpty(values[0])) {
+                                        criteria.businessObject = ibas.strings.remove(values[0], "#", "{", "}");
+                                    }
+                                    if (!ibas.strings.isEmpty(values[1])) {
+                                        criteria.remarks = ibas.strings.remove(values[1], "#", "{", "}");
+                                    }
+                                }
+                            } else if (ibas.strings.valueOf(config.value).startsWith("{") && ibas.strings.valueOf(config.value).endsWith("}")) {
+                                // {"businessObject":"CC_SYS_USER", "conditions":[]}
+                                criteria = ibas.criterias.valueOf(config.value);
+                                if (ibas.strings.isEmpty(criteria.businessObject)) {
+                                    criteria = null;
+                                } else {
+                                    criteria.businessObject = ibas.config.applyVariables(criteria.businessObject);
+                                }
+                            }
+                            let input: sap.m.Input = new sap.m.Input("", {
+                                width: "100%",
+                                fieldWidth: "70%",
+                                showValueHelp: ibas.objects.isNull(criteria) ? false : true,
+                                description: ibas.strings.isEmpty(config.remark) ? null : config.key,
+                                valueHelpRequest: function (): void {
+                                    if (ibas.objects.isNull(criteria) || ibas.strings.isEmpty(criteria.businessObject)) {
+                                        return;
+                                    }
+                                    ibas.servicesManager.runChooseService<any>({
+                                        boCode: criteria.businessObject,
+                                        criteria: criteria,
+                                        chooseType: ibas.emChooseType.MULTIPLE,
+                                        onCompleted(selecteds: ibas.IList<any>): void {
+                                            let builder: ibas.StringBuilder = new ibas.StringBuilder();
+                                            for (let item of selecteds) {
+                                                if (builder.length > 0) {
+                                                    builder.append(ibas.DATA_SEPARATOR);
+                                                }
+                                                if (ibas.strings.isEmpty(criteria.remarks)) {
+                                                    builder.append(item);
+                                                } else {
+                                                    builder.append(item[criteria.remarks]);
+                                                }
+                                            }
+                                            input.setValue(builder.toString());
+                                            config.value = input.getValue();
+                                        }
+                                    });
+                                },
+                                change: function (): void {
+                                    // 控件值改变时，赋值到对象
+                                    let that: sap.m.Input = this;
+                                    if (ibas.strings.isEmpty(that.getValue())) {
+                                        config.value = that.getPlaceholder();
+                                    } else {
+                                        config.value = that.getValue();
+                                    }
+                                }
+                            });
+                            input.bindProperty("placeholder", {
+                                path: "/value", // 必须绑定，不然特殊字符处理不了
+                            });
+                            input.setModel(new sap.ui.model.json.JSONModel(config));
+                            configForm.addContent(input);
+                        }
                         let panel: sap.m.Panel = new sap.m.Panel("", {
                             expandable: true,
                             expanded: false, width: "auto",
@@ -118,83 +195,11 @@ namespace integration {
                                         }
                                     }),
                                 ]
-                            })
+                            }),
+                            content: [
+                                configForm,
+                            ]
                         });
-                        for (let config of data.configs) {
-                            let pItem: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
-                                editable: true,
-                                content: [
-                                    new sap.m.Label("", {
-                                        text: ibas.strings.isEmpty(config.remark) ? config.key : config.remark,
-                                    }),
-                                    new sap.m.Input("", {
-                                        width: "100%",
-                                        fieldWidth: "70%",
-                                        showValueHelp: ibas.strings.isEmpty(config.value) ? false
-                                            : ibas.strings.valueOf(config.value).startsWith("#{") && ibas.strings.valueOf(config.value).endsWith("}")
-                                                ? true : false,
-                                        valueHelpRequest: function (): void {
-                                            let boCode: string = null;
-                                            let boProperty: string = null;
-                                            let that: sap.m.Input = this;
-                                            let value: string = that.getPlaceholder();
-                                            if (ibas.strings.isEmpty(value)) {
-                                                return;
-                                            }
-                                            // 替换变量
-                                            value = ibas.config.applyVariables(value);
-                                            let values: string[] = value.split(".");
-                                            if (values.length < 1) {
-                                                return;
-                                            }
-                                            if (!ibas.strings.isEmpty(values[0])) {
-                                                boCode = ibas.strings.remove(values[0], "#", "{", "}");
-                                            }
-                                            if (!ibas.strings.isEmpty(values[1])) {
-                                                boProperty = ibas.strings.remove(values[1], "#", "{", "}");
-                                            }
-                                            if (ibas.strings.isEmpty(boCode)) {
-                                                return;
-                                            }
-                                            ibas.servicesManager.runChooseService<any>({
-                                                boCode: boCode,
-                                                chooseType: ibas.emChooseType.MULTIPLE,
-                                                onCompleted(selecteds: ibas.IList<any>): void {
-                                                    let builder: ibas.StringBuilder = new ibas.StringBuilder();
-                                                    for (let item of selecteds) {
-                                                        if (builder.length > 0) {
-                                                            builder.append(ibas.DATA_SEPARATOR);
-                                                        }
-                                                        if (ibas.strings.isEmpty(boProperty)) {
-                                                            builder.append(item);
-                                                        } else {
-                                                            builder.append(item[boProperty]);
-                                                        }
-                                                    }
-                                                    that.setValue(builder.toString());
-                                                    config.value = that.getValue();
-                                                }
-                                            });
-                                        },
-                                        change: function (): void {
-                                            // 控件值改变时，赋值到对象
-                                            let that: sap.m.Input = this;
-                                            if (ibas.strings.isEmpty(that.getValue())) {
-                                                config.value = that.getPlaceholder();
-                                            } else {
-                                                config.value = that.getValue();
-                                            }
-                                        }
-                                    }).bindProperty("placeholder", {
-                                        path: "/value", // 必须绑定，不然特殊字符处理不了
-                                    }).bindProperty("description", {
-                                        path: "/key",
-                                    }),
-                                ]
-                            });
-                            pItem.setModel(new sap.ui.model.json.JSONModel(config));
-                            panel.addContent(pItem);
-                        }
                         this.layoutAction.addContent(panel);
                     }
                 }

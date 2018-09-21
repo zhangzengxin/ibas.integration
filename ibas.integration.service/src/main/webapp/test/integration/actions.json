@@ -21,6 +21,26 @@
   },
   {
     "type": "Action",
+    "name": "Hello World 2",
+    "activated": true,
+    "path": "HelloWorld.ts",
+    "configs": [
+      {
+        "key": "REP_URL",
+        "value": "${repositoryAddress|BORepositoryShell}"
+      },
+      {
+        "key": "REP_TOKEN",
+        "value": "${userToken}"
+      },
+      {
+        "key": "CHS_USER",
+        "value": "{\"type\":\"Criteria\",\"BusinessObject\":\"${Company}_SYS_USER\",\"Remarks\":\"Code\", \"Conditions\":[{\"type\":\"Condition\",\"Alias\":\"Activated\",\"Value\":\"YES\",\"Operation\":\"EQUAL\"}]}"
+      }
+    ]
+  },
+  {
+    "type": "Action",
     "name": "Sync B1 Items",
     "activated": true,
     "path": "SyncMaterials.ts",
