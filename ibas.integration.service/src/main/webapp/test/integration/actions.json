@@ -35,7 +35,7 @@
       },
       {
         "key": "CHS_USER",
-        "value": "{\"type\":\"Criteria\",\"BusinessObject\":\"${Company}_SYS_USER\",\"Remarks\":\"Code\", \"Conditions\":[{\"type\":\"Condition\",\"Alias\":\"Activated\",\"Value\":\"YES\",\"Operation\":\"EQUAL\"}]}"
+        "value": "{\"type\":\"Criteria\",\"BusinessObject\":\"${Company}_SYS_USER.Code\", \"Conditions\":[{\"type\":\"Condition\",\"Alias\":\"Activated\",\"Value\":\"YES\",\"Operation\":\"EQUAL\"}]}"
       }
     ]
   },

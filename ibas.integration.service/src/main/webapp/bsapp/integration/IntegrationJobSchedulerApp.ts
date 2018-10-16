@@ -42,7 +42,7 @@ namespace integration {
             }
             private activated: boolean = true;
             private jobs: ibas.ArrayList<TaskAction>;
-            private schedule(): void {
+            private schedule(auto: boolean = true): void {
                 this.busy(true);
                 let criteria: ibas.ICriteria = new ibas.Criteria();
                 let condition: ibas.ICondition = criteria.conditions.create();
@@ -128,7 +128,11 @@ namespace integration {
                                     }
                                 });
                             } else {
-                                that.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("integration_not_found_user_integrationjob"));
+                                if (auto) {
+                                    ibas.logger.log(ibas.emMessageLevel.INFO, ibas.i18n.prop("integration_not_found_user_integrationjob"));
+                                } else {
+                                    that.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("integration_not_found_user_integrationjob"));
+                                }
                             }
                         } catch (error) {
                             that.messages(error);
@@ -137,7 +141,7 @@ namespace integration {
                 });
             }
             private reset(): void {
-                this.schedule();
+                this.schedule(false);
             }
             private suspend(suspend: boolean): void {
                 if (suspend === true) {

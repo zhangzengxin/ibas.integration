@@ -102,7 +102,7 @@ public class Action extends Serializable {
 	}
 
 	@XmlElementWrapper(name = "configs")
-	@XmlElement(type = ActionConfig.class)
+	@XmlElement(name = "config", type = ActionConfig.class)
 	private ArrayList<ActionConfig> configs;
 
 	public ArrayList<ActionConfig> getConfigs() {

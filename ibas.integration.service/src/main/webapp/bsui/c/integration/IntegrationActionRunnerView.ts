@@ -106,6 +106,7 @@ namespace integration {
                                 text: ibas.strings.isEmpty(config.remark) ? config.key : config.remark,
                             }));
                             let criteria: ibas.ICriteria = null;
+                            let property: string;
                             if (ibas.strings.valueOf(config.value).startsWith("#{") && ibas.strings.valueOf(config.value).endsWith("}")) {
                                 // #{CC_SYS_USER}.{Code}
                                 // 替换变量
@@ -117,7 +118,7 @@ namespace integration {
                                         criteria.businessObject = ibas.strings.remove(values[0], "#", "{", "}");
                                     }
                                     if (!ibas.strings.isEmpty(values[1])) {
-                                        criteria.remarks = ibas.strings.remove(values[1], "#", "{", "}");
+                                        property = ibas.strings.remove(values[1], "#", "{", "}");
                                     }
                                 }
                             } else if (ibas.strings.valueOf(config.value).startsWith("{") && ibas.strings.valueOf(config.value).endsWith("}")) {
@@ -127,6 +128,10 @@ namespace integration {
                                     criteria = null;
                                 } else {
                                     criteria.businessObject = ibas.config.applyVariables(criteria.businessObject);
+                                }
+                                if (criteria.businessObject.indexOf(".") > 0) {
+                                    property = criteria.businessObject.split(".")[1];
+                                    criteria.businessObject = criteria.businessObject.split(".")[0];
                                 }
                             }
                             let input: sap.m.Input = new sap.m.Input("", {
@@ -148,10 +153,10 @@ namespace integration {
                                                 if (builder.length > 0) {
                                                     builder.append(ibas.DATA_SEPARATOR);
                                                 }
-                                                if (ibas.strings.isEmpty(criteria.remarks)) {
+                                                if (ibas.strings.isEmpty(property)) {
                                                     builder.append(item);
                                                 } else {
-                                                    builder.append(item[criteria.remarks]);
+                                                    builder.append(item[property]);
                                                 }
                                             }
                                             input.setValue(builder.toString());
@@ -206,8 +211,6 @@ namespace integration {
                 /** 显示消息 */
                 showMessages(type: ibas.emMessageType, message: string): void {
                     this.layoutMessage.insertContent(new sap.m.MessageStrip("", {
-                        width: "100%",
-                        height: "100%",
                         text: message.replace("{", "(").replace("}", ")"),
                         type: openui5.utils.toMessageType(type),
                         showIcon: true,
