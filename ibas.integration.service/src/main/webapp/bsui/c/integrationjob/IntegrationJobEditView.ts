@@ -57,7 +57,6 @@ namespace integration {
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_integrationjob_frequency") }),
                             new sap.m.Input("", {
-                                enable: false,
                                 type: sap.m.InputType.Number
                             }).bindProperty("value", {
                                 path: "frequency",

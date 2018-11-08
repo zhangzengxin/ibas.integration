@@ -7,6 +7,8 @@
  */
 namespace integration {
     export namespace ui {
+        /** 配置项目-最大消息数 */
+        export const CONFIG_ITEM_MAX_MESSAGE_COUNT: string = "messageCount";
         export namespace c {
             /**
              * 列表视图-开发终端
@@ -21,11 +23,9 @@ namespace integration {
                 draw(): any {
                     let that: this = this;
                     this.layoutAction = new sap.ui.layout.VerticalLayout("", {
-                        height: "100%",
                         width: "100%",
                     });
                     this.layoutMessage = new sap.ui.layout.VerticalLayout("", {
-                        height: "100%",
                         width: "100%",
                     });
                     let height: string = ibas.strings.format("{0}px", window.innerHeight - 200);
@@ -38,6 +38,7 @@ namespace integration {
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://begin",
                                     press: function (): void {
+                                        that.layoutMessage.destroyContent();
                                         that.fireViewEvents(that.runActionsEvent);
                                     }
                                 }),
@@ -182,8 +183,8 @@ namespace integration {
                         }
                         let panel: sap.m.Panel = new sap.m.Panel("", {
                             expandable: true,
-                            expanded: false, width: "auto",
-                            class: "sapUiResponsiveMargin",
+                            expanded: false,
+                            width: "auto",
                             backgroundDesign: sap.m.BackgroundDesign.Translucent,
                             accessibleRole: sap.m.PanelAccessibleRole.Form,
                             headerToolbar: new sap.m.Toolbar("", {
@@ -208,14 +209,26 @@ namespace integration {
                         this.layoutAction.addContent(panel);
                     }
                 }
+                private debugMode: boolean = ibas.config.get(ibas.CONFIG_ITEM_DEBUG_MODE, false);
+                private messageCount: number = ibas.config.get(CONFIG_ITEM_MAX_MESSAGE_COUNT, 50) * 3;
                 /** 显示消息 */
                 showMessages(type: ibas.emMessageType, message: string): void {
+                    if (this.debugMode !== true) {
+                        // 非调试模式，仅保留150条日志
+                        if (this.layoutMessage.getContent().length > this.messageCount) {
+                            this.layoutMessage.destroyContent();
+                            this.layoutMessage.insertContent(new sap.m.MessageStrip("", {
+                                type: sap.ui.core.MessageType.Warning,
+                                showIcon: true,
+                                showCloseButton: false,
+                            }).setText(ibas.i18n.prop("integration_log_be_auto_cleared")), 0);
+                        }
+                    }
                     this.layoutMessage.insertContent(new sap.m.MessageStrip("", {
-                        text: message.replace("{", "(").replace("}", ")"),
                         type: openui5.utils.toMessageType(type),
                         showIcon: true,
                         showCloseButton: false
-                    }), 0);
+                    }).setText(message), 0);
                 }
             }
         }

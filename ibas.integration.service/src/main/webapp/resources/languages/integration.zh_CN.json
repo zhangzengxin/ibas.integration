@@ -25,6 +25,7 @@
   "integration_running_background_integrationjob": "检测到[{0}]个可后台运行的集成任务，是否运行？",
   "integration_background_integrationjob_running": "开启后台运行集成任务",
   "integration_background_integrationjob_stop": "关闭后台运行集成任务",
+  "integration_log_be_auto_cleared": "View: 日志被自动清理",
   "integration_closing_delimiter": "----结束----",
   "integrationdevelopment": "数据集成-开发",
   "integrationdevelopment_icon": "sap-icon://developer-settings",

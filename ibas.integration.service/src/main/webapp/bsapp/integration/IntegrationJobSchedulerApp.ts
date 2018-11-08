@@ -67,21 +67,28 @@ namespace integration {
                             }
                             let jobs: ibas.ArrayList<TaskAction> = new ibas.ArrayList<TaskAction>();
                             let logger: ibas.ILogger = {
-                                level: ibas.config.get(ibas.CONFIG_ITEM_MESSAGES_LEVEL, ibas.emMessageLevel.INFO, ibas.emMessageLevel),
+                                level: ibas.config.get(ibas.CONFIG_ITEM_DEBUG_MODE) === true ? ibas.emMessageLevel.DEBUG : ibas.emMessageLevel.INFO,
                                 log(): void {
                                     let tmpArgs: Array<any> = new Array();
                                     for (let item of arguments) {
                                         tmpArgs.push(item);
                                     }
+                                    // 控制台日志
                                     ibas.logger.log.apply(ibas.logger, tmpArgs);
-                                    let message: string;
-                                    let type: ibas.emMessageType = ibas.emMessageType.INFORMATION;
-                                    if (typeof (tmpArgs[0]) === "number" && tmpArgs.length > 1) {
-                                        type = bo.DataConverter.toMessageType(tmpArgs[0]);
-                                        message = ibas.strings.format(tmpArgs[1], tmpArgs.slice(2));
-                                    } else if (typeof (tmpArgs[0]) === "string") {
-                                        message = ibas.strings.format(tmpArgs[0], tmpArgs.slice(1));
+                                    // 界面日志
+                                    let level: number;
+                                    if (typeof tmpArgs[0] === "number" && tmpArgs.length > 1) {
+                                        level = tmpArgs[0];
+                                        tmpArgs = tmpArgs.slice(1);
+                                    } else {
+                                        level = ibas.emMessageLevel.INFO;
                                     }
+                                    if (level > this.level) {
+                                        // 超过日志输出的级别
+                                        return;
+                                    }
+                                    let type: ibas.emMessageType = bo.DataConverter.toMessageType(level);
+                                    let message: string = ibas.strings.format(tmpArgs[0], tmpArgs.slice(1));
                                     that.proceeding(type, message);
                                 }
                             };
