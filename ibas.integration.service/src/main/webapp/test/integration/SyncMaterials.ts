@@ -5,9 +5,6 @@
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
-/// <reference path="../../3rdparty/ibas/index.d.ts" />
-/// <reference path="./3rdparty/initialfantasy/index.d.ts" />
-/// <reference path="./3rdparty/materials/index.d.ts" />
 import * as b1 from "./b1/index";
 import { BORepositoryDataInteraction } from "./BORepository";
 

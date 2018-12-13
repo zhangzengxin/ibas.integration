@@ -6,6 +6,11 @@
     "target": "es6",
     "preserveConstEnums": true
   },
+  "include": [
+    "../../3rdparty/ibas/index.d.ts",
+    "./3rdparty/initialfantasy/index.d.ts",
+    "./3rdparty/materials/index.d.ts"
+  ],
   "files": [
     "./HelloWorld.ts",
     "./SyncMaterials.ts"
