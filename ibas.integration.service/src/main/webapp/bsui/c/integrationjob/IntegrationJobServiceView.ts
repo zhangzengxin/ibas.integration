@@ -11,7 +11,7 @@ namespace integration {
             /**
              * 选择视图-集成任务
              */
-            export class IntegrationJobServiceView extends ibas.BODialogView implements app.IIntegrationJobServiceView {
+            export class IntegrationJobServiceView extends ibas.DialogView implements app.IIntegrationJobServiceView {
                 /** 运行任务 */
                 runJobEvent: Function;
                 /** 绘制视图 */
