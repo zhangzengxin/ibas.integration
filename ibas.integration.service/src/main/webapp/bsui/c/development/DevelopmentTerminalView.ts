@@ -30,9 +30,9 @@ namespace integration {
                         visibleRowCountMode: sap.ui.table.VisibleRowCountMode.Interactive,
                         rows: "{/rows}",
                         rowActionCount: 1,
-                        rowActionTemplate: new sap.ui.table.RowAction({
+                        rowActionTemplate: new sap.ui.table.RowAction("", {
                             items: [
-                                new sap.ui.table.RowActionItem({
+                                new sap.ui.table.RowActionItem("", {
                                     icon: "sap-icon://slim-arrow-right",
                                     press: function (oEvent: any): void {
                                         that.fireViewEvents(that.useActionEvent

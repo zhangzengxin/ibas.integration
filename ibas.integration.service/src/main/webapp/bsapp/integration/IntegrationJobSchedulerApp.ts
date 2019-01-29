@@ -35,10 +35,7 @@ namespace integration {
             /** 工具条显示后 */
             protected barShowed(): void {
                 // 10秒后检查，任务
-                let that: this = this;
-                setTimeout(function (): void {
-                    that.schedule();
-                }, 10000);
+                setTimeout(() => this.schedule(), 10000);
             }
             private activated: boolean = true;
             private jobs: ibas.ArrayList<TaskAction>;
