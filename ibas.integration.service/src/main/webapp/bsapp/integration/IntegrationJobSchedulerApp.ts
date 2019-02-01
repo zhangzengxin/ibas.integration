@@ -253,28 +253,24 @@ namespace integration {
             }
             /** 运行子任务 */
             private runActions(): boolean {
-                let action: ibas.Action = this.actions.firstOrDefault();
-                if (ibas.objects.isNull(action)) {
+                if (ibas.objects.isNull(this.actions)) {
+                    return true;
+                }
+                if (this.actions.length === 0) {
                     return true;
                 }
                 let that: this = this;
-                let index: number = 0;
-                let onDone: Function = function (): void {
-                    index++;
-                    if (index > 0 && index < that.actions.length) {
-                        action = that.actions[index];
-                        action.onDone = onDone;
-                        action.do();
-                    } else {
-                        that.done();
-                        index = null;
-                        onDone = null;
-                        action = null;
-                        that = null;
+                ibas.queues.execute(this.actions, (action, next) => {
+                    action.onDone = function (): void {
+                        next();
+                    };
+                    action.do();
+                }, (error) => {
+                    if (error instanceof Error) {
+                        that.log(ibas.emMessageLevel.ERROR, error.message);
                     }
-                };
-                action.onDone = onDone;
-                action.do();
+                    that.done();
+                });
                 return false;
             }
             /** 子任务 */

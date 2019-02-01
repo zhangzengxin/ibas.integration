@@ -138,7 +138,6 @@ namespace integration {
                 if (path.indexOf(".") > 0) {
                     path = path.substring(0, path.lastIndexOf("."));
                 }
-                let that: this = this;
                 actionRequire(
                     [
                         path

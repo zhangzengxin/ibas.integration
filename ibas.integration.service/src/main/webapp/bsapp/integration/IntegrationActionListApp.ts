@@ -118,12 +118,6 @@ namespace integration {
             /** 删除数据，参数：目标数据集合 */
             protected deleteData(data: bo.Action | bo.Action[]): void {
                 // 检查目标数据
-                if (ibas.objects.isNull(data)) {
-                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
-                        ibas.i18n.prop("shell_data_delete")
-                    ));
-                    return;
-                }
                 let beDeleteds: ibas.ArrayList<string> = new ibas.ArrayList<string>();
                 if (data instanceof Array) {
                     for (let item of data) {
@@ -138,7 +132,7 @@ namespace integration {
                             beDeleteds.add(value);
                         }
                     }
-                } else {
+                } else if (!ibas.objects.isNull(data)) {
                     let value: string = data.group;
                     if (!ibas.strings.isEmpty(value)) {
                         if (value.indexOf("/") > 0) {
@@ -165,44 +159,34 @@ namespace integration {
                         ibas.strings.format("[{0}]", ibas.strings.valueOf(beDeleteds)),
                     actions: [ibas.emMessageAction.YES, ibas.emMessageAction.NO],
                     onCompleted(action: ibas.emMessageAction): void {
-                        if (action === ibas.emMessageAction.YES) {
-                            try {
-                                let boRepository: bo.BORepositoryIntegration = new bo.BORepositoryIntegration();
-                                let saveMethod: Function = function (beDeleted: string): void {
-                                    boRepository.deleteActionPackage({
-                                        beDeleted: beDeleted,
-                                        onCompleted(opRslt: ibas.IOperationResult<any>): void {
-                                            try {
-                                                if (opRslt.resultCode !== 0) {
-                                                    throw new Error(opRslt.message);
-                                                }
-                                                // 保存下一个数据
-                                                let index: number = beDeleteds.indexOf(beDeleted) + 1;
-                                                if (index > 0 && index < beDeleteds.length) {
-                                                    saveMethod(beDeleteds[index]);
-                                                } else {
-                                                    // 处理完成
-                                                    that.busy(false);
-                                                    that.messages(ibas.emMessageType.SUCCESS,
-                                                        ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
-                                                }
-                                            } catch (error) {
-                                                that.busy(false);
-                                                that.messages(ibas.emMessageType.ERROR,
-                                                    ibas.i18n.prop("shell_data_delete_error", beDeleted, error.message));
-                                            }
-                                        }
-                                    });
-                                    that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_deleting", beDeleted));
-                                };
-                                that.busy(true);
-                                // 开始保存
-                                saveMethod(beDeleteds.firstOrDefault());
-                            } catch (error) {
-                                that.busy(false);
-                                that.messages(error);
-                            }
+                        if (action !== ibas.emMessageAction.YES) {
+                            return;
                         }
+                        let boRepository: bo.BORepositoryIntegration = new bo.BORepositoryIntegration();
+                        ibas.queues.execute(beDeleteds, (data, next) => {
+                            // 处理数据
+                            boRepository.deleteActionPackage({
+                                beDeleted: data,
+                                onCompleted(opRslt: ibas.IOperationResult<bo.IntegrationJob>): void {
+                                    if (opRslt.resultCode !== 0) {
+                                        next(new Error(ibas.i18n.prop("shell_data_delete_error", data, opRslt.message)));
+                                    } else {
+                                        next();
+                                    }
+                                }
+                            });
+                            that.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_data_deleting", data));
+                        }, (error) => {
+                            // 处理完成
+                            if (error instanceof Error) {
+                                that.messages(ibas.emMessageType.ERROR, error.message);
+                            } else {
+                                that.messages(ibas.emMessageType.SUCCESS,
+                                    ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
+                            }
+                            that.busy(false);
+                        });
+                        that.busy(true);
                     }
                 });
             }

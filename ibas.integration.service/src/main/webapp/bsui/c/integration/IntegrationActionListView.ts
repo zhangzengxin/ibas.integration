@@ -65,6 +65,14 @@ namespace integration {
                                     path: "path"
                                 })
                             }),
+                            new sap.ui.table.Column("", {
+                                label: ibas.i18n.prop("bo_action_remark"),
+                                template: new sap.m.Text("", {
+                                    wrapping: false
+                                }).bindProperty("text", {
+                                    path: "remark"
+                                })
+                            }),
                         ]
                     });
                     this.form.addContent(this.table);
