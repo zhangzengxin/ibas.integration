@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns3:StatusAction xmlns:ns2="http://colorcoding.org/ibas/bobas/common" 
+    xmlns:ns3="http://colorcoding.org/ibas/integration/action">
+    <!-- 被影响的对象类型 -->
+    <BusinessObject>org.colorcoding.ibas.integration.bo.integrationjob.IntegrationJob</BusinessObject>
+    <!-- 查询被影响对象条件 -->
+    <Condition>
+        <Alias>BOCode</Alias>
+        <Operation>EQUAL</Operation>
+        <Value>BOStatusAction</Value>
+    </Condition>
+    <!-- 修改查询到的对象属性值 -->
+    <PropertyValue Property="Activated" Value="YES"/>
+    <!-- 修改的属性，用.分割层级，集合时循环所有 -->
+    <PropertyValue Property="IntegrationJobActions.ActionRemark" Value="I'm OK.">
+        <!-- 修改属性值，可以指定条件，符合时才修改 -->
+        <Condition>
+            <Alias>LineId</Alias>
+            <Operation>EQUAL</Operation>
+            <!-- 变量，被Config值替换 -->
+            <Value>${LineId}</Value>
+        </Condition>
+    </PropertyValue>
+</ns3:StatusAction>

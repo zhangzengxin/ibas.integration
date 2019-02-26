@@ -14,9 +14,9 @@ const CONFIG_CHOOSED_USER: string = "CHS_USER";
 /**
  * 集成测试
  */
-export default class HelloWorld extends ibas.Action {
+export default class HelloWorld extends integration.action.IntegrationAction {
     /** 运行逻辑 */
-    protected run(): boolean {
+    protected execute(): boolean {
         // 显示额外运行数据
         if (!ibas.objects.isNull(this.extraData)) {
             if (this.extraData instanceof Array) {
@@ -59,5 +59,12 @@ export default class HelloWorld extends ibas.Action {
         });
         // 异步任务，未完成
         return false;
+    }
+    /** 完成 */
+    protected done(): void {
+        this.goAction("ChangeIntegrationJob", { key: "LineId", value: 1 }, (opRslt) => {
+            this.log(ibas.emMessageLevel.WARN, "goAction: {0}", opRslt.message);
+            super.done();
+        });
     }
 }

@@ -86,6 +86,9 @@ namespace integration {
                         if (typeof tmpArgs[0] === "number" && tmpArgs.length > 1) {
                             level = tmpArgs[0];
                             tmpArgs = tmpArgs.slice(1);
+                        } else if (tmpArgs[0] instanceof Error && tmpArgs.length === 1) {
+                            level = ibas.emMessageLevel.ERROR;
+                            tmpArgs[0] = tmpArgs[0].message;
                         } else {
                             level = ibas.emMessageLevel.INFO;
                         }

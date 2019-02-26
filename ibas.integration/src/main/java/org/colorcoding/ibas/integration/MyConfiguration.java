@@ -55,6 +55,11 @@ public class MyConfiguration extends org.colorcoding.ibas.bobas.MyConfiguration 
 	 * 服务命名空间
 	 */
 	public static final String NAMESPACE_SERVICE = NAMESPACE_ROOT + "service";
+
+	/**
+	 * 动作命名空间
+	 */
+	public static final String NAMESPACE_ACTION = NAMESPACE_ROOT + "action";
 	/**
 	 * 配置项目-动作文件文件夹
 	 */

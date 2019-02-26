@@ -47,6 +47,7 @@ public class FileRepositoryAction extends FileRepositoryService
 	public static final String CRITERIA_CONDITION_ALIAS_PACKAGE = FileRepository.CRITERIA_CONDITION_ALIAS_FOLDER;
 	public static final String CRITERIA_CONDITION_ALIAS_INCLUDE_SUBFOLDER = FileRepository.CRITERIA_CONDITION_ALIAS_INCLUDE_SUBFOLDER;
 	public static final String CRITERIA_CONDITION_ALIAS_FOLDER = FileRepository.CRITERIA_CONDITION_ALIAS_FOLDER;
+	public static final String CRITERIA_CONDITION_ALIAS_FILE_NAME = FileRepository.CRITERIA_CONDITION_ALIAS_FILE_NAME;
 
 	public FileRepositoryAction() {
 		String workFolder = MyConfiguration.getConfigValue(MyConfiguration.CONFIG_ITEM_ACTION_FOLDER);

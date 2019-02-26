@@ -7,15 +7,12 @@
  */
 namespace integration {
     export namespace bo {
-
         /** 业务对象仓库 */
         export class BORepositoryIntegration extends ibas.BORepositoryApplication implements IBORepositoryIntegration {
-
             /** 创建此模块的后端与前端数据的转换者 */
             protected createConverter(): ibas.IDataConverter {
                 return new DataConverter;
             }
-
             /**
              * 上传文件
              * @param caller 调用者
@@ -204,6 +201,28 @@ namespace integration {
                 fileRepository.token = this.token;
                 fileRepository.converter = this.createConverter();
                 fileRepository.download("", caller);
+            }
+            /**
+             * 调用后台动作
+             * @param caller 调用者
+             */
+            goAction(caller: IActionGoer): void {
+                if (!this.address.endsWith("/")) { this.address += "/"; }
+                let url: string = this.address.replace("/services/rest/data/", "/services/rest/action/");
+                let boRepository: ibas.FileRepositoryUploadAjax = new ibas.FileRepositoryUploadAjax();
+                boRepository.address = url;
+                boRepository.token = this.token;
+                boRepository.converter = this.createConverter();
+                let formData: FormData = new FormData();
+                formData.append("ACTION_GROUP", caller.group);
+                formData.append("ACTION_NAME", caller.name);
+                if (caller.parameters instanceof Array) {
+                    for (let item of caller.parameters) {
+                        formData.append(item.key, item.value);
+                    }
+                }
+                boRepository.callRemoteMethod(
+                    ibas.strings.format("goAction?token={0}", this.token), formData, caller);
             }
         }
         /** 代码下载者 */

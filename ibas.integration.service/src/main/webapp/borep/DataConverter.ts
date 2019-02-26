@@ -179,6 +179,8 @@ namespace integration {
                         if (!(ibas.objects.instanceOf(action, ibas.Action))) {
                             throw new Error("invalid action instance.");
                         }
+                        // 组设置
+                        action.addConfig(integration.action.CONFIG_ACTION_GROUP, caller.action.group);
                         // 输入设置
                         for (let config of caller.action.configs) {
                             if (ibas.objects.isNull(config.key)) {

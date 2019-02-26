@@ -38,6 +38,11 @@ namespace integration {
              * 获取动作地址
              */
             toPackageUrl(action: bo.IAction): string;
+            /**
+             * 调用后台动作
+             * @param caller 调用者
+             */
+            goAction(caller: IActionGoer): void;
         }
         /**
          * 集成动作查询者
@@ -45,6 +50,15 @@ namespace integration {
         export interface IActionFetcher extends ibas.IMethodCaller<bo.IAction> {
             /** 查询条件 */
             criteria: ibas.ICriteria | ibas.ICondition[] | bo.IIntegrationJob | bo.IIntegrationJobAction | bo.IIntegrationJobAction[];
+        }
+        /** 后台动作调用者 */
+        export interface IActionGoer extends ibas.IMethodCaller<any> {
+            /** 组 */
+            group: string;
+            /** 名称 */
+            name: string;
+            /** 参数 */
+            parameters: ibas.KeyValue[];
         }
     }
 }

@@ -17,12 +17,12 @@ const CONFIG_FETCH_DATA_COUNT: string = "FETCH_DATA_COUNT";
 /** 最后检索的数据 */
 let LAST_FETCHED_DATA: b1.IItems = null;
 /** 数据交互 */
-export default class SyncMaterials extends ibas.Action {
+export default class SyncMaterials extends integration.action.IntegrationAction {
     /**
      * 运行，异步完成时需调用done()
      * @returns true, 操作完成；false， 异步操作
      */
-    protected run(goOn: boolean = false): boolean {
+    protected execute(goOn: boolean = false): boolean {
         let b1Repository: BORepositoryDataInteraction = new BORepositoryDataInteraction();
         b1Repository.address = this.getConfig(CONFIG_REPOSITORY_URL);
         b1Repository.token = this.getConfig(CONFIG_REPOSITORY_TOKEN);
@@ -53,7 +53,7 @@ export default class SyncMaterials extends ibas.Action {
                         that.done();
                     } else {
                         // 还有数据，继续循环
-                        that.run(true);
+                        that.execute(true);
                     }
                 } catch (error) {
                     that.log(error);
